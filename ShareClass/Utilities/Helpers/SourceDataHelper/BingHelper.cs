@@ -123,6 +123,32 @@ namespace ShareClass.Utilities.Helpers.SourceDataHelper
             return result;
         }
 
+        private int Gcd(int a, int b)
+        {
+            while (b > 0)
+            {
+                int rem = a % b;
+                a = b;
+                b = rem;
+            }
+            return a;
+        }
+
+        private Size GetMinimalSize(Size s)
+        {
+            //1 : 1
+            //4 : 3
+            //5 : 3
+            //5 : 4
+            //8 : 5
+            //16 : 9
+            int gdc = Gcd((int) s.Width, (int) s.Height);
+
+            int one = (int)s.Width / gdc;
+            int two = (int)s.Height / gdc;
+            return new Size(one, two);
+        }
+
         public Size GetNearestSize(Size windowsSize)
         {
             var closest =
@@ -137,20 +163,35 @@ namespace ShareClass.Utilities.Helpers.SourceDataHelper
 
             double height = closest2.Height;
 
+            Size result;
+
             foreach (Size size in _availableSizes)
             {
                 if (size.Width == width && size.Height == height)
                 {
-                    return size;
+                    result = size;
+                }
+                else if (closest.Width * closest.Height > closest2.Width * closest2.Height)
+                {
+                    result = closest;
+                }
+                else
+                {
+                    result = closest2;
+                }
+            }
+            
+            Size minimalSize = GetMinimalSize(result);
+            foreach (Size size in _availableSizes)
+            {
+                Size s = GetMinimalSize(size);
+                if (minimalSize.Width == s.Width && minimalSize.Height == s.Height)
+                {
+                    result = s;
                 }
             }
 
-            if (closest.Width*closest.Height > closest2.Width*closest2.Height)
-            {
-                return closest;
-            }
-
-            return closest2;
+            return result;
         }
     }
 
