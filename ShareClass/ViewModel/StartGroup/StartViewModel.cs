@@ -782,8 +782,8 @@ namespace ShareClass.ViewModel.StartGroup
                 }
 
                 //Draw the Image
-                ds.DrawImage(bitmap, new Rect(0, 0, size.Width, size.Height), new Rect(newX, newY, newWidth, newHeight));
-
+                //ds.DrawImage(bitmap, new Rect(0, 0, size.Width, size.Height), new Rect(newX, newY, newWidth, newHeight));
+                ds.DrawImage(bitmap, new Rect(0, 0, size.Width, size.Height));
                 ImageSourceVm.DrawInfo(ds, device);
 
                 var drawPoint = new Point();
@@ -860,9 +860,10 @@ namespace ShareClass.ViewModel.StartGroup
                 }
             }
 
-            await
-                RenderTarget.SaveAsync(Path.Combine(readyFolder.Path, BackgroundFile.Name), CanvasBitmapFileFormat.Auto,
-                    1);
+            await RenderTarget.SaveAsync(
+                Path.Combine(readyFolder.Path, BackgroundFile.Name), 
+                CanvasBitmapFileFormat.Auto,
+                1);
             IsImageSaved = true;
 
             StartPage?.PreviewImageInvalidate();
