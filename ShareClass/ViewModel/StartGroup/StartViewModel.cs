@@ -689,6 +689,7 @@ namespace ShareClass.ViewModel.StartGroup
 
             if (generateResult)
             {
+                //Test commit
                 StorageFolder readyFolder = await ApplicationData.Current.LocalFolder.GetFolderAsync("Ready");
                 StorageFile readyFile = await readyFolder.GetFileAsync(BackgroundFile.Name);
 
