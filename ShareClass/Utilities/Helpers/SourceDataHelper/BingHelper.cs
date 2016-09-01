@@ -187,7 +187,7 @@ namespace ShareClass.Utilities.Helpers.SourceDataHelper
                 Size s = GetMinimalSize(size);
                 if (minimalSize.Width == s.Width && minimalSize.Height == s.Height)
                 {
-                    result = s;
+                    result = size;
                 }
             }
 
