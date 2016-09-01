@@ -1,0 +1,168 @@
+﻿<Page x:Class="LockBe.View.StartGroup.StartPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
+      xmlns:converters="using:ShareClass.Utilities.Converters"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:helpers="using:ShareClass.Utilities.Helpers"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:model="using:ShareClass.Model"
+      xmlns:xaml="using:Microsoft.Graphics.Canvas.UI.Xaml"
+      DataContext="{Binding Source={StaticResource Locator},
+                            Path=StartVm}"
+      mc:Ignorable="d">
+
+    <Page.Resources>
+        <converters:PageToNameConverter x:Key="PageToNameConverter" />
+        <DataTemplate x:Key="MenuListItemDataTemplate" x:DataType="model:MenuListItem">
+            <Grid HorizontalAlignment="Stretch"
+                  VerticalAlignment="Stretch"
+                  Background="Transparent"
+                  Tapped="MenuListItem_OnTapped">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+
+                <Grid Grid.Column="0"
+                      Width="44"
+                      Height="44">
+                    <Path Width="20"
+                          Height="20"
+                          HorizontalAlignment="Center"
+                          VerticalAlignment="Center"
+                          Data="{x:Bind Icon, Mode=OneWay}"
+                          Fill="{StaticResource Brush5}"
+                          Stretch="Uniform" />
+                </Grid>
+
+                <Grid Grid.Column="1">
+                    <TextBlock Margin="6,0,0,0"
+                               VerticalAlignment="Center"
+                               FontSize="18"
+                               Foreground="{StaticResource Brush5}"
+                               Text="{x:Bind Name, Mode=OneWay}" />
+                </Grid>
+
+            </Grid>
+        </DataTemplate>
+    </Page.Resources>
+
+    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        
+        <Grid Grid.Row="0" Height="32">
+
+            <Grid.Background>
+                <SolidColorBrush Color="{StaticResource Color1}" />
+            </Grid.Background>
+
+            <Grid x:Name="TitleGrid">
+                <Grid.Background>Transparent</Grid.Background>
+                <TextBlock Margin="4,0,0,0"
+                           VerticalAlignment="Center"
+                           FontSize="20"
+                           Foreground="{StaticResource Brush5}"
+                           Padding="0,0,0,4"
+                           Text="{Binding Content,
+                                          Converter={StaticResource PageToNameConverter},
+                                          ElementName=MainFrame}" />
+            </Grid>
+
+        </Grid>
+
+        <controls:HamburgerMenu x:Name="HamburgerMenu"
+                                Grid.Row="1"
+                                CompactPaneLength="48"
+                                DisplayMode="CompactOverlay"
+                                HamburgerHeight="48"
+                                IsPaneOpen="{x:Bind Vm.IsSplitViewPaneOpened, Mode=TwoWay}"
+                                ItemTemplate="{StaticResource MenuListItemDataTemplate}"
+                                ItemsSource="{x:Bind Vm.FunctionItemList, Mode=OneWay}"
+                                OptionsItemsSource="{x:Bind Vm.BottomFunctionItemList, Mode=OneWay}"
+                                OptionsItemTemplate="{StaticResource MenuListItemDataTemplate}"
+                                PaneBackground="{StaticResource Brush1}" Foreground="{StaticResource Brush5}">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="3*" />
+                    <ColumnDefinition Width="7*" />
+                </Grid.ColumnDefinitions>
+
+                <Frame x:Name="MainFrame" Grid.Column="0" />
+                <Grid Grid.Column="1" Margin="4">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="6" />
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
+
+                    <Grid x:Name="ResultTitleGrid" Grid.Row="0">
+                        <Grid.Background>
+                            <SolidColorBrush Opacity="0.8" Color="{StaticResource Color1}" />
+                        </Grid.Background>
+                        <TextBlock Margin="4"
+                                   Foreground="{StaticResource Brush5}"
+                                   Text="RESULT PREVIEW" />
+                        <TextBlock Margin="4"
+                                   HorizontalAlignment="Right"
+                                   Foreground="{StaticResource Brush5}"
+                                   Text="{Binding ImageList.Count}" />
+                    </Grid>
+
+                    <Grid Grid.Row="1" VerticalAlignment="Center">
+                        <ProgressBar helpers:Extension.IsVisible="{x:Bind Vm.IsImageUpdating, Mode=OneWay}"
+                                     Foreground="{StaticResource Brush1}"
+                                     IsIndeterminate="{x:Bind Vm.IsImageUpdating, Mode=OneWay}" />
+                    </Grid>
+
+                    <Viewbox Grid.Row="2"
+                             Margin="0,4"
+                             HorizontalAlignment="Stretch"
+                             VerticalAlignment="Top"
+                             SizeChanged="Viewbox_SizeChanged">
+                        <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                            <TextBlock HorizontalAlignment="Center"
+                                       VerticalAlignment="Center"
+                                       Text="Loading..." />
+                            <xaml:CanvasControl x:Name="PreviewCanvasControl"
+                                                Width="{Binding ActualWidth,
+                                                                ElementName=ResultTitleGrid,
+                                                                Mode=OneWay}"
+                                                HorizontalAlignment="Stretch"
+                                                VerticalAlignment="Stretch"
+                                                Draw="PreviewCanvasControl_OnDraw" />
+                        </Grid>
+                    </Viewbox>
+
+                </Grid>
+
+                <Grid Grid.Column="1"
+                      Margin="4"
+                      d:IsHidden="True"
+                      Visibility="{x:Bind Vm.IsShowWebView, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
+                    <Grid Grid.Row="0">
+                        <Grid.Background>
+                            <SolidColorBrush Color="{StaticResource Color1}" />
+                        </Grid.Background>
+                        <TextBlock Margin="4"
+                                   Foreground="{StaticResource Brush5}"
+                                   Text="RSS Reader" />
+                        <Button HorizontalAlignment="Right"
+                                Click="CloseWebViewButton_OnClick"
+                                Content="X" />
+                    </Grid>
+                    <WebView x:Name="MainWebView" Grid.Row="1" />
+                </Grid>
+            </Grid>
+        </controls:HamburgerMenu>
+
+    </Grid>
+</Page>
