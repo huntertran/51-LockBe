@@ -770,19 +770,19 @@ namespace ShareClass.ViewModel.StartGroup
                 //double newX = 0, newY = 0;
                 //var newWidth = bitmap.Size.Width;
                 //var newHeight = bitmap.Size.Height;
-                //newWidth = newHeight < newWidth ? newHeight*(size.Width/size.Height) : newWidth;
-                //newHeight = newHeight > newWidth ? newWidth*(size.Width/size.Height) : newHeight;
+                //newWidth = newHeight < newWidth ? newHeight * (size.Width / size.Height) : newWidth;
+                //newHeight = newHeight > newWidth ? newWidth * (size.Width / size.Height) : newHeight;
                 //if (newWidth != bitmap.Size.Width)
                 //{
-                //    newX = Math.Abs(bitmap.Size.Width - newWidth)/2;
+                //    newX = Math.Abs(bitmap.Size.Width - newWidth) / 2;
                 //}
                 //if (newHeight != bitmap.Size.Height)
                 //{
-                //    newY = Math.Abs(bitmap.Size.Height - newHeight)/2;
+                //    newY = Math.Abs(bitmap.Size.Height - newHeight) / 2;
                 //}
 
                 //Draw the Image
-                //ds.DrawImage(bitmap, new Rect(0, 0, size.Width, size.Height), new Rect(newX, newY, newWidth, newHeight));
+                //ds.DrawImage(bitmap, new Rect(0, 0, size.Width, size.Height), new Rect(newX, newY, newWidth, newHeight), 100 ,CanvasImageInterpolation.Linear);
                 ds.DrawImage(bitmap, new Rect(0, 0, size.Width, size.Height));
                 ImageSourceVm.DrawInfo(ds, device);
 

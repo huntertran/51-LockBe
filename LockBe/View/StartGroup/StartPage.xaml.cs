@@ -56,6 +56,7 @@ namespace LockBe.View.StartGroup
             MenuListItem m = ((Grid) sender).DataContext as MenuListItem;
             Debug.Assert(m != null, "m != null");
             NavigateToPage(m.MenuF);
+            Vm.IsSplitViewPaneOpened = false;
         }
 
         public void NavigateToFunction(Frame frame, MenuFunc func)

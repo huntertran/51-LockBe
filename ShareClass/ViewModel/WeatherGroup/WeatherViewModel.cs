@@ -377,7 +377,7 @@ namespace ShareClass.ViewModel.WeatherGroup
             }
             var address = CurrentWeatherInfo.Address;
 
-            if (CurrentWeather.Main == null) return new Point(-1, -1);
+            if (CurrentWeather?.Main == null) return new Point(-1, -1);
 
             var isFahrenheit = SettingsHelper.GetSetting<bool>(SettingKey.IsFahrenheit.ToString());
             if (isFahrenheit)
