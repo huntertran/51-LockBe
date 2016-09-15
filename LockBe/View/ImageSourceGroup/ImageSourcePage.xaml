@@ -4,105 +4,113 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       xmlns:model="using:ShareClass.Model"
+      xmlns:userControls="using:LockBe.UserControls"
       DataContext="{Binding Source={StaticResource Locator},
                             Path=ImageSourceVm}"
       mc:Ignorable="d">
 
-    <Grid Margin="4" Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    <Grid Margin="15,10,0,0" Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+        <ScrollViewer>
+            <Grid Grid.Column="0">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="6*" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="4*" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
 
-        <Grid Grid.Column="0">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="6*" />
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="4*" />
-                <RowDefinition Height="Auto" />
-            </Grid.RowDefinitions>
+                <Grid Grid.Row="0"
+                      Margin="0,0,0,0">
 
-            <Grid Grid.Row="0">
-                <Grid.Background>
-                    <SolidColorBrush Opacity="0.8" Color="{StaticResource Color1}" />
-                </Grid.Background>
-                <TextBlock Margin="4"
-                           Foreground="{StaticResource Brush5}"
-                           Text="IMAGE SOURCE" />
-            </Grid>
+                    <userControls:TitleTextBlockUserControl BackgroundColor="{StaticResource Brush1}"
+                                                        Text="Image Source"
+                                                        HorizontalAlignment="Left"/>
+                </Grid>
 
-            <StackPanel Grid.Row="1" Margin="0,4">
-                <TextBlock Margin="0,4" Text="Source" />
-                <ComboBox x:Name="SourceComboBox"
+                <StackPanel Grid.Row="1" Margin="5,30,20,0">
+                    <TextBlock Text="Source" 
+                           VerticalAlignment="Center"
+                           Foreground="Black"/>
+                    <ComboBox x:Name="SourceComboBox"
                           Margin="0,4"
                           HorizontalAlignment="Stretch"
                           ItemsSource="{x:Bind Vm.ImageSourceItemsCollection}"
                           SelectionChanged="SourceComboBox_OnSelectionChanged">
-                    <ComboBox.ItemTemplate>
-                        <DataTemplate x:DataType="model:ImageSourceItem">
-                            <Grid>
-                                <TextBlock Text="{x:Bind Name}" />
-                            </Grid>
-                        </DataTemplate>
-                    </ComboBox.ItemTemplate>
-                </ComboBox>
-            </StackPanel>
+                        <ComboBox.ItemTemplate>
+                            <DataTemplate x:DataType="model:ImageSourceItem">
+                                <Grid>
+                                    <TextBlock Text="{x:Bind Name}" />
+                                </Grid>
+                            </DataTemplate>
+                        </ComboBox.ItemTemplate>
+                    </ComboBox>
+                </StackPanel>
 
-            <Grid Grid.Row="2">
-                <Grid.Background>
-                    <SolidColorBrush Opacity="0.8" Color="{StaticResource Color1}" />
-                </Grid.Background>
-                <TextBlock Margin="4"
-                           Foreground="{StaticResource Brush5}"
-                           Text="SETTINGS" />
-            </Grid>
+                <Grid Grid.Row="2"
+                  CornerRadius="5"
+                  Margin="0,4,10,0">
+                    <Grid.Background>
+                        <SolidColorBrush Opacity="0.8" Color="{StaticResource Color1}" />
+                    </Grid.Background>
+                    <TextBlock Margin="4"
+                               Foreground="{StaticResource Brush5}"
+                               Text="Settings" />
+                </Grid>
 
-            <Frame x:Name="ImageSourceSettingsFrame"
+                <Frame x:Name="ImageSourceSettingsFrame"
                    Grid.Row="3"
                    Margin="0,4" />
 
-            <Grid Grid.Row="4">
-                <Grid.Background>
-                    <SolidColorBrush Opacity="0.8" Color="{StaticResource Color1}" />
-                </Grid.Background>
-                <TextBlock Margin="4"
-                           Foreground="{StaticResource Brush5}"
-                           Text="RECENT IMAGES" />
-            </Grid>
+                <Grid Grid.Row="4"
+                  CornerRadius="5"
+                  Margin="0,4,10,0">
+                    <Grid.Background>
+                        <SolidColorBrush Opacity="0.8" Color="{StaticResource Color1}" />
+                    </Grid.Background>
+                    <TextBlock Margin="4"
+                               Foreground="{StaticResource Brush5}"
+                               Text="Recent Images" />
+                </Grid>
 
-            <GridView x:Name="OnlineImageGridView"
+                <GridView x:Name="OnlineImageGridView"
                       Grid.Row="5"
-                      Margin="0,4,0,0"
+                      Margin="0,4,10,0"
                       ItemsSource="{x:Bind StartVm.ImageList}">
-                <GridView.ItemTemplate>
-                    <DataTemplate>
-                        <Grid>
-                            <Image Source="{Binding}" Stretch="Uniform" />
-                        </Grid>
-                    </DataTemplate>
-                </GridView.ItemTemplate>
-            </GridView>
+                    <GridView.ItemTemplate>
+                        <DataTemplate>
+                            <Grid>
+                                <Image Source="{Binding}" Stretch="Uniform" />
+                            </Grid>
+                        </DataTemplate>
+                    </GridView.ItemTemplate>
+                </GridView>
 
-            <GridView x:Name="LocalImageGridView"
+                <GridView x:Name="LocalImageGridView"
                       Grid.Row="5"
                       Margin="0,4,0,0"
                       ItemsSource="{x:Bind StartVm.LocalImageList}"
                       Visibility="Collapsed">
-                <GridView.ItemTemplate>
-                    <DataTemplate x:DataType="model:LocalImage">
-                        <Grid>
-                            <Image Source="{x:Bind Bitmap, Mode=OneWay}" Stretch="Uniform" />
-                        </Grid>
-                    </DataTemplate>
-                </GridView.ItemTemplate>
-            </GridView>
+                    <GridView.ItemTemplate>
+                        <DataTemplate x:DataType="model:LocalImage">
+                            <Grid>
+                                <Image Source="{x:Bind Bitmap, Mode=OneWay}" Stretch="Uniform" />
+                            </Grid>
+                        </DataTemplate>
+                    </GridView.ItemTemplate>
+                </GridView>
 
-            <Button Grid.Row="6"
+                <Button Grid.Row="6"
                     Margin="4"
                     HorizontalAlignment="Right"
                     Click="ButtonBase_OnClick"
                     Content="Set latest" />
 
-        </Grid>
+            </Grid>
+        </ScrollViewer>
+        
 
     </Grid>
 </Page>

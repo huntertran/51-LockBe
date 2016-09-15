@@ -6,6 +6,7 @@
       xmlns:helpers="using:ShareClass.Utilities.Helpers"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       xmlns:model="using:ShareClass.Model"
+      xmlns:userControls="using:LockBe.UserControls"
       DataContext="{Binding Source={StaticResource Locator},
                             Path=WeatherVm}"
       mc:Ignorable="d">
@@ -17,24 +18,21 @@
         </DataTemplate>
     </Page.Resources>
 
-    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-        <ScrollViewer Margin="4">
-            <StackPanel>
-                <Grid>
-                    <Grid.Background>
-                        <SolidColorBrush Opacity="0.8" Color="{StaticResource Color1}" />
-                    </Grid.Background>
-                    <TextBlock Margin="4"
-                               Foreground="{StaticResource Brush5}"
-                               Text="WEATHER" />
+    <Grid Margin="15,10,0,0"  Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+        <ScrollViewer>
+            <StackPanel Margin="5,0,20,0">
+                <Grid Margin="-5,0,0,0">
+                    <userControls:TitleTextBlockUserControl BackgroundColor="{StaticResource Brush1}"
+                                                            Text="Weather"
+                                                            HorizontalAlignment="Left"/>
                 </Grid>
                 <ToggleSwitch x:Name="WeatherToggleSwitch"
-                              Margin="0,4"
+                              Margin="0,30"
                               Header="Display Weather"
                               IsOn="{x:Bind Vm.IsShowWeather, Mode=TwoWay}"
                               Toggled="{x:Bind Vm.StartVm.UpdateListAsync}" />
 
-                <TextBlock Margin="0,4" Text="Current Location" />
+                <TextBlock Margin="0,4" Text="Current Location" Foreground="Black" />
 
                 <Grid Height="4" Margin="0,4">
                     <ProgressBar helpers:Extension.IsVisible="{x:Bind Vm.IsShowProgress, Mode=OneWay}" IsIndeterminate="{x:Bind Vm.IsShowProgress, Mode=OneWay}" />
@@ -57,7 +55,8 @@
                               Toggled="{x:Bind Vm.StartVm.UpdateListAsync}" />
                 <TextBlock Margin="0,4"
                                VerticalAlignment="Center"
-                               Text="Position" />
+                               Text="Position" 
+                           Foreground="Black"/>
                 <ComboBox Name="PositionComboBox"
                               HorizontalAlignment="Stretch"
                               Margin="0,4"

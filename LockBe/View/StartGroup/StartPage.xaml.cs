@@ -35,7 +35,7 @@ namespace LockBe.View.StartGroup
             //Set title bar
             CoreApplicationViewTitleBar coreTitleBar = CoreApplication.GetCurrentView().TitleBar;
             coreTitleBar.ExtendViewIntoTitleBar = true;
-            Window.Current.SetTitleBar(TitleGrid);
+            //Window.Current.SetTitleBar(TitleGrid);
 
             Loaded += StartPage_Loaded;
         }

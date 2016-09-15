@@ -179,7 +179,25 @@ namespace ShareClass.ViewModel.RssGroup
         {
             RssChanel = new RssChannel();
 
-            bool isValid = await HttpService.GetHeadTask(link);
+            bool isValid = false;
+
+            bool isValidURI = false;
+
+            isValidURI = Uri.IsWellFormedUriString(link, UriKind.RelativeOrAbsolute);
+
+            Uri uriResult;
+            isValidURI = Uri.TryCreate(link, UriKind.Absolute, out uriResult);
+
+            if (!isValidURI)
+            {
+                //Link is not available
+                ValidationText = "Link is not available";
+                return;
+            }
+
+            link = uriResult.ToString();
+            isValid = await HttpService.GetHeadTask(link);
+
             if (!isValid)
             {
                 //Link is not available
@@ -301,6 +319,8 @@ namespace ShareClass.ViewModel.RssGroup
 
                 string text = await BuildRssText(rssLink);
 
+                if (String.IsNullOrEmpty(text)) return drawPoint;
+
                 Rect drawRect = new Rect(0, 0, 0, 0)
                 {
                     X = (screenSize.Width / 10) * 6.5,
@@ -388,6 +408,8 @@ namespace ShareClass.ViewModel.RssGroup
             bool isShowDesc = SettingManager.GetIsDisplayRss().Item2;
 
             StringBuilder sb = new StringBuilder();
+
+            if (RssChanel.ItemList == null) return "";
 
             for (int i = 0; i < num; i++)
             {

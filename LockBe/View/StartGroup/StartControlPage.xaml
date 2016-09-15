@@ -4,80 +4,114 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       xmlns:model="using:ShareClass.Model"
+      xmlns:userControls="using:LockBe.UserControls"
       DataContext="{Binding Source={StaticResource Locator},
                             Path=StartVm}"
       mc:Ignorable="d">
 
-    <Grid Margin="4" Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="*" />
-        </Grid.RowDefinitions>
-
-        <Grid Grid.Row="0">
-            <Grid.Background>
-                <SolidColorBrush Opacity="0.8" Color="{StaticResource Color1}" />
-            </Grid.Background>
-            <TextBlock Margin="4"
-                       Foreground="{StaticResource Brush5}"
-                       Text="CONTROL PANEL" />
-        </Grid>
-
-        <StackPanel Grid.Row="1" Margin="4">
-            <TextBlock Margin="0,4">
-                <Run Text="Image service: " />
-                <Run Text="{x:Bind Vm.ImageSourceVm.SelectedSource.Name}" />
-            </TextBlock>
-            <Grid>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto" />
-                    <ColumnDefinition Width="*" />
-                </Grid.ColumnDefinitions>
-                <ToggleSwitch Grid.Column="0"
-                              Margin="0,4"
+    <Grid Margin="15,10,0,0" Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+        <ScrollViewer>
+            <StackPanel Grid.Row="1" Margin="5,0,20,0">
+                <Grid Margin="-5,0,0,0">
+                    <userControls:TitleTextBlockUserControl BackgroundColor="{StaticResource Brush1}"
+                                                    Text="Control Panel"
+                                                    HorizontalAlignment="Left"/>
+                </Grid>
+                <Grid Margin="0,30,0,0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <ToggleSwitch Grid.Column="0"
                               Header="Weather"
                               IsOn="{x:Bind Vm.WeatherVm.IsShowWeather, Mode=TwoWay}"
-                              Toggled="{x:Bind Vm.UpdateListAsync}" />
-                <AppBarButton Grid.Column="1"
+                              Toggled="{x:Bind Vm.UpdateListAsync}"/>
+                    <AppBarButton Grid.Column="1"
                               HorizontalAlignment="Right"
                               VerticalAlignment="Bottom"
                               Click="{x:Bind Vm.ControlPanelMoreSettingButton_Click}"
                               Foreground="{StaticResource Brush1}"
                               Icon="Setting"
                               IsCompact="True">
-                    <AppBarButton.Tag>
-                        <model:MenuFunc>WeatherForecast</model:MenuFunc>
-                    </AppBarButton.Tag>
-                </AppBarButton>
-            </Grid>
-            <Grid>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto" />
-                    <ColumnDefinition Width="*" />
-                </Grid.ColumnDefinitions>
-                <ToggleSwitch Grid.Column="0"
+                        <AppBarButton.Tag>
+                            <model:MenuFunc>WeatherForecast</model:MenuFunc>
+                        </AppBarButton.Tag>
+                    </AppBarButton>
+                </Grid>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <ToggleSwitch Grid.Column="0"
                               Margin="0,4"
-                              Header="Quote"
+                              Header="Quotes"
                               IsOn="{x:Bind Vm.QuoteVm.IsDisplayQuote, Mode=TwoWay}"
                               Toggled="{x:Bind Vm.UpdateListAsync}" />
-                <AppBarButton Grid.Column="1"
+                    <AppBarButton Grid.Column="1"
                               HorizontalAlignment="Right"
                               VerticalAlignment="Bottom"
                               Click="{x:Bind Vm.ControlPanelMoreSettingButton_Click}"
                               Foreground="{StaticResource Brush1}"
                               Icon="Setting"
                               IsCompact="True">
-                    <AppBarButton.Tag>
-                        <model:MenuFunc>Quote</model:MenuFunc>
-                    </AppBarButton.Tag>
-                </AppBarButton>
-            </Grid>
-            <Grid>
-                <Button Margin="0,4"
+                        <AppBarButton.Tag>
+                            <model:MenuFunc>Quote</model:MenuFunc>
+                        </AppBarButton.Tag>
+                    </AppBarButton>
+                </Grid>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <ToggleSwitch Grid.Column="0"
+                              Margin="0,4"
+                              Header="News feed"
+                              IsOn="{x:Bind Vm.RssVm.IsEnabled, Mode=TwoWay}"
+                              Toggled="{x:Bind Vm.UpdateListAsync}" />
+                    <AppBarButton Grid.Column="1"
+                              HorizontalAlignment="Right"
+                              VerticalAlignment="Bottom"
+                              Click="{x:Bind Vm.ControlPanelMoreSettingButton_Click}"
+                              Foreground="{StaticResource Brush1}"
+                              Icon="Setting"
+                              IsCompact="True">
+                        <AppBarButton.Tag>
+                            <model:MenuFunc>Rss</model:MenuFunc>
+                        </AppBarButton.Tag>
+                    </AppBarButton>
+                </Grid>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <ToggleSwitch Grid.Column="0"
+                              Margin="0,4"
+                              Header="Your own note"
+                              IsOn="{x:Bind Vm.NoteVm.IsDisplayNote, Mode=TwoWay}"
+                              Toggled="{x:Bind Vm.UpdateListAsync}" />
+                    <AppBarButton Grid.Column="1"
+                              HorizontalAlignment="Right"
+                              VerticalAlignment="Bottom"
+                              Click="{x:Bind Vm.ControlPanelMoreSettingButton_Click}"
+                              Foreground="{StaticResource Brush1}"
+                              Icon="Setting"
+                              IsCompact="True">
+                        <AppBarButton.Tag>
+                            <model:MenuFunc>Note</model:MenuFunc>
+                        </AppBarButton.Tag>
+                    </AppBarButton>
+                </Grid>
+                <Grid>
+                    <!--<Button Margin="0,4"
                         HorizontalAlignment="Stretch"
                         Click="{x:Bind Vm.HamburgerButton_Click}"
-                        Content="More Settings" />
-            </Grid>
-        </StackPanel>
+                        Content="More Settings"/>-->
+                </Grid>
+            </StackPanel>
+        </ScrollViewer>
+       
     </Grid>
 </Page>

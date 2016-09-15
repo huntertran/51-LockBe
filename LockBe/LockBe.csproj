@@ -118,6 +118,9 @@
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="UserControls\TitleTextBlockUserControl.xaml.cs">
+      <DependentUpon>TitleTextBlockUserControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\ImageSourceGroup\ImageSourcePage.xaml.cs">
       <DependentUpon>ImageSourcePage.xaml</DependentUpon>
     </Compile>
@@ -234,6 +237,10 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Page Include="UserControls\TitleTextBlockUserControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="View\ImageSourceGroup\ImageSourcePage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

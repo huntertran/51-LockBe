@@ -5,28 +5,26 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       xmlns:rss="using:ShareClass.Model.Rss"
       xmlns:model="using:ShareClass.Model"
+      xmlns:userControls="using:LockBe.UserControls"
       DataContext="{Binding Source={StaticResource Locator},
                             Path=RssVm}"
       mc:Ignorable="d">
     <Page.Resources />
 
-    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    <Grid Margin="15,10,0,0"  Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
-        <ScrollViewer Grid.Row="0" Margin="4">
-            <StackPanel>
-                <Grid>
-                    <Grid.Background>
-                        <SolidColorBrush Opacity="0.8" Color="{StaticResource Color1}" />
-                    </Grid.Background>
-                    <TextBlock Margin="4"
-                               Foreground="{StaticResource Brush5}"
-                               Text="RSS" />
+        <ScrollViewer Grid.Row="0">
+            <StackPanel Margin="5,0,20,0">
+                <Grid Margin="-5,0,0,0">
+                        <userControls:TitleTextBlockUserControl BackgroundColor="{StaticResource Brush1}"
+                                                            Text="Rss"
+                                                            HorizontalAlignment="Left"/>
                 </Grid>
-                <ToggleSwitch x:Name="IsDisplayRssToggleSwitch"
-                              Margin="0,4"
+                    <ToggleSwitch x:Name="IsDisplayRssToggleSwitch"
+                              Margin="0,30,0,0"
                               Header="Display RSS"
                               IsOn="{x:Bind Vm.IsEnabled, Mode=TwoWay}"
                               Toggled="RssToggleSwitch_OnToggled" />
@@ -38,7 +36,8 @@
                               Toggled="RssDescriptionToggleSwitch_OnToggled" />
                 <TextBlock Margin="0,4"
                                VerticalAlignment="Center"
-                               Text="Position" />
+                               Text="Position"
+                           Foreground="Black"/>
                 <ComboBox Name="PositionComboBox"
                               HorizontalAlignment="Stretch"
                               Margin="0,4"
@@ -54,11 +53,13 @@
                     </ComboBox.ItemTemplate>
                 </ComboBox>
                 <Rectangle Height="5"
-                           Margin="0,4"
+                           Margin="-5,4"
                            Fill="{StaticResource Brush1}"
-                           Opacity="0.6" />
+                           Opacity="0.6"
+                           RadiusX="2"
+                           RadiusY="2"/>
                 <AutoSuggestBox x:Name="RssSourceTextBox"
-                                Margin="0.4"
+                                Margin="0,4"
                                 PlaceholderText="RSS Source"
                                 QueryIcon="Forward"
                                 QuerySubmitted="RssSourceTextBox_OnQuerySubmitted"
@@ -70,7 +71,8 @@
                 <StackPanel Margin="0,4" Orientation="Horizontal">
                     <TextBlock Margin="0,0,4,0"
                                VerticalAlignment="Center"
-                               Text="Number of Rss Item" />
+                               Text="Number of Rss Item" 
+                               Foreground="Black"/>
                     <TextBox x:Name="RssItemTextBox"
                              Text="{x:Bind Vm.RssItemNumber, Mode=TwoWay}"
                              TextChanged="RssItemTextBox_OnTextChanged" />
@@ -79,7 +81,8 @@
 
             </StackPanel>
         </ScrollViewer>
-        <Grid Grid.Row="1">
+        <Grid Grid.Row="1"
+              Margin="0,4">
             <ListView ItemsSource="{x:Bind Vm.RssChanel.ItemList, Mode=OneWay}">
                 <ListView.ItemTemplate>
                     <DataTemplate x:DataType="rss:RssItem">

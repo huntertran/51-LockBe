@@ -8,6 +8,7 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       xmlns:model="using:ShareClass.Model"
       xmlns:xaml="using:Microsoft.Graphics.Canvas.UI.Xaml"
+      xmlns:userControls="using:LockBe.UserControls"
       DataContext="{Binding Source={StaticResource Locator},
                             Path=StartVm}"
       mc:Ignorable="d">
@@ -39,7 +40,7 @@
                 <Grid Grid.Column="1">
                     <TextBlock Margin="6,0,0,0"
                                VerticalAlignment="Center"
-                               FontSize="18"
+                               FontSize="15"
                                Foreground="{StaticResource Brush5}"
                                Text="{x:Bind Name, Mode=OneWay}" />
                 </Grid>
@@ -54,19 +55,19 @@
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
-        
+
         <Grid Grid.Row="0" Height="32">
 
             <Grid.Background>
-                <SolidColorBrush Color="{StaticResource Color1}" />
+                <SolidColorBrush Color="White" />
             </Grid.Background>
 
             <Grid x:Name="TitleGrid">
                 <Grid.Background>Transparent</Grid.Background>
-                <TextBlock Margin="4,0,0,0"
+                <TextBlock Margin="13,0,0,0"
                            VerticalAlignment="Center"
-                           FontSize="20"
-                           Foreground="{StaticResource Brush5}"
+                           FontSize="13"    
+                           Foreground="Black"
                            Padding="0,0,0,4"
                            Text="{Binding Content,
                                           Converter={StaticResource PageToNameConverter},
@@ -74,7 +75,6 @@
             </Grid>
 
         </Grid>
-
         <controls:HamburgerMenu x:Name="HamburgerMenu"
                                 Grid.Row="1"
                                 CompactPaneLength="48"
@@ -88,32 +88,48 @@
                                 PaneBackground="{StaticResource Brush1}" Foreground="{StaticResource Brush5}">
             <Grid>
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="3*" />
-                    <ColumnDefinition Width="7*" />
+                    <ColumnDefinition Width="2.5*" />
+                    <ColumnDefinition Width="7.5*" />
                 </Grid.ColumnDefinitions>
+                
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="0.5*"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="1.5*"/>
+                </Grid.RowDefinitions>
 
-                <Frame x:Name="MainFrame" Grid.Column="0" />
-                <Grid Grid.Column="1" Margin="4">
+                <Frame x:Name="MainFrame" Grid.Column="0" 
+                       Grid.RowSpan="3"/>
+                <Grid Grid.Column="1" Margin="4"
+                      Grid.Row="1">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto" />
-                        <RowDefinition Height="6" />
+                        <RowDefinition Height="15" />
                         <RowDefinition Height="*" />
                     </Grid.RowDefinitions>
 
-                    <Grid x:Name="ResultTitleGrid" Grid.Row="0">
-                        <Grid.Background>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="0.35*" />
+                        <ColumnDefinition Width="9.3*" />
+                        <ColumnDefinition Width="0.35*" />
+                    </Grid.ColumnDefinitions>
+
+                    <Grid x:Name="ResultTitleGrid" Grid.Row="0"
+                          Grid.Column="1">
+                        <!--<Grid.Background>
                             <SolidColorBrush Opacity="0.8" Color="{StaticResource Color1}" />
-                        </Grid.Background>
+                        </Grid.Background>-->
                         <TextBlock Margin="4"
-                                   Foreground="{StaticResource Brush5}"
-                                   Text="RESULT PREVIEW" />
-                        <TextBlock Margin="4"
-                                   HorizontalAlignment="Right"
-                                   Foreground="{StaticResource Brush5}"
-                                   Text="{Binding ImageList.Count}" />
+                                   Foreground="Black"
+                                   Text="Preview" 
+                                   FontSize="23"
+                                   HorizontalAlignment="Center"   
+                                   FontWeight="Light"/>
                     </Grid>
 
-                    <Grid Grid.Row="1" VerticalAlignment="Center">
+                    <Grid Grid.Row="1" 
+                          VerticalAlignment="Bottom"
+                          Grid.Column="1">
                         <ProgressBar helpers:Extension.IsVisible="{x:Bind Vm.IsImageUpdating, Mode=OneWay}"
                                      Foreground="{StaticResource Brush1}"
                                      IsIndeterminate="{x:Bind Vm.IsImageUpdating, Mode=OneWay}" />
@@ -121,6 +137,7 @@
 
                     <Viewbox Grid.Row="2"
                              Margin="0,4"
+                             Grid.Column="1"
                              HorizontalAlignment="Stretch"
                              VerticalAlignment="Top"
                              SizeChanged="Viewbox_SizeChanged">
@@ -149,18 +166,18 @@
                         <RowDefinition Height="*" />
                     </Grid.RowDefinitions>
                     <Grid Grid.Row="0">
-                        <Grid.Background>
-                            <SolidColorBrush Color="{StaticResource Color1}" />
-                        </Grid.Background>
-                        <TextBlock Margin="4"
-                                   Foreground="{StaticResource Brush5}"
-                                   Text="RSS Reader" />
+                        <TextBlock Foreground="Black"
+                                   Text="Rss Reader"
+                                   FontSize="20"
+                                   FontWeight="Light"
+                                   HorizontalAlignment="Left" />
                         <Button HorizontalAlignment="Right"
                                 Click="CloseWebViewButton_OnClick"
                                 Content="X" />
                     </Grid>
                     <WebView x:Name="MainWebView" Grid.Row="1" />
                 </Grid>
+                
             </Grid>
         </controls:HamburgerMenu>
 

@@ -11,7 +11,7 @@
     <StackPanel Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
         <ComboBox x:Name="LanguageComboBox"
-                  Margin="0,4"
+                  Margin="5,4,20,0"
                   HorizontalAlignment="Stretch"
                   ItemsSource="{x:Bind Vm.BingLanguageCollection}"
                   PlaceholderText="Select country"
@@ -26,7 +26,7 @@
         </ComboBox>
 
         <ToggleSwitch x:Name="ShowImageInfoToggle"
-                      Margin="0,4"
+                      Margin="5,4"
                       Header="Show image info"
                       IsOn="{x:Bind Vm.IsShowImageInfo, Mode=OneWay}"
                       Toggled="ShowImageInfoToggle_OnToggled" />

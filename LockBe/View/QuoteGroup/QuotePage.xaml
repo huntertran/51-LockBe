@@ -5,23 +5,21 @@
       xmlns:helpers="using:ShareClass.Utilities.Helpers"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       xmlns:model="using:ShareClass.Model"
+      xmlns:userControls="using:LockBe.UserControls"
       DataContext="{Binding Source={StaticResource Locator},
                             Path=QuoteVm}"
       mc:Ignorable="d">
 
-    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-        <ScrollViewer Margin="4">
-            <StackPanel>
-                <Grid>
-                    <Grid.Background>
-                        <SolidColorBrush Opacity="0.8" Color="{StaticResource Color1}" />
-                    </Grid.Background>
-                    <TextBlock Margin="4"
-                               Foreground="{StaticResource Brush5}"
-                               Text="QUOTE" />
+    <Grid Margin="15,10,0,0"  Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+        <ScrollViewer>
+            <StackPanel Margin="5,0,20,0">
+                <Grid Margin="-5,0,0,0">
+                    <userControls:TitleTextBlockUserControl BackgroundColor="{StaticResource Brush1}"
+                                                            Text="Quote"
+                                                            HorizontalAlignment="Left"/>
                 </Grid>
                 <ToggleSwitch x:Name="QuoteToggleSwitch"
-                              Margin="0,4"
+                              Margin="0,30,0,0"
                               Header="Display Quote"
                               IsOn="{x:Bind Vm.IsDisplayQuote, Mode=TwoWay}"
                               Toggled="{x:Bind Vm.StartVm.UpdateListAsync}" />
@@ -32,7 +30,8 @@
                               Toggled="{x:Bind Vm.ToggleOfflineQoute}" />
                 <TextBlock Margin="0,4"
                                VerticalAlignment="Center"
-                               Text="Position" />
+                               Text="Position"
+                           Foreground="Black"/>
                 <ComboBox Name="PositionComboBox"
                               HorizontalAlignment="Stretch"
                               Margin="0,4"
@@ -48,22 +47,26 @@
                     </ComboBox.ItemTemplate>
                 </ComboBox>
                 <Rectangle Height="5"
-                           Margin="0,4"
+                           Margin="-5,4"
                            Fill="{StaticResource Brush1}"
+                           RadiusX="2"
+                           RadiusY="2"
                            Opacity="0.6" />
-                <StackPanel helpers:Extension.IsVisible="{x:Bind Vm.IsOfflineQuote, Mode=OneWay}">
+                <StackPanel Margin="0,0,0,0" helpers:Extension.IsVisible="{x:Bind Vm.IsOfflineQuote, Mode=OneWay}">
                     <TextBlock Margin="0,4"
                                VerticalAlignment="Center"
-                               Text="Your Favourite Quote" />
+                               Text="Your Favourite Quote"
+                               Foreground="Black"/>
                     <TextBox x:Name="QuoteTextBox"
-                             Margin="0,4"
+                             Margin="0,4,20,0"
                              AcceptsReturn="True"
                              Text="{x:Bind Vm.OfflineQuote, Mode=TwoWay}" />
                     <TextBlock Margin="0,4"
                                VerticalAlignment="Center"
-                               Text="Author" />
+                               Text="Author" 
+                               Foreground="Black"/>
                     <TextBox x:Name="AuthorTextBox"
-                             Margin="0,4"
+                             Margin="0,4,20,0"
                              Text="{x:Bind Vm.OfflineAuthor, Mode=TwoWay}" />
                     <Button HorizontalAlignment="Right"
                             Click="{x:Bind Vm.SaveOfflineQuote}"
