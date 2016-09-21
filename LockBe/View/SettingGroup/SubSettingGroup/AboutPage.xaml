@@ -6,77 +6,122 @@
       mc:Ignorable="d">
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-        <ScrollViewer>
+        <ScrollViewer HorizontalScrollMode="Auto">
             <StackPanel Margin="4">
-                <Grid x:Name="TuanGrid"
-                      Margin="4"
-                      Background="LightGray">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="250" />
-                        <ColumnDefinition Width="*" />
-                    </Grid.ColumnDefinitions>
+                <Grid x:Name="TuanGrid" Margin="4">
 
-                    <Path Grid.Column="0"
-                          Width="80"
-                          Height="80"
-                          Margin="12"
-                          Data="M21.609886,45.104999C17.609169,45.104999,14.367,48.347419,14.367,52.34629L14.367,55.425998 39.534,55.425998 39.534,52.34629C39.534,48.347419,36.29166,45.104999,32.290913,45.104999z M26.95055,30.259C23.450441,30.259 20.612999,33.096332 20.612999,36.596469 20.612999,40.095329 23.450441,42.934002 26.95055,42.934002 30.450687,42.934002 33.288002,40.095329 33.288002,36.596469 33.288002,33.096332 30.450687,30.259 26.95055,30.259z M2.9101393,23.342001L52.366928,23.342001C53.972317,23.342001,55.273006,24.644086,55.273006,26.253469L55.273006,58.251831C55.273006,59.857212,53.972317,61.158001,52.366928,61.158001L2.9101393,61.158001C1.3007814,61.158001,0,59.857212,0,58.251831L0,26.253469C0,24.644086,1.3007814,23.342001,2.9101393,23.342001z M23.744207,7.9871241E-05C24.149727,-0.0031534557,24.562021,0.091723669,24.945332,0.29520206L62.667736,20.38137C63.89043,21.034975,64.35923,22.55849,63.70293,23.785001L58.187359,34.151001 58.187359,26.253828C58.187359,23.045394,55.570175,20.428169,52.359295,20.428169L11.383,20.428169 21.546947,1.3342781C21.99272,0.48915968,22.852064,0.0071927376,23.744207,7.9871241E-05z"
-                          Fill="{StaticResource Brush1}"
-                          RenderTransformOrigin="0.5,0.5"
-                          Stretch="Uniform"
-                          Tapped="Path_Tapped" />
+                    <StackPanel Margin="4" HorizontalAlignment="Center">
+                        <!--<Path Grid.Column="0"
+                              Width="80"
+                              Height="80"
+                              Margin="12"
+                              Data="M21.609886,45.104999C17.609169,45.104999,14.367,48.347419,14.367,52.34629L14.367,55.425998 39.534,55.425998 39.534,52.34629C39.534,48.347419,36.29166,45.104999,32.290913,45.104999z M26.95055,30.259C23.450441,30.259 20.612999,33.096332 20.612999,36.596469 20.612999,40.095329 23.450441,42.934002 26.95055,42.934002 30.450687,42.934002 33.288002,40.095329 33.288002,36.596469 33.288002,33.096332 30.450687,30.259 26.95055,30.259z M2.9101393,23.342001L52.366928,23.342001C53.972317,23.342001,55.273006,24.644086,55.273006,26.253469L55.273006,58.251831C55.273006,59.857212,53.972317,61.158001,52.366928,61.158001L2.9101393,61.158001C1.3007814,61.158001,0,59.857212,0,58.251831L0,26.253469C0,24.644086,1.3007814,23.342001,2.9101393,23.342001z M23.744207,7.9871241E-05C24.149727,-0.0031534557,24.562021,0.091723669,24.945332,0.29520206L62.667736,20.38137C63.89043,21.034975,64.35923,22.55849,63.70293,23.785001L58.187359,34.151001 58.187359,26.253828C58.187359,23.045394,55.570175,20.428169,52.359295,20.428169L11.383,20.428169 21.546947,1.3342781C21.99272,0.48915968,22.852064,0.0071927376,23.744207,7.9871241E-05z"
+                              Fill="{StaticResource Brush1}"
+                              RenderTransformOrigin="0.5,0.5"
+                              Stretch="Uniform"
+                              Tapped="Path_Tapped"
+                              Visibility="Collapsed" />-->
 
-                    <Image x:Name="TuanPic"
-                           Grid.Column="0"
-                           Width="250"
-                           Height="250"
-                           Margin="4"
-                           Source="ms-appx:///Assets/Resources/Authors/tuan.jpg"
-                           Visibility="Collapsed" />
+                        <Ellipse Grid.RowSpan="2"
+                                 Width="128"
+                                 Height="128"
+                                 Margin="0"
+                                 HorizontalAlignment="Center"
+                                 VerticalAlignment="Center"
+                                 Stroke="DimGray"
+                                 StrokeThickness="2">
+                            <Ellipse.Fill>
+                                <ImageBrush ImageSource="ms-appx:///Assets/Resources/Authors/tuan.jpg" 
+                                            />
+                            </Ellipse.Fill>
+                        </Ellipse>
+                        <!--<Image x:Name="TuanPic"
+                                       Grid.Column="0"
+                                       Width="100"
+                                       Height="100"
+                                       Margin="4"
+                                       Source="ms-appx:///Assets/Resources/Authors/tuan.jpg"
+                                       Visibility="Visible" />-->
 
-                    <StackPanel Grid.Column="1" Margin="4">
-                        <TextBlock FontSize="18" Text="Tuan Tran Van" />
-                        <TextBlock FontSize="18" Text="Microsoft Student Partner Vietnam" />
-                        <HyperlinkButton Click="EmailTuan_OnClick"
+                        <TextBlock HorizontalAlignment="Center"
+                                   FontSize="15"
+                                   Foreground="Black"
+                                   Text="Tuan Tran Van" />
+                        <TextBlock HorizontalAlignment="Center"
+                                   FontSize="12"
+                                   Foreground="Black"
+                                   Text="Microsoft Student Partner Vietnam" />
+                        <HyperlinkButton HorizontalAlignment="Center"
+                                         Click="EmailTuan_OnClick"
                                          Content="cuoilennaocacban@hotmail.com"
-                                         FontSize="18" />
-                        <HyperlinkButton Click="LinkedInTuan_OnClick"
+                                         FontSize="12" />
+                        <HyperlinkButton HorizontalAlignment="Center"
+                                         Click="LinkedInTuan_OnClick"
                                          Content="https://vn.linkedin.com/in/tuanmsp"
-                                         FontSize="18" />
+                                         FontSize="12" />
+
                     </StackPanel>
+                    <Rectangle Height="2"
+                               Margin="10,30,10,0"
+                               VerticalAlignment="Bottom"
+                               Fill="DimGray"
+                               RadiusX="2"
+                               RadiusY="2" />
 
                 </Grid>
-                <Grid x:Name="ThiGrid"
-                      Margin="4"
-                      Background="LightGray">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="250" />
-                        <ColumnDefinition Width="*" />
-                    </Grid.ColumnDefinitions>
+                <Grid x:Name="ThiGrid" Margin="4">
 
-                    <Path Grid.Column="0"
-                          Width="80"
-                          Height="80"
-                          Margin="12"
-                          Data="M21.609886,45.104999C17.609169,45.104999,14.367,48.347419,14.367,52.34629L14.367,55.425998 39.534,55.425998 39.534,52.34629C39.534,48.347419,36.29166,45.104999,32.290913,45.104999z M26.95055,30.259C23.450441,30.259 20.612999,33.096332 20.612999,36.596469 20.612999,40.095329 23.450441,42.934002 26.95055,42.934002 30.450687,42.934002 33.288002,40.095329 33.288002,36.596469 33.288002,33.096332 30.450687,30.259 26.95055,30.259z M2.9101393,23.342001L52.366928,23.342001C53.972317,23.342001,55.273006,24.644086,55.273006,26.253469L55.273006,58.251831C55.273006,59.857212,53.972317,61.158001,52.366928,61.158001L2.9101393,61.158001C1.3007814,61.158001,0,59.857212,0,58.251831L0,26.253469C0,24.644086,1.3007814,23.342001,2.9101393,23.342001z M23.744207,7.9871241E-05C24.149727,-0.0031534557,24.562021,0.091723669,24.945332,0.29520206L62.667736,20.38137C63.89043,21.034975,64.35923,22.55849,63.70293,23.785001L58.187359,34.151001 58.187359,26.253828C58.187359,23.045394,55.570175,20.428169,52.359295,20.428169L11.383,20.428169 21.546947,1.3342781C21.99272,0.48915968,22.852064,0.0071927376,23.744207,7.9871241E-05z"
-                          Fill="{StaticResource Brush1}"
-                          RenderTransformOrigin="0.5,0.5"
-                          Stretch="Uniform"
-                          Tapped="Path_Tapped" />
+                    <StackPanel Margin="4" HorizontalAlignment="Center">
+                        <!--<Path Grid.Column="0"
+                              Width="80"
+                              Height="80"
+                              Margin="12"
+                              Data="M21.609886,45.104999C17.609169,45.104999,14.367,48.347419,14.367,52.34629L14.367,55.425998 39.534,55.425998 39.534,52.34629C39.534,48.347419,36.29166,45.104999,32.290913,45.104999z M26.95055,30.259C23.450441,30.259 20.612999,33.096332 20.612999,36.596469 20.612999,40.095329 23.450441,42.934002 26.95055,42.934002 30.450687,42.934002 33.288002,40.095329 33.288002,36.596469 33.288002,33.096332 30.450687,30.259 26.95055,30.259z M2.9101393,23.342001L52.366928,23.342001C53.972317,23.342001,55.273006,24.644086,55.273006,26.253469L55.273006,58.251831C55.273006,59.857212,53.972317,61.158001,52.366928,61.158001L2.9101393,61.158001C1.3007814,61.158001,0,59.857212,0,58.251831L0,26.253469C0,24.644086,1.3007814,23.342001,2.9101393,23.342001z M23.744207,7.9871241E-05C24.149727,-0.0031534557,24.562021,0.091723669,24.945332,0.29520206L62.667736,20.38137C63.89043,21.034975,64.35923,22.55849,63.70293,23.785001L58.187359,34.151001 58.187359,26.253828C58.187359,23.045394,55.570175,20.428169,52.359295,20.428169L11.383,20.428169 21.546947,1.3342781C21.99272,0.48915968,22.852064,0.0071927376,23.744207,7.9871241E-05z"
+                              Fill="{StaticResource Brush1}"
+                              RenderTransformOrigin="0.5,0.5"
+                              Stretch="Uniform"
+                              Tapped="Path_Tapped"
+                              Visibility="Collapsed" />-->
 
-                    <Image x:Name="ThiPic"
-                           Grid.Column="0"
-                           Width="250"
-                           Height="250"
-                           Margin="4"
-                           Source="ms-appx:///Assets/Resources/Authors/thi.jpg"
-                           Visibility="Collapsed" />
+                        <Ellipse Grid.RowSpan="2"
+                                 Width="128"
+                                 Height="128"
+                                 Margin="0"
+                                 HorizontalAlignment="Center"
+                                 VerticalAlignment="Center"
+                                 Stroke="DimGray"
+                                 StrokeThickness="2">
+                            <Ellipse.Fill>
+                                <ImageBrush ImageSource="ms-appx:///Assets/Resources/Authors/thi.png" 
+                                            Stretch="UniformToFill"
+                                            AlignmentY="Top"/>
+                            </Ellipse.Fill>
+                        </Ellipse>
 
-                    <StackPanel Grid.Column="1" Margin="4">
-                        <TextBlock FontSize="18" Text="Thi Nguyen Vu Hoang" />
-                        <TextBlock FontSize="18" Text="Microsoft Student Partner Vietnam" />
-                        <!--<HyperlinkButton Content="Email: cuoilennaocacban@hotmail.com" FontSize="18" />
-                        <HyperlinkButton Content="https://vn.linkedin.com/in/tuanmsp" FontSize="18" />-->
+                        <!--<Image x:Name="ThiPic"
+                               Grid.Column="0"
+                               Width="100"
+                               Height="100"
+                               Margin="4"
+                               Source="ms-appx:///Assets/Resources/Authors/thi.png"
+                               Stretch="UniformToFill"
+                               Visibility="Visible" />-->
+                        <TextBlock HorizontalAlignment="Center"
+                                   FontSize="15"
+                                   Foreground="Black"
+                                   Text="Thi Nguyen Vu Hoang" />
+                        <TextBlock HorizontalAlignment="Center"
+                                   FontSize="12"
+                                   Foreground="Black"
+                                   Text="Microsoft Student Partner Vietnam" />
+                        <HyperlinkButton HorizontalAlignment="Center"
+                                         Click="EmailThi_OnClick"
+                                         Content="Thi.NguyenVuHoang@studentpartner.com"
+                                         FontSize="12" />
+                        <HyperlinkButton HorizontalAlignment="Center"
+                                         Click="LinkedInThi_OnClick"
+                                         Content="https://vn.linkedin.com/in/hoangthi1710"
+                                         FontSize="12" />
                     </StackPanel>
 
                 </Grid>

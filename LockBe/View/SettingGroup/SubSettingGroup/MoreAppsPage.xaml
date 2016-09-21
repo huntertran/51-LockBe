@@ -10,47 +10,51 @@
       mc:Ignorable="d">
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-
-        <ListView ItemsSource="{x:Bind Vm.AppItems.app, Mode=OneWay}">
-            <ListView.ItemTemplate>
-                <DataTemplate x:DataType="model:AppItem">
-                    <Grid Margin="0,4" Tapped="MoreAppItem_OnTapped">
-                        <Grid.Background>
-                            <SolidColorBrush Opacity="0.2" Color="{StaticResource Color4}" />
-                        </Grid.Background>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="Auto" />
-                            <ColumnDefinition Width="*" />
-                        </Grid.ColumnDefinitions>
-
-                        <Image Grid.Column="0"
-                               Margin="4"
-                               VerticalAlignment="Top"
-                               Source="{x:Bind logo, Mode=OneWay}"
-                               Stretch="Uniform" />
-
-                        <Grid Grid.Column="1">
+        <ScrollViewer HorizontalScrollMode="Enabled">
+            <ListView ItemsSource="{x:Bind Vm.AppItems.app, Mode=OneWay}">
+                <ListView.ItemTemplate>
+                    <DataTemplate x:DataType="model:AppItem">
+                        <Grid Margin="0,4" Tapped="MoreAppItem_OnTapped">
+                            <Grid.Background>
+                                <SolidColorBrush Opacity="0.2" Color="{StaticResource Color4}" />
+                            </Grid.Background>
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="Auto" />
                                 <RowDefinition Height="*" />
                             </Grid.RowDefinitions>
-                            <TextBlock Grid.Row="0"
-                                       Margin="4"
-                                       FontSize="21.333"
-                                       Text="{x:Bind name, Mode=OneWay}"
-                                       TextWrapping="Wrap" />
-                            <TextBlock Grid.Row="1"
-                                       Margin="4"
-                                       Text="{x:Bind desc, Mode=OneWay}"
-                                       TextAlignment="Justify"
-                                       TextWrapping="Wrap" />
+
+                            <Image Grid.Row="0"
+                                   MaxWidth="150"
+                                   MaxHeight="150"
+                                   Margin="4"
+                                   VerticalAlignment="Top"
+                                   Source="{x:Bind logo, Mode=OneWay}"
+                                   Stretch="Uniform" />
+
+                            <Grid Grid.Row="1">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="*" />
+                                </Grid.RowDefinitions>
+                                <TextBlock Grid.Row="0"
+                                           Margin="4"
+                                           FontSize="21.333"
+                                           Text="{x:Bind name, Mode=OneWay}"
+                                           TextWrapping="Wrap" />
+                                <TextBlock Grid.Row="1"
+                                           Margin="4"
+                                           Text="{x:Bind desc, Mode=OneWay}"
+                                           TextAlignment="Justify"
+                                           TextWrapping="Wrap" />
+                            </Grid>
+
                         </Grid>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
 
-                    </Grid>
-                </DataTemplate>
-            </ListView.ItemTemplate>
-        </ListView>
 
+        </ScrollViewer>
         <ProgressRing Width="150"
                       Height="150"
                       helpers:Extension.IsVisible="{x:Bind Vm.IsLoading, Mode=OneWay}"

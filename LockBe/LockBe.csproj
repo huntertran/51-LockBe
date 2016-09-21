@@ -174,7 +174,7 @@
     <None Include="LockBe_TemporaryKey.pfx" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Assets\Resources\Authors\thi.jpg" />
+    <Content Include="Assets\Resources\Authors\thi.png" />
     <Content Include="Assets\Resources\Authors\tuan.jpg" />
     <Content Include="Assets\SplashScreen.scale-100.png" />
     <Content Include="Assets\SplashScreen.scale-125.png" />

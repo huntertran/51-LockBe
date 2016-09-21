@@ -82,6 +82,7 @@ namespace ShareClass.Utilities
             var responseMessage = await GetResponse(url,headers, requestMethod, inputs, allowAutoRedirect);
             try
             {
+                if (responseMessage == null) return null;
                 if (responseMessage.StatusCode == HttpStatusCode.OK || responseMessage.StatusCode == HttpStatusCode.Found)
                 {
                     string result = await responseMessage.Content.ReadAsStringAsync();

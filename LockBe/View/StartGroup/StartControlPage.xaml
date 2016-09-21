@@ -13,7 +13,7 @@
         <ScrollViewer>
             <StackPanel Grid.Row="1" Margin="5,0,20,0">
                 <Grid Margin="-5,0,0,0">
-                    <userControls:TitleTextBlockUserControl BackgroundColor="{StaticResource Brush1}"
+                    <userControls:TitleTextBlockUserControl BackgroundColor="#3385ff"
                                                     Text="Control Panel"
                                                     HorizontalAlignment="Left"/>
                 </Grid>
