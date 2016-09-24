@@ -230,18 +230,18 @@ namespace ShareClass.ViewModel.StartGroup
             RegisterViewModels();
             RegisterBackgroundTask();
 
-            if (Window.Current != null && Window.Current.Dispatcher.HasThreadAccess)
-            {
-                _updateImageTimer = new DispatcherTimer {Interval = TimeSpan.FromMilliseconds(1000)};
-                _updateImageTimer.Tick += _updateImageTimer_Tick;
-                UpdateListAsync();
-            }
+            //if (Window.Current != null && Window.Current.Dispatcher.HasThreadAccess)
+            //{
+            //    _updateImageTimer = new DispatcherTimer {Interval = TimeSpan.FromMilliseconds(1000)};
+            //    _updateImageTimer.Tick += _updateImageTimer_Tick;
+            //    //UpdateListAsync();
+            //}
         }
 
         private void _updateImageTimer_Tick(object sender, object e)
         {
             _updateImageTimer.Stop();
-            UpdateListAsync();
+            //UpdateListAsync();
         }
 
         private void InitializeData()
@@ -480,11 +480,11 @@ namespace ShareClass.ViewModel.StartGroup
             }
 
             Debug.WriteLine("Update List Task");
-            if (IsImageUpdating)
-            {
-                _updateImageTimer.Start();
-                return;
-            }
+            //if (IsImageUpdating)
+            //{
+            //    _updateImageTimer.Start();
+            //    return;
+            //}
             IsImageUpdating = true;
             IsImageSaved = false;
 

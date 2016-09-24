@@ -10,34 +10,35 @@
                             Path=QuoteVm}"
       mc:Ignorable="d">
 
-    <Grid Margin="15,10,0,0"  Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    <Grid Margin="15,10,0,0" Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
         <ScrollViewer>
             <StackPanel Margin="5,0,20,0">
                 <Grid Margin="-5,0,0,0">
-                    <userControls:TitleTextBlockUserControl BackgroundColor="#3385ff"
-                                                            Text="Quote"
-                                                            HorizontalAlignment="Left"/>
+                    <userControls:TitleTextBlockUserControl HorizontalAlignment="Left"
+                                                            BackgroundColor="#3385ff"
+                                                            Text="Quote" />
                 </Grid>
                 <ToggleSwitch x:Name="QuoteToggleSwitch"
                               Margin="0,30,0,0"
                               Header="Display Quote"
                               IsOn="{x:Bind Vm.IsDisplayQuote, Mode=TwoWay}"
-                              Toggled="{x:Bind Vm.StartVm.UpdateListAsync}" />
+                              Toggled="{x:Bind Vm.ToggleQuote}" />
+
                 <ToggleSwitch x:Name="OfflineQuoteToggleSwitch"
                               Margin="0,4"
                               Header="Offline Quote"
                               IsOn="{x:Bind Vm.IsOfflineQuote, Mode=TwoWay}"
-                              Toggled="{x:Bind Vm.ToggleOfflineQoute}" />
+                              Toggled="{x:Bind Vm.ToggleOfflineQuote}" />
+
                 <TextBlock Margin="0,4"
-                               VerticalAlignment="Center"
-                               Text="Position"
-                           Foreground="Black"/>
+                           VerticalAlignment="Center"
+                           Foreground="Black"
+                           Text="Position" />
                 <ComboBox Name="PositionComboBox"
-                              HorizontalAlignment="Stretch"
-                              Margin="0,4"
-                              ItemsSource="{x:Bind Vm.PositionItemsCollection}" 
-                              SelectionChanged="{x:Bind Vm.PositionComboBox_SelectionChanged}"
->
+                          Margin="0,4"
+                          HorizontalAlignment="Stretch"
+                          ItemsSource="{x:Bind Vm.PositionItemsCollection}"
+                          SelectionChanged="{x:Bind Vm.PositionComboBox_SelectionChanged}">
                     <ComboBox.ItemTemplate>
                         <DataTemplate x:DataType="model:ImageSourceItem">
                             <Grid>
@@ -49,22 +50,22 @@
                 <Rectangle Height="5"
                            Margin="-5,4"
                            Fill="{StaticResource Brush1}"
+                           Opacity="0.6"
                            RadiusX="2"
-                           RadiusY="2"
-                           Opacity="0.6" />
+                           RadiusY="2" />
                 <StackPanel Margin="0,0,0,0" helpers:Extension.IsVisible="{x:Bind Vm.IsOfflineQuote, Mode=OneWay}">
                     <TextBlock Margin="0,4"
                                VerticalAlignment="Center"
-                               Text="Your Favourite Quote"
-                               Foreground="Black"/>
+                               Foreground="Black"
+                               Text="Your Favourite Quote" />
                     <TextBox x:Name="QuoteTextBox"
                              Margin="0,4,20,0"
                              AcceptsReturn="True"
                              Text="{x:Bind Vm.OfflineQuote, Mode=TwoWay}" />
                     <TextBlock Margin="0,4"
                                VerticalAlignment="Center"
-                               Text="Author" 
-                               Foreground="Black"/>
+                               Foreground="Black"
+                               Text="Author" />
                     <TextBox x:Name="AuthorTextBox"
                              Margin="0,4,20,0"
                              Text="{x:Bind Vm.OfflineAuthor, Mode=TwoWay}" />

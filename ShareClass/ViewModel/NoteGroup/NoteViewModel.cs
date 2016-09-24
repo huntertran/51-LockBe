@@ -18,6 +18,8 @@ namespace ShareClass.ViewModel.NoteGroup
 {
     public class NoteViewModel : ObservableObject
     {
+        private bool firstLoad = false;
+
         private ObservableCollection<ImageSourceItem> _positionItemsCollection;
 
         public ObservableCollection<ImageSourceItem> PositionItemsCollection
@@ -78,6 +80,7 @@ namespace ShareClass.ViewModel.NoteGroup
 
         public NoteViewModel()
         {
+            firstLoad = true;
 
             // Get Note Settings
             IsDisplayNote = SettingsHelper.GetSetting<bool>(SettingKey.IsDisplayNote.ToString());
@@ -108,8 +111,10 @@ namespace ShareClass.ViewModel.NoteGroup
             if (SelectedPosition != null)
             {
                 if (SelectedPosition.Number != number)
+                {
                     PositionHelper.SetElementPosition("N", SelectedPosition.Number);
-                await StartVm.UpdateListTask();
+                    await StartVm.UpdateListTask();
+                }               
             }
         }
 
@@ -219,11 +224,11 @@ namespace ShareClass.ViewModel.NoteGroup
         }
 
 
-        public async void ToggleNote()
+        public async void ToggleNote(object sender, RoutedEventArgs e)
         {
-            if (SettingManager.GetNote() != null)
+            var toggleSwitch = (ToggleSwitch) sender;
+            if (SettingManager.GetNote() != null && IsDisplayNote != toggleSwitch.IsOn )
             {
-
                 await StartVm.UpdateListTask();
             }
         }

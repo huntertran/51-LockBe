@@ -67,14 +67,14 @@ namespace LockBe.View.RssGroup
             var validate = int.TryParse(RssItemTextBox.Text, out num);
             if (validate)
             {
+                if (num == Vm.RssItemNumber) return;
                 Vm.RssItemNumber = num;
+                await StartVm.UpdateListTask();
             }
             else
             {
                 RssItemTextBox.Text = "";
-            }
-
-            await StartVm.UpdateListTask();
+            }           
         }
 
         private void ReadArticleButton_OnClick(object sender, RoutedEventArgs e)
@@ -86,6 +86,7 @@ namespace LockBe.View.RssGroup
 
         private async void RssToggleSwitch_OnToggled(object sender, RoutedEventArgs e)
         {
+            if (IsDisplayRssToggleSwitch.IsOn == Vm.IsEnabled) return;
             SettingsHelper.SetSetting(SettingKey.IsDisplayRss.ToString(), IsDisplayRssToggleSwitch.IsOn);
             
             await StartVm.UpdateListTask();
@@ -93,6 +94,7 @@ namespace LockBe.View.RssGroup
 
         private async void RssDescriptionToggleSwitch_OnToggled(object sender, RoutedEventArgs e)
         {
+            if (IsDisplayRssDescriptionToggleSwitch.IsOn == Vm.IsDisplayRssDescription) return;
             SettingsHelper.SetSetting(SettingKey.IsDisplayRssDescription.ToString(), IsDisplayRssDescriptionToggleSwitch.IsOn);
 
             await StartVm.UpdateListTask();

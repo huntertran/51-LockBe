@@ -69,12 +69,7 @@ namespace LockBe.View.ImageSourceGroup
             if (vm != null)
             {
                 var imageSourceItem = (ImageSourceItem) SourceComboBox.SelectedItem;
-                //if (imageSourceItem != null && imageSourceItem.Number != 0)
-                //{
-                //    //Is not Bing, because bing have it own UpdateListTask call
-                //    await vm.UpdateListTask();
-                //}
-                if (imageSourceItem != null)
+                if (imageSourceItem != null && oldValue != SourceComboBox.SelectedIndex)
                 {
                     await vm.UpdateListTask();
                 }

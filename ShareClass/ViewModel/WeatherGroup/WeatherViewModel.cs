@@ -198,6 +198,8 @@ namespace ShareClass.ViewModel.WeatherGroup
             SelectedPosition = PositionItemsCollection[number] ?? PositionItemsCollection[0];
         }
 
+        #endregion
+
         public async void PositionComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             var comboBox = (ComboBox)sender;
@@ -207,12 +209,14 @@ namespace ShareClass.ViewModel.WeatherGroup
             if (SelectedPosition != null)
             {
                 if (SelectedPosition.Number != number)
+                {
                     PositionHelper.SetElementPosition("W", SelectedPosition.Number);
-                await StartVm.UpdateListTask();
+                    await StartVm.UpdateListTask();
+                }                 
             }
         }
 
-        #endregion
+
 
         public WeatherViewModel()
         {
@@ -689,6 +693,24 @@ namespace ShareClass.ViewModel.WeatherGroup
 
                     return iconBitmap;
                 }
+            }
+        }
+
+        public async void ToggleWeather(object sender, RoutedEventArgs e)
+        {
+            var toggleSwitch = (ToggleSwitch)sender;
+            if (IsShowWeather != toggleSwitch.IsOn)
+            {
+                await StartVm.UpdateListTask();
+            }
+        }
+
+        public async void ToggleTemperature(object sender, RoutedEventArgs e)
+        {
+            var toggleSwitch = (ToggleSwitch)sender;
+            if (IsFahrenheit != toggleSwitch.IsOn)
+            {
+                await StartVm.UpdateListTask();
             }
         }
     }

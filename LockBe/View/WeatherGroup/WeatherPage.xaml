@@ -18,21 +18,24 @@
         </DataTemplate>
     </Page.Resources>
 
-    <Grid Margin="15,10,0,0"  Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    <Grid Margin="15,10,0,0" Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
         <ScrollViewer>
             <StackPanel Margin="5,0,20,0">
                 <Grid Margin="-5,0,0,0">
-                    <userControls:TitleTextBlockUserControl BackgroundColor="#3385ff"
-                                                            Text="Weather"
-                                                            HorizontalAlignment="Left"/>
+                    <userControls:TitleTextBlockUserControl HorizontalAlignment="Left"
+                                                            BackgroundColor="#3385ff"
+                                                            Text="Weather" />
                 </Grid>
                 <ToggleSwitch x:Name="WeatherToggleSwitch"
                               Margin="0,30"
                               Header="Display Weather"
                               IsOn="{x:Bind Vm.IsShowWeather, Mode=TwoWay}"
-                              Toggled="{x:Bind Vm.StartVm.UpdateListAsync}" />
+                              Toggled="{x:Bind Vm.ToggleWeather}" />
 
-                <TextBlock Margin="0,4" Text="Current Location" Foreground="Black" />
+
+                <TextBlock Margin="0,4"
+                           Foreground="Black"
+                           Text="Current Location" />
 
                 <Grid Height="4" Margin="0,4">
                     <ProgressBar helpers:Extension.IsVisible="{x:Bind Vm.IsShowProgress, Mode=OneWay}" IsIndeterminate="{x:Bind Vm.IsShowProgress, Mode=OneWay}" />
@@ -52,17 +55,16 @@
                               IsOn="{x:Bind Vm.IsFahrenheit, Mode=TwoWay}"
                               OffContent="°C"
                               OnContent="°F"
-                              Toggled="{x:Bind Vm.StartVm.UpdateListAsync}" />
+                              Toggled="{x:Bind Vm.ToggleTemperature}" />
                 <TextBlock Margin="0,4"
-                               VerticalAlignment="Center"
-                               Text="Position" 
-                           Foreground="Black"/>
+                           VerticalAlignment="Center"
+                           Foreground="Black"
+                           Text="Position" />
                 <ComboBox Name="PositionComboBox"
-                              HorizontalAlignment="Stretch"
-                              Margin="0,4"
-                              ItemsSource="{x:Bind Vm.PositionItemsCollection}" 
-                              SelectionChanged="{x:Bind Vm.PositionComboBox_SelectionChanged}"
->
+                          Margin="0,4"
+                          HorizontalAlignment="Stretch"
+                          ItemsSource="{x:Bind Vm.PositionItemsCollection}"
+                          SelectionChanged="{x:Bind Vm.PositionComboBox_SelectionChanged}">
                     <ComboBox.ItemTemplate>
                         <DataTemplate x:DataType="model:ImageSourceItem">
                             <Grid>

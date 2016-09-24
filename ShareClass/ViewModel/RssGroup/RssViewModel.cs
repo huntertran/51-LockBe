@@ -157,8 +157,10 @@ namespace ShareClass.ViewModel.RssGroup
             if (SelectedPosition != null)
             {
                 if (SelectedPosition.Number != number)
+                {
                     PositionHelper.SetElementPosition("R", SelectedPosition.Number);
-                await StartVm.UpdateListTask();
+                    await StartVm.UpdateListTask();
+                }              
             }
         }
 

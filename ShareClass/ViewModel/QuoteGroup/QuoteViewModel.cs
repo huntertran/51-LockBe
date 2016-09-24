@@ -137,8 +137,10 @@ namespace ShareClass.ViewModel.QuoteGroup
             if (SelectedPosition != null)
             {
                 if (SelectedPosition.Number != number)
+                {
                     PositionHelper.SetElementPosition("Q", SelectedPosition.Number);
-                await StartVm.UpdateListTask();
+                    await StartVm.UpdateListTask();
+                }              
             }
         }
 
@@ -215,7 +217,7 @@ namespace ShareClass.ViewModel.QuoteGroup
             {
                 WordWrapping = CanvasWordWrapping.WholeWord,
                 FontFamily = "Segoe UI Light",
-                FontSize = (float) (screenSize.Height*3.5/100)
+                FontSize = (float) (screenSize.Height*4.5/100)
             };
 
             Rect quoteSize = BitmapHelper.TextRect(Quote.quote, textFormat, ds, quoteRect.Width, 200);
@@ -290,7 +292,7 @@ namespace ShareClass.ViewModel.QuoteGroup
                 quoteRect.X = tempX;
                 ds.DrawText(Quote.quote, quoteRect, Colors.White, new CanvasTextFormat
                 {
-                    FontSize = (float) (screenSize.Height * 3.5 / 100),
+                    FontSize = (float) (screenSize.Height * 4.5 / 100),
                     FontFamily = "Segoe UI Light",
                     FontWeight = FontWeights.Thin,
                     VerticalAlignment = CanvasVerticalAlignment.Bottom,
@@ -303,7 +305,7 @@ namespace ShareClass.ViewModel.QuoteGroup
                 quoteRect.X = tempX;
                 ds.DrawText(Quote.quote, quoteRect, Colors.White, new CanvasTextFormat
                 {
-                    FontSize = (float) (screenSize.Height * 3.5 / 100),
+                    FontSize = (float) (screenSize.Height * 4.5 / 100),
                     FontFamily = "Segoe UI Light",
                     FontWeight = FontWeights.Thin,
                     VerticalAlignment = CanvasVerticalAlignment.Top,
@@ -313,7 +315,7 @@ namespace ShareClass.ViewModel.QuoteGroup
             creditRect.X -= temp;
             ds.DrawText(Quote.author, creditRect, Colors.White, new CanvasTextFormat
             {
-                FontSize = (float) (screenSize.Height * 3.5 / 100),
+                FontSize = (float) (screenSize.Height * 4.5 / 100),
                 FontFamily = "Segoe UI Light",
                 FontWeight = FontWeights.Thin,
                 FontStyle = FontStyle.Oblique,
@@ -334,11 +336,20 @@ namespace ShareClass.ViewModel.QuoteGroup
             }
         }
 
-        public async void ToggleOfflineQoute()
+        public async void ToggleOfflineQuote(object sender, RoutedEventArgs e)
         {
-            if (SettingManager.GetOfflineQuote() != null)
+            var toggleSwitch = (ToggleSwitch)sender;
+            if (SettingManager.GetOfflineQuote() != null && IsOfflineQuote != toggleSwitch.IsOn)
             {
-                
+                await StartVm.UpdateListTask();
+            }
+        }
+
+        public async void ToggleQuote(object sender, RoutedEventArgs e)
+        {
+            var toggleSwitch = (ToggleSwitch)sender;
+            if (IsDisplayQuote != toggleSwitch.IsOn)
+            {
                 await StartVm.UpdateListTask();
             }
         }
