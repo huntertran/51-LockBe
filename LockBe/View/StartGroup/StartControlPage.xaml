@@ -13,9 +13,9 @@
         <ScrollViewer>
             <StackPanel Grid.Row="1" Margin="5,0,20,0">
                 <Grid Margin="-5,0,0,0">
-                    <userControls:TitleTextBlockUserControl BackgroundColor="#3385ff"
-                                                    Text="Control Panel"
-                                                    HorizontalAlignment="Left"/>
+                    <userControls:TitleTextBlockUserControl HorizontalAlignment="Left"
+                                                            BackgroundColor="#3385ff"
+                                                            Text="Control Panel" />
                 </Grid>
                 <Grid Margin="0,30,0,0">
                     <Grid.ColumnDefinitions>
@@ -23,16 +23,16 @@
                         <ColumnDefinition Width="*" />
                     </Grid.ColumnDefinitions>
                     <ToggleSwitch Grid.Column="0"
-                              Header="Weather"
-                              IsOn="{x:Bind Vm.WeatherVm.IsShowWeather, Mode=TwoWay}"
-                              Toggled="{x:Bind Vm.UpdateListAsync}"/>
+                                  Header="Weather"
+                                  IsOn="{x:Bind Vm.WeatherVm.IsShowWeather, Mode=TwoWay}"
+                                  Toggled="{x:Bind Vm.ToggleWeather}" />
                     <AppBarButton Grid.Column="1"
-                              HorizontalAlignment="Right"
-                              VerticalAlignment="Bottom"
-                              Click="{x:Bind Vm.ControlPanelMoreSettingButton_Click}"
-                              Foreground="{StaticResource Brush1}"
-                              Icon="Setting"
-                              IsCompact="True">
+                                  HorizontalAlignment="Right"
+                                  VerticalAlignment="Bottom"
+                                  Click="{x:Bind Vm.ControlPanelMoreSettingButton_Click}"
+                                  Foreground="{StaticResource Brush1}"
+                                  Icon="Setting"
+                                  IsCompact="True">
                         <AppBarButton.Tag>
                             <model:MenuFunc>WeatherForecast</model:MenuFunc>
                         </AppBarButton.Tag>
@@ -44,17 +44,17 @@
                         <ColumnDefinition Width="*" />
                     </Grid.ColumnDefinitions>
                     <ToggleSwitch Grid.Column="0"
-                              Margin="0,4"
-                              Header="Quotes"
-                              IsOn="{x:Bind Vm.QuoteVm.IsDisplayQuote, Mode=TwoWay}"
-                              Toggled="{x:Bind Vm.UpdateListAsync}" />
+                                  Margin="0,4"
+                                  Header="Quotes"
+                                  IsOn="{x:Bind Vm.QuoteVm.IsDisplayQuote, Mode=TwoWay}"
+                                  Toggled="{x:Bind Vm.ToggleQuote}" />
                     <AppBarButton Grid.Column="1"
-                              HorizontalAlignment="Right"
-                              VerticalAlignment="Bottom"
-                              Click="{x:Bind Vm.ControlPanelMoreSettingButton_Click}"
-                              Foreground="{StaticResource Brush1}"
-                              Icon="Setting"
-                              IsCompact="True">
+                                  HorizontalAlignment="Right"
+                                  VerticalAlignment="Bottom"
+                                  Click="{x:Bind Vm.ControlPanelMoreSettingButton_Click}"
+                                  Foreground="{StaticResource Brush1}"
+                                  Icon="Setting"
+                                  IsCompact="True">
                         <AppBarButton.Tag>
                             <model:MenuFunc>Quote</model:MenuFunc>
                         </AppBarButton.Tag>
@@ -66,17 +66,17 @@
                         <ColumnDefinition Width="*" />
                     </Grid.ColumnDefinitions>
                     <ToggleSwitch Grid.Column="0"
-                              Margin="0,4"
-                              Header="News feed"
-                              IsOn="{x:Bind Vm.RssVm.IsEnabled, Mode=TwoWay}"
-                              Toggled="{x:Bind Vm.UpdateListAsync}" />
+                                  Margin="0,4"
+                                  Header="News feed"
+                                  IsOn="{x:Bind Vm.RssVm.IsEnabled, Mode=TwoWay}"
+                                  Toggled="{x:Bind Vm.ToggleRss}" />
                     <AppBarButton Grid.Column="1"
-                              HorizontalAlignment="Right"
-                              VerticalAlignment="Bottom"
-                              Click="{x:Bind Vm.ControlPanelMoreSettingButton_Click}"
-                              Foreground="{StaticResource Brush1}"
-                              Icon="Setting"
-                              IsCompact="True">
+                                  HorizontalAlignment="Right"
+                                  VerticalAlignment="Bottom"
+                                  Click="{x:Bind Vm.ControlPanelMoreSettingButton_Click}"
+                                  Foreground="{StaticResource Brush1}"
+                                  Icon="Setting"
+                                  IsCompact="True">
                         <AppBarButton.Tag>
                             <model:MenuFunc>Rss</model:MenuFunc>
                         </AppBarButton.Tag>
@@ -88,17 +88,17 @@
                         <ColumnDefinition Width="*" />
                     </Grid.ColumnDefinitions>
                     <ToggleSwitch Grid.Column="0"
-                              Margin="0,4"
-                              Header="Your own note"
-                              IsOn="{x:Bind Vm.NoteVm.IsDisplayNote, Mode=TwoWay}"
-                              Toggled="{x:Bind Vm.UpdateListAsync}" />
+                                  Margin="0,4"
+                                  Header="Your own note"
+                                  IsOn="{x:Bind Vm.NoteVm.IsDisplayNote, Mode=TwoWay}"
+                                  Toggled="{x:Bind Vm.ToggleNote}" />
                     <AppBarButton Grid.Column="1"
-                              HorizontalAlignment="Right"
-                              VerticalAlignment="Bottom"
-                              Click="{x:Bind Vm.ControlPanelMoreSettingButton_Click}"
-                              Foreground="{StaticResource Brush1}"
-                              Icon="Setting"
-                              IsCompact="True">
+                                  HorizontalAlignment="Right"
+                                  VerticalAlignment="Bottom"
+                                  Click="{x:Bind Vm.ControlPanelMoreSettingButton_Click}"
+                                  Foreground="{StaticResource Brush1}"
+                                  Icon="Setting"
+                                  IsCompact="True">
                         <AppBarButton.Tag>
                             <model:MenuFunc>Note</model:MenuFunc>
                         </AppBarButton.Tag>
@@ -112,6 +112,6 @@
                 </Grid>
             </StackPanel>
         </ScrollViewer>
-       
+
     </Grid>
 </Page>

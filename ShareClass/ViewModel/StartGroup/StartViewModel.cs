@@ -30,6 +30,8 @@ namespace ShareClass.ViewModel.StartGroup
 {
     public class StartViewModel : ObservableObject
     {
+        #region Define
+
         private ObservableCollection<MenuListItem> _functionItemList;
         private ObservableCollection<MenuListItem> _bottomFunctionItemList;
         private ObservableCollection<string> _imageList;
@@ -42,8 +44,14 @@ namespace ShareClass.ViewModel.StartGroup
         private bool _isIconSaved;
         private bool _isDrawing;
 
+        private CanvasBitmap _bitmap;
+        private CanvasRenderTarget _renderTarget;
         private BitmapSource _previewImage;
 
+        private readonly DispatcherTimer _updateImageTimer;
+
+        public CanvasBitmap IconBitmap;
+        public bool startControlPageLoaded;
         public BitmapSource PreviewImage
         {
             get { return _previewImage; }
@@ -166,12 +174,6 @@ namespace ShareClass.ViewModel.StartGroup
             }
         }
 
-        public CanvasBitmap IconBitmap;
-
-        private CanvasBitmap _bitmap;
-
-        private CanvasRenderTarget _renderTarget;
-
         public CanvasRenderTarget RenderTarget
         {
             get { return _renderTarget; }
@@ -209,9 +211,9 @@ namespace ShareClass.ViewModel.StartGroup
             }
         }
 
-        private readonly DispatcherTimer _updateImageTimer;
-
         public IStartPage StartPage { get; set; }
+
+        #endregion
 
         #region Referenced ViewModel
 
@@ -876,6 +878,8 @@ namespace ShareClass.ViewModel.StartGroup
             StartPage.NavigateWebView(link);
         }
 
+        #region ViewModel Control Event
+
         public void HamburgerButton_Click(object sender, RoutedEventArgs e)
         {
             IsSplitViewPaneOpened = !IsSplitViewPaneOpened;
@@ -883,8 +887,46 @@ namespace ShareClass.ViewModel.StartGroup
 
         public void ControlPanelMoreSettingButton_Click(object sender, RoutedEventArgs e)
         {
-            MenuFunc m = (MenuFunc) ((AppBarButton) sender).Tag;
+            MenuFunc m = (MenuFunc)((AppBarButton)sender).Tag;
             StartPage.NavigateToPage(m);
         }
+
+        public async void ToggleWeather(object sender, RoutedEventArgs e)
+        {
+            var toggleSwitch = (ToggleSwitch)sender;
+            if (WeatherVm.IsShowWeather != toggleSwitch.IsOn)
+            {
+                await UpdateListTask();
+            }
+        }
+
+        public async void ToggleNote(object sender, RoutedEventArgs e)
+        {
+            var toggleSwitch = (ToggleSwitch)sender;
+            if (NoteVm.IsDisplayNote != toggleSwitch.IsOn)
+            {
+                await UpdateListTask();
+            }
+        }
+
+        public async void ToggleQuote(object sender, RoutedEventArgs e)
+        {
+            var toggleSwitch = (ToggleSwitch)sender;
+            if (QuoteVm.IsDisplayQuote != toggleSwitch.IsOn)
+            {
+                await UpdateListTask();
+            }
+        }
+        public async void ToggleRss(object sender, RoutedEventArgs e)
+        {
+            var toggleSwitch = (ToggleSwitch)sender;
+            if (RssVm.IsEnabled != toggleSwitch.IsOn)
+            {
+                await UpdateListTask();
+            }
+        }
+
+        #endregion
+
     }
 }

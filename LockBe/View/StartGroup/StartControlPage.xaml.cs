@@ -6,12 +6,17 @@ namespace LockBe.View.StartGroup
     /// </summary>
     public sealed partial class StartControlPage
     {
-
         public StartViewModel Vm => (StartViewModel)DataContext;
 
         public StartControlPage()
         {
             InitializeComponent();
+            if (!Vm.startControlPageLoaded)
+            {
+                Vm.UpdateListAsync();
+                Vm.startControlPageLoaded = true;
+            }
+           
         }
     }
 }
