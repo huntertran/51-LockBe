@@ -361,7 +361,7 @@ namespace ShareClass.ViewModel.RssGroup
                 if (drawPoint.Y >= screenSize.Height)
                 {
                     var tempHeight = drawSize.Height + screenSize.Height * 4 / 100;
-                    drawRect.Y = drawPoint.Y > screenSize.Height ? drawPoint.Y - screenSize.Height - tempHeight : screenSize.Height - tempHeight;
+                    drawRect.Y = drawPoint.Y > screenSize.Height ? drawPoint.Y - screenSize.Height - tempHeight : screenSize.Height - tempHeight - screenSize.Height * 3 / 100;
                 }
 
                 //if (BitmapHelper.IsBrightArea(canvasBitmap,

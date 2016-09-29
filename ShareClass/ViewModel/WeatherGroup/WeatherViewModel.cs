@@ -362,7 +362,7 @@ namespace ShareClass.ViewModel.WeatherGroup
 
             if (drawPoint.Y >= height)
             {
-                drawPoint.Y = drawPoint.Y > height ? drawPoint.Y - height - height*22/100 : height - height*22/100;
+                drawPoint.Y = drawPoint.Y > height ? drawPoint.Y - height - height*22/100 : height - height*25/100;
             }
 
             //if (!SettingsHelper.GetSetting<bool>(SettingKey.IsDisplayWeather.ToString()))

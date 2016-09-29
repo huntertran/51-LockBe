@@ -788,6 +788,7 @@ namespace ShareClass.ViewModel.StartGroup
                 ds.DrawImage(bitmap, new Rect(0, 0, size.Width, size.Height));
                 ImageSourceVm.DrawInfo(ds, device);
 
+                var oldPoint = new Point();
                 var drawPoint = new Point();
                 var area = drawPosition.Split('|');
                 for (int i = 0; i < area.Length; i++)
@@ -799,11 +800,13 @@ namespace ShareClass.ViewModel.StartGroup
                         if (double.TryParse(tempArr[1], out temp)) drawPoint.Y = temp;
                         else return false;
                         foreach (var ch in tempArr[0])
-                        {
+                        {                          
                             switch (ch)
                             {
                                 case 'W':
                                     drawPoint.X = BitmapHelper.ElementX(i, size.Width);
+                                    oldPoint.X = drawPoint.X;
+                                    oldPoint.Y = drawPoint.Y;
                                     drawPoint =
                                         await WeatherVm.DrawWeather(ds, device, RenderTarget, drawPoint, isBackground);
                                     if ((drawPoint.X == -1) && (drawPoint.Y == -1))
@@ -811,37 +814,43 @@ namespace ShareClass.ViewModel.StartGroup
                                         IsDrawing = false;
                                         return false;
                                     }
-                                    drawPoint.Y += size.Height*0.7/100;
+                                    if (oldPoint != drawPoint) drawPoint.Y += size.Height*0.7/100;
                                     break;
                                 case 'R':
                                     drawPoint.X = BitmapHelper.ElementX(i, size.Width);
+                                    oldPoint.X = drawPoint.X;
+                                    oldPoint.Y = drawPoint.Y;
                                     drawPoint = await RssVm.DrawRss(ds, device, RenderTarget, drawPoint);
                                     if ((drawPoint.X == -1) && (drawPoint.Y == -1))
                                     {
                                         IsDrawing = false;
                                         return false;
                                     }
-                                    drawPoint.Y += size.Height*0.7/100;
+                                    if (oldPoint != drawPoint) drawPoint.Y += size.Height*0.7/100;
                                     break;
                                 case 'Q':
                                     drawPoint.X = BitmapHelper.ElementX(i, size.Width);
+                                    oldPoint.X = drawPoint.X;
+                                    oldPoint.Y = drawPoint.Y;
                                     drawPoint = await QuoteVm.DrawQuote(ds, device, RenderTarget, drawPoint);
                                     if ((drawPoint.X == -1) && (drawPoint.Y == -1))
                                     {
                                         IsDrawing = false;
                                         return false;
                                     }
-                                    drawPoint.Y += size.Height*0.7/100;
+                                    if (oldPoint != drawPoint) drawPoint.Y += size.Height*0.7/100;
                                     break;
                                 case 'N':
                                     drawPoint.X = BitmapHelper.ElementX(i, size.Width);
+                                    oldPoint.X = drawPoint.X;
+                                    oldPoint.Y = drawPoint.Y;
                                     drawPoint = NoteVm.DrawNote(ds, device, RenderTarget, drawPoint);
                                     if ((drawPoint.X == -1) && (drawPoint.Y == -1))
                                     {
                                         IsDrawing = false;
                                         return false;
                                     }
-                                    drawPoint.Y += size.Height*0.7/100;
+                                    if (oldPoint != drawPoint) drawPoint.Y += size.Height*0.7/100;
                                     break;
                             }
                         }

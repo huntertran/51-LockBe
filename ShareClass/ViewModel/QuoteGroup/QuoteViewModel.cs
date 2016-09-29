@@ -175,10 +175,6 @@ namespace ShareClass.ViewModel.QuoteGroup
 
         public async Task<Point> DrawQuote(CanvasDrawingSession ds, CanvasDevice device, CanvasBitmap canvasBitmap, Point drawPoint)
         {
-            //if (!SettingsHelper.GetSetting<bool>(SettingKey.IsDisplayQuote.ToString()))
-            //{
-            //    return new Point(0,0);
-            //}
 
             if (!SettingsHelper.GetSetting<bool>(SettingKey.IsDisplayQuote.ToString()))
             {
@@ -257,7 +253,7 @@ namespace ShareClass.ViewModel.QuoteGroup
             if (drawPoint.Y >= screenSize.Height)
             {
                 var tempHeight = creditSize.Height + screenSize.Height*4/100;
-                var tempSpace1 = drawPoint.Y > screenSize.Height ? drawPoint.Y - screenSize.Height - tempHeight : screenSize.Height - tempHeight;
+                var tempSpace1 = drawPoint.Y > screenSize.Height ? drawPoint.Y - screenSize.Height - tempHeight : screenSize.Height - tempHeight - screenSize.Height *3 /100;
                 var temp1 = quoteRect.Y - tempSpace1;
                 quoteRect.Y -= temp1;
                 creditRect.Y -= temp1;

@@ -120,15 +120,6 @@ namespace ShareClass.ViewModel.NoteGroup
 
         public Point DrawNote(CanvasDrawingSession ds, CanvasDevice device, CanvasBitmap canvasBitmap, Point drawPoint)
         {
-            //if (!SettingsHelper.GetSetting<bool>(SettingKey.IsDisplayNote.ToString()))
-            //{
-            //    return new Point(0, 0);
-            //}
-
-            //if (string.IsNullOrEmpty(Note))
-            //{
-            //    return new Point(0, 0);
-            //}
 
             if (!SettingsHelper.GetSetting<bool>(SettingKey.IsDisplayNote.ToString()))
             {
@@ -183,7 +174,7 @@ namespace ShareClass.ViewModel.NoteGroup
             if (drawPoint.Y >= screenSize.Height)
             {
                 var tempHeight = noteSize.Height + screenSize.Height * 4 / 100;
-                noteRect.Y = drawPoint.Y > screenSize.Height ? drawPoint.Y - screenSize.Height - tempHeight : screenSize.Height - tempHeight;
+                noteRect.Y = drawPoint.Y > screenSize.Height ? drawPoint.Y - screenSize.Height - tempHeight : screenSize.Height - tempHeight - screenSize.Height * 3 / 100;
             }
 
             //Draw the background
