@@ -786,6 +786,7 @@ namespace ShareClass.ViewModel.StartGroup
                 //Draw the Image
                 //ds.DrawImage(bitmap, new Rect(0, 0, size.Width, size.Height), new Rect(newX, newY, newWidth, newHeight), 100 ,CanvasImageInterpolation.Linear);
                 ds.DrawImage(bitmap, new Rect(0, 0, size.Width, size.Height));
+
                 ImageSourceVm.DrawInfo(ds, device);
 
                 var oldPoint = new Point();
@@ -808,7 +809,7 @@ namespace ShareClass.ViewModel.StartGroup
                                     oldPoint.X = drawPoint.X;
                                     oldPoint.Y = drawPoint.Y;
                                     drawPoint =
-                                        await WeatherVm.DrawWeather(ds, device, RenderTarget, drawPoint, isBackground);
+                                        await WeatherVm.DrawWeather(ds, device, bitmap, drawPoint, isBackground);
                                     if ((drawPoint.X == -1) && (drawPoint.Y == -1))
                                     {
                                         IsDrawing = false;
@@ -820,7 +821,7 @@ namespace ShareClass.ViewModel.StartGroup
                                     drawPoint.X = BitmapHelper.ElementX(i, size.Width);
                                     oldPoint.X = drawPoint.X;
                                     oldPoint.Y = drawPoint.Y;
-                                    drawPoint = await RssVm.DrawRss(ds, device, RenderTarget, drawPoint);
+                                    drawPoint = await RssVm.DrawRss(ds, device, bitmap, drawPoint);
                                     if ((drawPoint.X == -1) && (drawPoint.Y == -1))
                                     {
                                         IsDrawing = false;
@@ -832,7 +833,7 @@ namespace ShareClass.ViewModel.StartGroup
                                     drawPoint.X = BitmapHelper.ElementX(i, size.Width);
                                     oldPoint.X = drawPoint.X;
                                     oldPoint.Y = drawPoint.Y;
-                                    drawPoint = await QuoteVm.DrawQuote(ds, device, RenderTarget, drawPoint);
+                                    drawPoint = await QuoteVm.DrawQuote(ds, device, bitmap, drawPoint);
                                     if ((drawPoint.X == -1) && (drawPoint.Y == -1))
                                     {
                                         IsDrawing = false;
@@ -844,7 +845,7 @@ namespace ShareClass.ViewModel.StartGroup
                                     drawPoint.X = BitmapHelper.ElementX(i, size.Width);
                                     oldPoint.X = drawPoint.X;
                                     oldPoint.Y = drawPoint.Y;
-                                    drawPoint = NoteVm.DrawNote(ds, device, RenderTarget, drawPoint);
+                                    drawPoint = NoteVm.DrawNote(ds, device, bitmap, drawPoint);
                                     if ((drawPoint.X == -1) && (drawPoint.Y == -1))
                                     {
                                         IsDrawing = false;

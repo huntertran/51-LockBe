@@ -9,6 +9,8 @@ namespace ShareClass.Utilities.Helpers
     {
         public static bool IsBrightArea(CanvasBitmap canvasBitmap, int left, int top, int width, int height)
         {
+            if ((left + width > canvasBitmap.Size.Width) || ( top + height > canvasBitmap.Size.Height))
+            return false;
             var arrColors = canvasBitmap.GetPixelColors(left, top, width, height);
             long acceptedNumber = arrColors.Length*5/100;
             long brightColor =

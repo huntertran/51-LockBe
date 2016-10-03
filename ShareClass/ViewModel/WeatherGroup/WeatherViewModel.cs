@@ -642,13 +642,13 @@ namespace ShareClass.ViewModel.WeatherGroup
 
                 if (oldDrawPoint >= screenSize.Height)
                 {
-                    var temp = DrawPoint.Y - width / 100;
+                    var temp = DrawPoint.Y - height * 0.5 / 100;
                     if (temp + screenSize.Height <= screenSize.Height * 2) return new Point(drawPoint.X, temp + screenSize.Height);
                     return new Point(-1, -1);
                 }
                 else
                 {
-                    var temp = DrawPoint.Y - width / 100 + height * 22 / 100;
+                    var temp = DrawPoint.Y - height *0.5 / 100 + height * 22 / 100;
                     if (temp <= screenSize.Height) return new Point(drawPoint.X, temp);
                     return new Point(-1, -1);
                 }
