@@ -48,7 +48,7 @@ namespace ShareClass.ViewModel.StartGroup
         private CanvasRenderTarget _renderTarget;
         private BitmapSource _previewImage;
 
-        private readonly DispatcherTimer _updateImageTimer;
+        //private readonly DispatcherTimer _updateImageTimer;
 
         public CanvasBitmap IconBitmap;
         public bool startControlPageLoaded;
@@ -242,7 +242,7 @@ namespace ShareClass.ViewModel.StartGroup
 
         private void _updateImageTimer_Tick(object sender, object e)
         {
-            _updateImageTimer.Stop();
+            //_updateImageTimer.Stop();
             //UpdateListAsync();
         }
 
@@ -815,7 +815,7 @@ namespace ShareClass.ViewModel.StartGroup
                                         IsDrawing = false;
                                         return false;
                                     }
-                                    if (oldPoint != drawPoint) drawPoint.Y += size.Height*0.7/100;
+                                    if (oldPoint != drawPoint) drawPoint.Y += drawPoint.Y < size.Height ? size.Height * 2 /100 : 0;
                                     break;
                                 case 'R':
                                     drawPoint.X = BitmapHelper.ElementX(i, size.Width);
@@ -827,7 +827,7 @@ namespace ShareClass.ViewModel.StartGroup
                                         IsDrawing = false;
                                         return false;
                                     }
-                                    if (oldPoint != drawPoint) drawPoint.Y += size.Height*0.7/100;
+                                    if (oldPoint != drawPoint) drawPoint.Y += drawPoint.Y < size.Height ? size.Height * 1.5 / 100 : 0;
                                     break;
                                 case 'Q':
                                     drawPoint.X = BitmapHelper.ElementX(i, size.Width);
@@ -839,7 +839,7 @@ namespace ShareClass.ViewModel.StartGroup
                                         IsDrawing = false;
                                         return false;
                                     }
-                                    if (oldPoint != drawPoint) drawPoint.Y += size.Height*0.7/100;
+                                    if (oldPoint != drawPoint) drawPoint.Y += drawPoint.Y < size.Height ? size.Height * 1.5 / 100 : 0;
                                     break;
                                 case 'N':
                                     drawPoint.X = BitmapHelper.ElementX(i, size.Width);
@@ -851,7 +851,7 @@ namespace ShareClass.ViewModel.StartGroup
                                         IsDrawing = false;
                                         return false;
                                     }
-                                    if (oldPoint != drawPoint) drawPoint.Y += size.Height*0.7/100;
+                                    if (oldPoint != drawPoint) drawPoint.Y += drawPoint.Y < size.Height ? size.Height * 1.5 / 100 : 0;
                                     break;
                             }
                         }

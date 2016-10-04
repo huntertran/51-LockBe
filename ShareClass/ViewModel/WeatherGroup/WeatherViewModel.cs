@@ -60,11 +60,19 @@ namespace ShareClass.ViewModel.WeatherGroup
             Results = new List<Result>()
         };
 
+        private Geocode _fixedGeoLocation = new Geocode
+        {
+            Results = new List<Result>()
+        };
+
+        private bool _isFixedLocation;
+        private string _userLocation;
         private bool _isShowWeather;
         private bool _isShowProgress;
         private Geoposition _pos;
         private bool _isFahrenheit;
 
+        public bool IsNormalMode;
         public Point DrawPoint
         {
             get { return _drawPoint; }
@@ -75,7 +83,18 @@ namespace ShareClass.ViewModel.WeatherGroup
                 OnPropertyChanged();
             }
         }
-        
+
+        public Geocode FixedGeoLocation
+        {
+            get { return _fixedGeoLocation; }
+            set
+            {
+                if (Equals(value, _fixedGeoLocation)) return;
+                _fixedGeoLocation = value;
+                OnPropertyChanged();
+            }
+        }
+
         public Geocode GeoLocation
         {
             get { return _geoLocation; }
@@ -96,6 +115,28 @@ namespace ShareClass.ViewModel.WeatherGroup
                 if (Equals(value, _pos)) return;
                 _pos = value;
                 UpdateGeolocation(_pos);
+                OnPropertyChanged();
+            }
+        }
+
+        public bool IsFixedLocation
+        {
+            get { return _isFixedLocation; }
+            set
+            {
+                if (value == _isFixedLocation) return;
+                _isFixedLocation = value;
+                SettingsHelper.SetSetting(SettingKey.IsFixedLocation.ToString(), _isFixedLocation);
+                OnPropertyChanged();
+            }
+        }
+        public string UserLocation
+        {
+            get { return _userLocation; }
+            set
+            {
+                if (value == _userLocation) return;
+                _userLocation = value;
                 OnPropertyChanged();
             }
         }
@@ -224,6 +265,12 @@ namespace ShareClass.ViewModel.WeatherGroup
             IsShowWeather = SettingsHelper.GetSetting<bool>(SettingKey.IsDisplayWeather.ToString());
             //Get Temp Unit Setting
             IsFahrenheit = SettingsHelper.GetSetting<bool>(SettingKey.IsFahrenheit.ToString());
+            //Get User Location
+            UserLocation = SettingManager.GetUserLocation();
+            //Get Fixed Location Setting
+            IsFixedLocation = SettingsHelper.GetSetting<bool>(SettingKey.IsFixedLocation.ToString());
+
+            IsNormalMode = !IsFixedLocation;
 
             Initialize();
         }
@@ -248,19 +295,38 @@ namespace ShareClass.ViewModel.WeatherGroup
                     // Carry out the operation.
                     Pos = await geolocator.GetGeopositionAsync();
                     IsShowProgress = false;
+
+                    if (!string.IsNullOrEmpty(UserLocation))
+                    {
+                        FixedGeoLocation = await _googleMapApi.GetGpsFromAddressTask(UserLocation);
+                    }
                     //UpdateLocationData(_pos);
                     //_rootPage.NotifyUser("Location updated.", NotifyType.StatusMessage);
                     break;
 
                 case GeolocationAccessStatus.Denied:
-                    //TODO: Handle access denied
+                    //Handle access denied
+
+                    if (!string.IsNullOrEmpty(UserLocation))
+                    {
+                        GeoLocation = await _googleMapApi.GetGpsFromAddressTask(UserLocation);
+                    }
+
+                   
                     //_rootPage.NotifyUser("Access to location is denied.", NotifyType.ErrorMessage);
                     //LocationDisabledMessage.Visibility = Visibility.Visible;
                     //UpdateLocationData(null);
                     break;
 
                 case GeolocationAccessStatus.Unspecified:
-                    //TODO: Handle Unspecified
+                    //Handle Unspecified
+
+                    if (!string.IsNullOrEmpty(UserLocation))
+                    {
+                        GeoLocation = await _googleMapApi.GetGpsFromAddressTask(UserLocation);
+                    }
+
+
                     //_rootPage.NotifyUser("Unspecified error.", NotifyType.ErrorMessage);
                     //UpdateLocationData(null);
                     break;
@@ -293,17 +359,33 @@ namespace ShareClass.ViewModel.WeatherGroup
                     Latitude = Pos.Coordinate.Point.Position.Latitude,
                     Longitude = Pos.Coordinate.Point.Position.Longitude
                 };
+                UpdateAddress();
                 CurrentWeather = await _api.GetCityWeather(b);
             }
             else
             {
                 if (GeoLocation != null && GeoLocation.Results.Any())
                 {
-                    var b = new BasicGeoposition
+                    BasicGeoposition b;
+                    if (!IsFixedLocation)
                     {
-                        Latitude = GeoLocation.Results[0].Geometry.Location.Lat,
-                        Longitude = GeoLocation.Results[0].Geometry.Location.Lng
-                    };
+                        b = new BasicGeoposition
+                        {
+                            Latitude = GeoLocation.Results[0].Geometry.Location.Lat,
+                            Longitude = GeoLocation.Results[0].Geometry.Location.Lng
+                        };
+                        UpdateAddress();
+                    }
+                    else
+                    {
+                        b = new BasicGeoposition
+                        {
+                            Latitude = FixedGeoLocation.Results[0].Geometry.Location.Lat,
+                            Longitude = FixedGeoLocation.Results[0].Geometry.Location.Lng
+                        };
+                        CurrentWeatherInfo.Address = FixedGeoLocation.Results[0].FormattedAddress;
+                    }
+                   
                     CurrentWeather = await _api.GetCityWeather(b);
                 }
             }
@@ -319,12 +401,7 @@ namespace ShareClass.ViewModel.WeatherGroup
 
             //TODO: Thi: Explain this line of code
             vm.BingImageRoot.images[0] = vm.BingImageRoot.images[1];
-        }
-
-        public async void AutoSuggestBox_TextChanged(AutoSuggestBox sender, AutoSuggestBoxTextChangedEventArgs args)
-        {
-            GeoLocation = await _googleMapApi.GetGpsFromAddressTask(sender.Text);
-        }
+        } 
 
         public string PickWeatherIcon(string weatherCondition)
         {
@@ -365,11 +442,6 @@ namespace ShareClass.ViewModel.WeatherGroup
                 drawPoint.Y = drawPoint.Y > height ? drawPoint.Y - height - height*22/100 : height - height*25/100;
             }
 
-            //if (!SettingsHelper.GetSetting<bool>(SettingKey.IsDisplayWeather.ToString()))
-            //{
-            //    return new Point(0,0);
-            //}
-
             if (!SettingsHelper.GetSetting<bool>(SettingKey.IsDisplayWeather.ToString()))
             {
                 return drawPoint;
@@ -377,23 +449,56 @@ namespace ShareClass.ViewModel.WeatherGroup
 
             if (CurrentWeatherInfo.Temp == null)
             {
-                await GetWeather();
-            }
-            var address = CurrentWeatherInfo.Address;
-
-            if (CurrentWeather?.Main == null) return new Point(-1, -1);
-
-            var isFahrenheit = SettingsHelper.GetSetting<bool>(SettingKey.IsFahrenheit.ToString());
-            if (isFahrenheit)
-            {
-                CurrentWeatherInfo.Temp = Math.Round(CurrentWeather.Main.Temp*1.8 + 32) + "°F";
+                if (IsFixedLocation) await GetWeather(false);
+                else await GetWeather();
             }
             else
             {
-                CurrentWeatherInfo.Temp = Math.Round(CurrentWeather.Main.Temp) + "°C";
+                if (IsFixedLocation == IsNormalMode)
+                {
+                    if (IsFixedLocation)
+                    {
+                        if (!string.IsNullOrEmpty(UserLocation))
+                            await GetWeather(false);
+                        StartVm.IsIconSaved = false;
+                        IsNormalMode = false;
+                    }
+                    else
+                    {
+                        await GetWeather();
+                        StartVm.IsIconSaved = false;
+                        IsNormalMode = true;
+                    }
+                }
             }
-            CurrentWeatherInfo.MainCondition = CurrentWeather.Weather[0].Main;
-            CurrentWeatherInfo.Condition = CurrentWeather.Weather[0].Description;
+
+            var isFahrenheit = SettingsHelper.GetSetting<bool>(SettingKey.IsFahrenheit.ToString());
+            if (CurrentWeather?.Main == null)
+            {
+                CurrentWeatherInfo.Temp = isFahrenheit ? "? °F" : "? °C";
+                if (string.IsNullOrEmpty(CurrentWeatherInfo.Address))
+                {
+                    CurrentWeatherInfo.Address = "???";
+                    CurrentWeatherInfo.Condition = "clouds";
+                    CurrentWeatherInfo.MainCondition = "??";
+                }
+            }
+            else
+            {             
+                if (isFahrenheit)
+                {
+                    CurrentWeatherInfo.Temp = Math.Round(CurrentWeather.Main.Temp * 1.8 + 32) + "°F";
+                }
+                else
+                {
+                    CurrentWeatherInfo.Temp = Math.Round(CurrentWeather.Main.Temp) + "°C";
+                }
+
+                CurrentWeatherInfo.MainCondition = CurrentWeather.Weather[0].Main;
+                CurrentWeatherInfo.Condition = CurrentWeather.Weather[0].Description;
+            }
+
+            var address = CurrentWeatherInfo.Address;
 
             #endregion
 
@@ -402,9 +507,17 @@ namespace ShareClass.ViewModel.WeatherGroup
             if (address != null)
             {
                 var strArr = address.Split(',');
-                CurrentWeatherInfo.Address = string.Format("{0},{1}", strArr[strArr.Length - 2],
-                    strArr[strArr.Length - 1]);
 
+                if (strArr.Count() >= 2)
+                {
+                    CurrentWeatherInfo.Address = string.Format("{0},{1}", strArr[strArr.Length - 2],
+                        strArr[strArr.Length - 1]);
+                }
+                else
+                {
+                    CurrentWeatherInfo.Address = strArr[0];
+                }
+              
                 var textFormat = new CanvasTextFormat
                 {
                     FontFamily = "Segoe UI Light",
@@ -473,28 +586,24 @@ namespace ShareClass.ViewModel.WeatherGroup
 
             #region Draw Methods
 
-            if ((DrawPoint.X == 0) && (DrawPoint.Y == 0)) return new Point(-1, -1);
+            if ((DrawPoint.X == 0) && (DrawPoint.Y == 0)) return drawPoint;
             {
                 //Check and draw transparent black rectangle if necessary
-                //TODO:Change draw rectangle method
                 if (BitmapHelper.IsBrightArea(canvasBitmap, 
                     (int) (DrawPoint.X - height*2/100),
-                    (int) (DrawPoint.Y - width/100),
+                    (int) (DrawPoint.Y - height/100),
                     (int) (newWidth - DrawPoint.X + height * 2 / 100), 
                     (int) height*22/100))
                 {
                     ds.FillRoundedRectangle(
                         new Rect(DrawPoint.X - height*2/100, 
-                                 (int) DrawPoint.Y - width/100,
+                                 (int) DrawPoint.Y - height/100,
                                  newWidth - DrawPoint.X + height*2/100,
                                  height*22/100), 20, 20,
                         new CanvasSolidColorBrush(device, Colors.Black) {Opacity = 0.4F});
                 }
 
-                if ((CurrentWeatherInfo.Address == null) && (CurrentWeatherInfo.Address == ""))
-                {
-                    return new Point(-1, -1);
-                }
+             
 
                 var strArr = CurrentWeatherInfo.Address?.Split(',');
                 if (strArr?.Length > 2)
@@ -642,13 +751,13 @@ namespace ShareClass.ViewModel.WeatherGroup
 
                 if (oldDrawPoint >= screenSize.Height)
                 {
-                    var temp = DrawPoint.Y - height * 0.5 / 100;
+                    var temp = DrawPoint.Y - height * 1.5 / 100;
                     if (temp + screenSize.Height <= screenSize.Height * 2) return new Point(drawPoint.X, temp + screenSize.Height);
                     return new Point(-1, -1);
                 }
                 else
                 {
-                    var temp = DrawPoint.Y - height *0.5 / 100 + height * 22 / 100;
+                    var temp = DrawPoint.Y - height * 2 / 100 + height * 22 / 100;
                     if (temp <= screenSize.Height) return new Point(drawPoint.X, temp);
                     return new Point(-1, -1);
                 }
@@ -696,10 +805,22 @@ namespace ShareClass.ViewModel.WeatherGroup
             }
         }
 
+
+        #region ViewModel Control Event
+
         public async void ToggleWeather(object sender, RoutedEventArgs e)
         {
             var toggleSwitch = (ToggleSwitch)sender;
             if (IsShowWeather != toggleSwitch.IsOn)
+            {
+                await StartVm.UpdateListTask();
+            }
+        }
+
+        public async void ToggleFixedLocation(object sender, RoutedEventArgs e)
+        {
+            var toggleSwitch = (ToggleSwitch)sender;
+            if (IsFixedLocation != toggleSwitch.IsOn)
             {
                 await StartVm.UpdateListTask();
             }
@@ -713,6 +834,18 @@ namespace ShareClass.ViewModel.WeatherGroup
                 await StartVm.UpdateListTask();
             }
         }
+
+        public async void AutoSuggestBox_OnQuerySubmitted(AutoSuggestBox sender, AutoSuggestBoxQuerySubmittedEventArgs args)
+        {
+            if (IsFixedLocation && sender.Text != "")
+            {
+                GeoLocation = await _googleMapApi.GetGpsFromAddressTask(sender.Text);
+                SettingManager.SetUserLocation(sender.Text);
+                await StartVm.UpdateListTask();
+            }
+        }
+
+        #endregion
     }
 
 

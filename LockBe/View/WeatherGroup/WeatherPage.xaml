@@ -32,10 +32,15 @@
                               IsOn="{x:Bind Vm.IsShowWeather, Mode=TwoWay}"
                               Toggled="{x:Bind Vm.ToggleWeather}" />
 
+                <ToggleSwitch x:Name="FixedLocationToggleSwitch"
+                              Margin="0,4"
+                              Header="Fixed Location"
+                              IsOn="{x:Bind Vm.IsFixedLocation, Mode=TwoWay}"
+                              Toggled="{x:Bind Vm.ToggleFixedLocation}" />
 
                 <TextBlock Margin="0,4"
                            Foreground="Black"
-                           Text="Current Location" />
+                           Text="Your Location" />
 
                 <Grid Height="4" Margin="0,4">
                     <ProgressBar helpers:Extension.IsVisible="{x:Bind Vm.IsShowProgress, Mode=OneWay}" IsIndeterminate="{x:Bind Vm.IsShowProgress, Mode=OneWay}" />
@@ -46,9 +51,10 @@
                                 ItemsSource="{x:Bind Vm.GeoLocation.Results, Mode=OneWay}"
                                 PlaceholderText="Address"
                                 QueryIcon="Find"
+                                QuerySubmitted="{x:Bind Vm.AutoSuggestBox_OnQuerySubmitted}"
+                                IsEnabled="{x:Bind Vm.IsFixedLocation, Mode=OneWay}"
                                 SuggestionChosen="AutoSuggestBox_SuggestionChosen"
-                                Text="{x:Bind Vm.CurrentWeatherInfo.Address, Mode=OneWay}"
-                                TextChanged="{x:Bind Vm.AutoSuggestBox_TextChanged}" />
+                                Text="{x:Bind Vm.UserLocation, Mode=TwoWay}"/>
                 <ToggleSwitch x:Name="TempUnitToggleSwitch"
                               Margin="0,4"
                               Header="Temperature Unit"

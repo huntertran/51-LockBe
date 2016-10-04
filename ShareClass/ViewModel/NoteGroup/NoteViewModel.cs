@@ -18,7 +18,6 @@ namespace ShareClass.ViewModel.NoteGroup
 {
     public class NoteViewModel : ObservableObject
     {
-        private bool firstLoad = false;
 
         private ObservableCollection<ImageSourceItem> _positionItemsCollection;
 
@@ -80,7 +79,6 @@ namespace ShareClass.ViewModel.NoteGroup
 
         public NoteViewModel()
         {
-            firstLoad = true;
 
             // Get Note Settings
             IsDisplayNote = SettingsHelper.GetSetting<bool>(SettingKey.IsDisplayNote.ToString());
@@ -143,7 +141,7 @@ namespace ShareClass.ViewModel.NoteGroup
             Rect noteRect = new Rect(0, 0, 0, 0)
             {
                 X = (screenSize.Width / 10) * 7.5,
-                Width = (screenSize.Width / 10) * 2.35,
+                Width = (screenSize.Width / 10) * 2.38,
                 Y = drawPoint.Y
             };
 
@@ -180,14 +178,14 @@ namespace ShareClass.ViewModel.NoteGroup
             //Draw the background
             if (BitmapHelper.IsBrightArea(canvasBitmap,
                    (int)(noteRect.X - screenSize.Height * 1.3 / 100),
-                   (int)(noteRect.Y - screenSize.Height / 100),
+                   (int)(noteRect.Y - screenSize.Height * 0.5 / 100),
                    (int)(noteRect.Width + screenSize.Height * 2.5 / 100),
-                   (int)(noteSize.Height + screenSize.Height * 4 / 100)))
+                   (int)(noteSize.Height + screenSize.Height * 3.5 / 100)))
             {
                 ds.FillRoundedRectangle(new Rect((int)(noteRect.X - screenSize.Height * 1.3 / 100),
-                                                 (int)(noteRect.Y - screenSize.Height / 100),
+                                                 (int)(noteRect.Y - screenSize.Height *0.5 / 100),
                                                  (int)(noteRect.Width + screenSize.Height * 2.5 / 100),
-                                                 (int)(noteSize.Height + screenSize.Height * 4 / 100)), 20, 20,
+                                                 (int)(noteSize.Height + screenSize.Height * 3.5 / 100)), 20, 20,
                                         new CanvasSolidColorBrush(device, Colors.Black) { Opacity = 0.4F });
             }
 

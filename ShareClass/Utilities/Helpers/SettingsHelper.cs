@@ -33,6 +33,8 @@ namespace ShareClass.Utilities.Helpers
         OldImageService,
         BingLanguage,
         IsDisplayWeather,
+        IsFixedLocation,
+        UserLocation,
         IsFahrenheit,
         IsDisplayQuote,
         IsOfflineQuote,
@@ -234,6 +236,20 @@ namespace ShareClass.Utilities.Helpers
                 SetDrawPosition(newDrawPosition);
             }         
             return result;
+        }
+
+        #endregion
+
+        #region Weather Location
+
+        public static void SetUserLocation(string address)
+        {
+            SettingsHelper.SetSetting(SettingKey.UserLocation.ToString(), address);    
+        }
+
+        public static string GetUserLocation()
+        {
+            return SettingsHelper.GetSetting<string>(SettingKey.UserLocation.ToString());
         }
 
         #endregion

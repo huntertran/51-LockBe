@@ -38,7 +38,7 @@ namespace ShareClass.Utilities.CallApi
                 return jObject.ToObject<Quote>();
 
             }
-            return new Quote {quote = "The person who reads too much and uses his brain too little will fall into lazy habits of thinking.", author = "Albert Einstein" };
+            return new Quote {quote = "Without music, life would be a mistake.", author = "Friedrich Nietzsche" };
         }
     }
 }

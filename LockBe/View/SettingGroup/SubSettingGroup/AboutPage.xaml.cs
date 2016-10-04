@@ -6,7 +6,7 @@ namespace LockBe.View.SettingGroup.SubSettingGroup
 {
     public sealed partial class AboutPage
     {
-        private readonly DispatcherTimer _timer;
+        //private readonly DispatcherTimer _timer;
         //private bool _isStarted;
         //private int _times;
 

@@ -268,15 +268,15 @@ namespace ShareClass.ViewModel.QuoteGroup
 
             if (BitmapHelper.IsBrightArea(canvasBitmap,
                              (int)(tempX - screenSize.Height * 1.3 / 100),
-                             (int)(quoteRect.Y - quoteSize.Height - screenSize.Height / 100),
+                             (int)(quoteRect.Y - quoteSize.Height - screenSize.Height * 1.3 / 100),
                              (int)(creditRect.X + creditRect.Width - quoteRect.X + screenSize.Height * 2.5 / 100),
-                             (int)(quoteSize.Height + creditSize.Height + screenSize.Height * 4 / 100)))
+                             (int)(quoteSize.Height + creditSize.Height + screenSize.Height * 3.7 / 100)))
             {
                 ds.FillRoundedRectangle(
                     new Rect((int) (tempX - screenSize.Height * 1.3 / 100),
-                             (int) (quoteRect.Y - quoteSize.Height - screenSize.Height / 100),
+                             (int) (quoteRect.Y - quoteSize.Height - screenSize.Height * 1.3 / 100),
                              (int) (creditRect.X + creditRect.Width - quoteRect.X + screenSize.Height * 2.5 / 100),
-                             (int) (quoteSize.Height + creditSize.Height + screenSize.Height * 4 / 100)), 20, 20,
+                             (int) (quoteSize.Height + creditSize.Height + screenSize.Height * 3.7 / 100)), 20, 20,
                     new CanvasSolidColorBrush(device, Colors.Black) {Opacity = 0.4F});
             }
 
