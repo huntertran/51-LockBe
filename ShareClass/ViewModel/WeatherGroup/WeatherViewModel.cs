@@ -378,15 +378,18 @@ namespace ShareClass.ViewModel.WeatherGroup
                     }
                     else
                     {
-                        b = new BasicGeoposition
+                        if (FixedGeoLocation != null && FixedGeoLocation.Results.Any())
                         {
-                            Latitude = FixedGeoLocation.Results[0].Geometry.Location.Lat,
-                            Longitude = FixedGeoLocation.Results[0].Geometry.Location.Lng
-                        };
-                        CurrentWeatherInfo.Address = FixedGeoLocation.Results[0].FormattedAddress;
-                    }
-                   
-                    CurrentWeather = await _api.GetCityWeather(b);
+                            b = new BasicGeoposition
+                            {
+                                Latitude = FixedGeoLocation.Results[0].Geometry.Location.Lat,
+                                Longitude = FixedGeoLocation.Results[0].Geometry.Location.Lng
+                            };
+                            CurrentWeatherInfo.Address = FixedGeoLocation.Results[0].FormattedAddress;
+
+                            CurrentWeather = await _api.GetCityWeather(b);
+                        }                           
+                    }                                    
                 }
             }
         }
@@ -839,7 +842,8 @@ namespace ShareClass.ViewModel.WeatherGroup
         {
             if (IsFixedLocation && sender.Text != "")
             {
-                GeoLocation = await _googleMapApi.GetGpsFromAddressTask(sender.Text);
+                IsNormalMode = true;
+                FixedGeoLocation = await _googleMapApi.GetGpsFromAddressTask(sender.Text);
                 SettingManager.SetUserLocation(sender.Text);
                 await StartVm.UpdateListTask();
             }

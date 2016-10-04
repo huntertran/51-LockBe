@@ -34,13 +34,13 @@
 
                 <ToggleSwitch x:Name="FixedLocationToggleSwitch"
                               Margin="0,4"
-                              Header="Fixed Location"
+                              Header="Use Fixed Location"
                               IsOn="{x:Bind Vm.IsFixedLocation, Mode=TwoWay}"
                               Toggled="{x:Bind Vm.ToggleFixedLocation}" />
 
                 <TextBlock Margin="0,4"
                            Foreground="Black"
-                           Text="Your Location" />
+                           Text="Your Fixed Location" />
 
                 <Grid Height="4" Margin="0,4">
                     <ProgressBar helpers:Extension.IsVisible="{x:Bind Vm.IsShowProgress, Mode=OneWay}" IsIndeterminate="{x:Bind Vm.IsShowProgress, Mode=OneWay}" />
