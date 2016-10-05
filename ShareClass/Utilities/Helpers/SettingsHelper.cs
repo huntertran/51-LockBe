@@ -47,7 +47,8 @@ namespace ShareClass.Utilities.Helpers
         RssLink,
         RssItemNum,
         WindowsResolution,
-        DrawPosition
+        DrawPosition,
+        IsDesktopBackground
     }
 
     public class SettingManager

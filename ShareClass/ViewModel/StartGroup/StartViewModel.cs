@@ -43,6 +43,7 @@ namespace ShareClass.ViewModel.StartGroup
         private bool _isImageSaved;
         private bool _isIconSaved;
         private bool _isDrawing;
+        private bool _isDesktopBackground;
 
         private CanvasBitmap _bitmap;
         private CanvasRenderTarget _renderTarget;
@@ -52,6 +53,18 @@ namespace ShareClass.ViewModel.StartGroup
 
         public CanvasBitmap IconBitmap;
         public bool startControlPageLoaded;
+
+        public bool IsDesktopBackground
+        {
+            get { return _isDesktopBackground; }
+            set
+            {
+                if (Equals(value, _isDesktopBackground)) return;
+                _isDesktopBackground = value;
+                SettingsHelper.SetSetting(SettingKey.IsDesktopBackground.ToString(), _isDesktopBackground);
+                OnPropertyChanged();
+            }
+        }
         public BitmapSource PreviewImage
         {
             get { return _previewImage; }
@@ -341,6 +354,8 @@ namespace ShareClass.ViewModel.StartGroup
             ImageList = new ObservableCollection<string>();
             LocalImageList = new ObservableCollection<LocalImage>();
             IsIconSaved = false;
+
+            IsDesktopBackground = SettingsHelper.GetSetting<bool>(SettingKey.IsDesktopBackground.ToString());
         }
 
         private async void RegisterViewModels()
@@ -677,6 +692,7 @@ namespace ShareClass.ViewModel.StartGroup
             }
             //Set lockscreen
             bool success = false;
+            bool desktopSuccess = false;
 
             // download image from uri into temp storagefile
             if (imageService != 2)
@@ -698,11 +714,19 @@ namespace ShareClass.ViewModel.StartGroup
                 if (UserProfilePersonalizationSettings.IsSupported())
                 {
                     success = await UserProfilePersonalizationSettings.Current.TrySetLockScreenImageAsync(readyFile);
+                    if (IsDesktopBackground)
+                    {
+                        desktopSuccess =
+                            await UserProfilePersonalizationSettings.Current.TrySetWallpaperImageAsync(readyFile);
+                    }
+                    else
+                    {
+                        desktopSuccess = true;
+                    }                  
                 }
-
             }
 
-            return success;
+            return success & desktopSuccess;
         }
 
         public async Task UpdatePreviewImageTask()
@@ -899,6 +923,15 @@ namespace ShareClass.ViewModel.StartGroup
         {
             MenuFunc m = (MenuFunc)((AppBarButton)sender).Tag;
             StartPage.NavigateToPage(m);
+        }
+
+        public async void ToggleDesktopBackground(object sender, RoutedEventArgs e)
+        {
+            var toggleSwitch = (ToggleSwitch)sender;
+            if (IsDesktopBackground != toggleSwitch.IsOn)
+            {
+                await UpdateListTask();
+            }
         }
 
         public async void ToggleWeather(object sender, RoutedEventArgs e)

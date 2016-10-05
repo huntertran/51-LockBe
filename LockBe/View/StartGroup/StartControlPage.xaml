@@ -17,6 +17,7 @@
                                                             BackgroundColor="#3385ff"
                                                             Text="Control Panel" />
                 </Grid>
+                
                 <Grid Margin="0,30,0,0">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="Auto" />
@@ -105,10 +106,15 @@
                     </AppBarButton>
                 </Grid>
                 <Grid>
-                    <!--<Button Margin="0,4"
-                        HorizontalAlignment="Stretch"
-                        Click="{x:Bind Vm.HamburgerButton_Click}"
-                        Content="More Settings"/>-->
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <ToggleSwitch Grid.Column="0"
+                                  Margin="0,4"
+                                  Header="Set desktop background"
+                                  IsOn="{x:Bind Vm.IsDesktopBackground, Mode=TwoWay}"
+                                  Toggled="{x:Bind Vm.ToggleDesktopBackground}" />
                 </Grid>
             </StackPanel>
         </ScrollViewer>

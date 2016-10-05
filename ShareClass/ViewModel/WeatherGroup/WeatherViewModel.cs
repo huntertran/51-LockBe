@@ -72,6 +72,8 @@ namespace ShareClass.ViewModel.WeatherGroup
         private Geoposition _pos;
         private bool _isFahrenheit;
 
+        //The final state when use GetWeather
+        //Normal - true // FixedLocation - false
         public bool IsNormalMode;
         public Point DrawPoint
         {
@@ -84,6 +86,9 @@ namespace ShareClass.ViewModel.WeatherGroup
             }
         }
 
+        //Temporary Geolocation for FixedLocation
+        //Use for FixedLocation Mode to replace for GeoLocation
+        //Loaded when App start in WeatherVm.Init 
         public Geocode FixedGeoLocation
         {
             get { return _fixedGeoLocation; }
@@ -284,22 +289,36 @@ namespace ShareClass.ViewModel.WeatherGroup
             switch (accessStatus)
             {
                 case GeolocationAccessStatus.Allowed:
+
                     IsShowProgress = true;
 
-                    // If DesiredAccuracy or DesiredAccuracyInMeters are not set (or value is 0), DesiredAccuracy.Default is used.
-                    var geolocator = new Geolocator();
+                    //Get user location when FixedLocation Mode is OFF
+                    if (!IsFixedLocation)
+                    {
+                        var geolocator = new Geolocator();
 
-                    // Subscribe to the StatusChanged event to get updates of location status changes.
-                    //_geolocator.StatusChanged += OnStatusChanged;
+                        // Subscribe to the StatusChanged event to get updates of location status changes.
+                        //_geolocator.StatusChanged += OnStatusChanged;
 
-                    // Carry out the operation.
-                    Pos = await geolocator.GetGeopositionAsync();
+                        // Carry out the operation.
+                        Pos = await geolocator.GetGeopositionAsync();
+
+                        // If DesiredAccuracy or DesiredAccuracyInMeters are not set (or value is 0), DesiredAccuracy.Default is used.
+
+                    }
+                    //Use FixedLocation instead of user location - advantage of this option
+                    else
+                    {
+                        if (!string.IsNullOrEmpty(UserLocation))
+                        {
+                            FixedGeoLocation = await _googleMapApi.GetGpsFromAddressTask(UserLocation);
+                            await GetWeather(false);
+                        }
+                    }
+
                     IsShowProgress = false;
 
-                    if (!string.IsNullOrEmpty(UserLocation))
-                    {
-                        FixedGeoLocation = await _googleMapApi.GetGpsFromAddressTask(UserLocation);
-                    }
+                   
                     //UpdateLocationData(_pos);
                     //_rootPage.NotifyUser("Location updated.", NotifyType.StatusMessage);
                     break;
@@ -364,10 +383,14 @@ namespace ShareClass.ViewModel.WeatherGroup
             }
             else
             {
-                if (GeoLocation != null && GeoLocation.Results.Any())
+
+                BasicGeoposition b;
+
+                //If in FixedLocation Mode then update address & GetWeather by FixedGeoLocation
+                //else do normal
+                if (!IsFixedLocation)
                 {
-                    BasicGeoposition b;
-                    if (!IsFixedLocation)
+                    if (GeoLocation != null && GeoLocation.Results.Any())
                     {
                         b = new BasicGeoposition
                         {
@@ -375,21 +398,23 @@ namespace ShareClass.ViewModel.WeatherGroup
                             Longitude = GeoLocation.Results[0].Geometry.Location.Lng
                         };
                         UpdateAddress();
-                    }
-                    else
-                    {
-                        if (FixedGeoLocation != null && FixedGeoLocation.Results.Any())
-                        {
-                            b = new BasicGeoposition
-                            {
-                                Latitude = FixedGeoLocation.Results[0].Geometry.Location.Lat,
-                                Longitude = FixedGeoLocation.Results[0].Geometry.Location.Lng
-                            };
-                            CurrentWeatherInfo.Address = FixedGeoLocation.Results[0].FormattedAddress;
 
-                            CurrentWeather = await _api.GetCityWeather(b);
-                        }                           
-                    }                                    
+                        CurrentWeather = await _api.GetCityWeather(b);
+                    }
+                }
+                else
+                {
+                    if (FixedGeoLocation != null && FixedGeoLocation.Results.Any())
+                    {
+                        b = new BasicGeoposition
+                        {
+                            Latitude = FixedGeoLocation.Results[0].Geometry.Location.Lat,
+                            Longitude = FixedGeoLocation.Results[0].Geometry.Location.Lng
+                        };
+                        CurrentWeatherInfo.Address = FixedGeoLocation.Results[0].FormattedAddress;
+
+                        CurrentWeather = await _api.GetCityWeather(b);
+                    }
                 }
             }
         }
@@ -450,25 +475,34 @@ namespace ShareClass.ViewModel.WeatherGroup
                 return drawPoint;
             }
 
+            //Get Weather condition in the 1st time
             if (CurrentWeatherInfo.Temp == null)
             {
-                if (IsFixedLocation) await GetWeather(false);
-                else await GetWeather();
+                if (CurrentWeather?.Main == null)
+                {
+                    //If FixedLocation Mode is ON then get weather with FixedLocation
+                    if (IsFixedLocation) await GetWeather(false);
+                    else await GetWeather();
+                }                   
             }
             else
             {
+                //If the final state is dif then get new WeatherCondition
                 if (IsFixedLocation == IsNormalMode)
                 {
                     if (IsFixedLocation)
                     {
                         if (!string.IsNullOrEmpty(UserLocation))
                             await GetWeather(false);
+
+                        //Update Mode status & IconSaved
                         StartVm.IsIconSaved = false;
                         IsNormalMode = false;
                     }
                     else
                     {
                         await GetWeather();
+
                         StartVm.IsIconSaved = false;
                         IsNormalMode = true;
                     }
@@ -476,6 +510,9 @@ namespace ShareClass.ViewModel.WeatherGroup
             }
 
             var isFahrenheit = SettingsHelper.GetSetting<bool>(SettingKey.IsFahrenheit.ToString());
+
+            //If CurrentWeather isn't loaded then draw with temporary template
+            //Avoid step out DrawWeather method when haven't drawn and make User think Weather Function is broken
             if (CurrentWeather?.Main == null)
             {
                 CurrentWeatherInfo.Temp = isFahrenheit ? "? °F" : "? °C";
@@ -483,8 +520,11 @@ namespace ShareClass.ViewModel.WeatherGroup
                 {
                     CurrentWeatherInfo.Address = "???";
                     CurrentWeatherInfo.Condition = "clouds";
-                    CurrentWeatherInfo.MainCondition = "??";
+                    CurrentWeatherInfo.MainCondition = "??";                  
                 }
+
+                //Update final state to get WeatherCondition in the next time 
+                IsNormalMode = IsFixedLocation;
             }
             else
             {             
@@ -825,7 +865,14 @@ namespace ShareClass.ViewModel.WeatherGroup
             var toggleSwitch = (ToggleSwitch)sender;
             if (IsFixedLocation != toggleSwitch.IsOn)
             {
+                //Get user location if FixedLocation Mode is OFF & haven't gotten location yet
+                if (IsFixedLocation)
+                {
+                    if (GeoLocation == null || !GeoLocation.Results.Any())
+                        await Init();
+                }
                 await StartVm.UpdateListTask();
+           
             }
         }
 
