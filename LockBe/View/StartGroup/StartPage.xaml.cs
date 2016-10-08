@@ -2,6 +2,7 @@
 using System.Diagnostics;
 using Windows.ApplicationModel.Core;
 using Windows.Foundation;
+using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
@@ -27,14 +28,18 @@ namespace LockBe.View.StartGroup
 
         public StartPage()
         {
-            InitializeComponent();
 
+            InitializeComponent();
+         
             var startViewModel = DataContext as StartViewModel;
             if (startViewModel != null) startViewModel.StartPage = this;
 
+
+            ApplicationView.GetForCurrentView().SetPreferredMinSize(new Size { Width = 450, Height = 700 });
+
             //Set title bar
-            CoreApplicationViewTitleBar coreTitleBar = CoreApplication.GetCurrentView().TitleBar;
-            coreTitleBar.ExtendViewIntoTitleBar = true;
+            //CoreApplicationViewTitleBar coreTitleBar = CoreApplication.GetCurrentView().TitleBar;
+            //coreTitleBar.ExtendViewIntoTitleBar = true;
             //Window.Current.SetTitleBar(TitleGrid);
 
             Loaded += StartPage_Loaded;

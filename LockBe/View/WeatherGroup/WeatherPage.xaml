@@ -19,15 +19,24 @@
     </Page.Resources>
 
     <Grid Margin="15,10,0,0" Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-        <ScrollViewer>
-            <StackPanel Margin="5,0,20,0">
-                <Grid Margin="-5,0,0,0">
-                    <userControls:TitleTextBlockUserControl HorizontalAlignment="Left"
+        
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <Grid Margin="0,0,0,0"
+              Grid.Row="0">
+            <userControls:TitleTextBlockUserControl HorizontalAlignment="Left"
                                                             BackgroundColor="#3385ff"
                                                             Text="Weather" />
-                </Grid>
+        </Grid>
+
+        <ScrollViewer Grid.Row="1"
+                      Margin="0,20,0,0">
+            <StackPanel Margin="5,0,20,0">
                 <ToggleSwitch x:Name="WeatherToggleSwitch"
-                              Margin="0,30"
+                              Margin="0,4"
                               Header="Display Weather"
                               IsOn="{x:Bind Vm.IsShowWeather, Mode=TwoWay}"
                               Toggled="{x:Bind Vm.ToggleWeather}" />

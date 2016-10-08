@@ -328,7 +328,7 @@ namespace ShareClass.ViewModel.WeatherGroup
 
                     if (!string.IsNullOrEmpty(UserLocation))
                     {
-                        GeoLocation = await _googleMapApi.GetGpsFromAddressTask(UserLocation);
+                        FixedGeoLocation = await _googleMapApi.GetGpsFromAddressTask(UserLocation);
                     }
 
                    
@@ -342,7 +342,7 @@ namespace ShareClass.ViewModel.WeatherGroup
 
                     if (!string.IsNullOrEmpty(UserLocation))
                     {
-                        GeoLocation = await _googleMapApi.GetGpsFromAddressTask(UserLocation);
+                        FixedGeoLocation = await _googleMapApi.GetGpsFromAddressTask(UserLocation);
                     }
 
 
@@ -365,7 +365,10 @@ namespace ShareClass.ViewModel.WeatherGroup
 
         private void UpdateAddress()
         {
-            CurrentWeatherInfo.Address = GeoLocation.Results[0].FormattedAddress;
+            if (GeoLocation.Results.Any())
+            {
+                CurrentWeatherInfo.Address = GeoLocation.Results[0].FormattedAddress;
+            }   
         }
 
         public async Task GetWeather(bool isUseGps = true)

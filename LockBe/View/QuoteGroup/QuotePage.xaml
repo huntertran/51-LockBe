@@ -11,15 +11,21 @@
       mc:Ignorable="d">
 
     <Grid Margin="15,10,0,0" Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-        <ScrollViewer>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <Grid Grid.Row="0" Margin="0,0,0,0">
+            <userControls:TitleTextBlockUserControl HorizontalAlignment="Left"
+                                                    BackgroundColor="#3385ff"
+                                                    Text="Quote" />
+        </Grid>
+
+        <ScrollViewer Grid.Row="1" Margin="0,20,0,0">
             <StackPanel Margin="5,0,20,0">
-                <Grid Margin="-5,0,0,0">
-                    <userControls:TitleTextBlockUserControl HorizontalAlignment="Left"
-                                                            BackgroundColor="#3385ff"
-                                                            Text="Quote" />
-                </Grid>
                 <ToggleSwitch x:Name="QuoteToggleSwitch"
-                              Margin="0,30,0,0"
+                              Margin="0,4"
                               Header="Display Quote"
                               IsOn="{x:Bind Vm.IsDisplayQuote, Mode=TwoWay}"
                               Toggled="{x:Bind Vm.ToggleQuote}" />

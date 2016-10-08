@@ -7,8 +7,8 @@
       xmlns:helpers="using:ShareClass.Utilities.Helpers"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       xmlns:model="using:ShareClass.Model"
-      xmlns:xaml="using:Microsoft.Graphics.Canvas.UI.Xaml"
       xmlns:userControls="using:LockBe.UserControls"
+      xmlns:xaml="using:Microsoft.Graphics.Canvas.UI.Xaml"
       DataContext="{Binding Source={StaticResource Locator},
                             Path=StartVm}"
       mc:Ignorable="d">
@@ -50,13 +50,15 @@
     </Page.Resources>
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-
-        <Grid.RowDefinitions>
+        <!--<Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
-        </Grid.RowDefinitions>
+        </Grid.RowDefinitions>-->
 
-        <Grid Grid.Row="0" Height="32">
+        <!--<Grid x:Name="TitleAreaGrid"
+              Grid.Row="0"
+              Height="32"
+              Visibility="Collapsed">
 
             <Grid.Background>
                 <SolidColorBrush Color="White" />
@@ -66,7 +68,7 @@
                 <Grid.Background>Transparent</Grid.Background>
                 <TextBlock Margin="13,0,0,0"
                            VerticalAlignment="Center"
-                           FontSize="13"    
+                           FontSize="13"
                            Foreground="Black"
                            Padding="0,0,0,4"
                            Text="{Binding Content,
@@ -74,34 +76,51 @@
                                           ElementName=MainFrame}" />
             </Grid>
 
-        </Grid>
+        </Grid>-->
+        
+        <Rectangle x:Name="HamburgerRect"
+                   Height="48"
+                   Width="48"
+                   VerticalAlignment="Top"
+                   HorizontalAlignment="Left"
+                   Fill="{StaticResource Brush1}"/>
+        
         <controls:HamburgerMenu x:Name="HamburgerMenu"
-                                Grid.Row="1"
+                                Background="{StaticResource Brush1}"
                                 CompactPaneLength="48"
                                 DisplayMode="CompactOverlay"
+                                Foreground="{StaticResource Brush5}"
                                 HamburgerHeight="48"
                                 IsPaneOpen="{x:Bind Vm.IsSplitViewPaneOpened, Mode=TwoWay}"
                                 ItemTemplate="{StaticResource MenuListItemDataTemplate}"
                                 ItemsSource="{x:Bind Vm.FunctionItemList, Mode=OneWay}"
-                                OptionsItemsSource="{x:Bind Vm.BottomFunctionItemList, Mode=OneWay}"
                                 OptionsItemTemplate="{StaticResource MenuListItemDataTemplate}"
-                                PaneBackground="{StaticResource Brush1}" Foreground="{StaticResource Brush5}">
+                                OptionsItemsSource="{x:Bind Vm.BottomFunctionItemList, Mode=OneWay}"
+                                PaneBackground="{StaticResource Brush1}">
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="2.5*" />
                     <ColumnDefinition Width="7.5*" />
                 </Grid.ColumnDefinitions>
-                
+
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="0.5*"/>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="1.5*"/>
+                    <RowDefinition Height="5*" />
+                    <RowDefinition Height="0.5*" />
+                    <RowDefinition Height="4.5*" />
                 </Grid.RowDefinitions>
 
-                <Frame x:Name="MainFrame" Grid.Column="0" 
-                       Grid.RowSpan="3"/>
-                <Grid Grid.Column="1" Margin="4"
-                      Grid.Row="1">
+                <!--<Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="0.5*" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="1.5*" />
+                </Grid.RowDefinitions>-->
+
+                <Frame x:Name="MainFrame" />
+
+                <Grid x:Name="PreviewGrid"
+                      HorizontalAlignment="Center"
+                      VerticalAlignment="Center">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto" />
                         <RowDefinition Height="15" />
@@ -114,30 +133,31 @@
                         <ColumnDefinition Width="0.35*" />
                     </Grid.ColumnDefinitions>
 
-                    <Grid x:Name="ResultTitleGrid" Grid.Row="0"
+                    <Grid x:Name="ResultTitleGrid"
+                          Grid.Row="0"
                           Grid.Column="1">
                         <!--<Grid.Background>
                             <SolidColorBrush Opacity="0.8" Color="{StaticResource Color1}" />
                         </Grid.Background>-->
                         <TextBlock Margin="4"
-                                   Foreground="Black"
-                                   Text="Preview" 
+                                   HorizontalAlignment="Center"
                                    FontSize="23"
-                                   HorizontalAlignment="Center"   
-                                   FontWeight="Light"/>
+                                   FontWeight="Light"
+                                   Foreground="Black"
+                                   Text="Preview" />
                     </Grid>
 
-                    <Grid Grid.Row="1" 
-                          VerticalAlignment="Bottom"
-                          Grid.Column="1">
+                    <Grid Grid.Row="1"
+                          Grid.Column="1"
+                          VerticalAlignment="Bottom">
                         <ProgressBar helpers:Extension.IsVisible="{x:Bind Vm.IsImageUpdating, Mode=OneWay}"
                                      Foreground="{StaticResource Brush1}"
                                      IsIndeterminate="{x:Bind Vm.IsImageUpdating, Mode=OneWay}" />
                     </Grid>
 
                     <Viewbox Grid.Row="2"
-                             Margin="0,4"
                              Grid.Column="1"
+                             Margin="0,4"
                              HorizontalAlignment="Stretch"
                              VerticalAlignment="Top"
                              SizeChanged="Viewbox_SizeChanged">
@@ -166,20 +186,84 @@
                         <RowDefinition Height="*" />
                     </Grid.RowDefinitions>
                     <Grid Grid.Row="0">
-                        <TextBlock Foreground="Black"
-                                   Text="Rss Reader"
+                        <TextBlock HorizontalAlignment="Left"
                                    FontSize="20"
                                    FontWeight="Light"
-                                   HorizontalAlignment="Left" />
+                                   Foreground="Black"
+                                   Text="Rss Reader" />
                         <Button HorizontalAlignment="Right"
                                 Click="CloseWebViewButton_OnClick"
                                 Content="X" />
                     </Grid>
                     <WebView x:Name="MainWebView" Grid.Row="1" />
                 </Grid>
-                
+
+
+                <Rectangle x:Name="SplitLine"
+                           Grid.Row="1"
+                           Grid.Column="0"
+                           Grid.ColumnSpan="2"
+                           Width="250"
+                           Height="2"
+                           HorizontalAlignment="Center"
+                           VerticalAlignment="Center"
+                           Fill="{StaticResource Brush1}"
+                           Opacity="0.8"
+                           RadiusX="20"
+                           RadiusY="20"
+                           Visibility="Collapsed" />
+
             </Grid>
         </controls:HamburgerMenu>
 
+        <VisualStateManager.VisualStateGroups>
+            <VisualStateGroup>
+                <VisualState x:Name="Narrow">
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="0" />
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Target="HamburgerMenu.DisplayMode" Value="Overlay" />
+                        <Setter Target="MainFrame.(Grid.ColumnSpan)" Value="2" />
+                        <Setter Target="MainFrame.(Grid.Row)" Value="2" />
+                        <Setter Target="MainFrame.(Grid.Column)" Value="0" />
+                        <Setter Target="PreviewGrid.(Grid.ColumnSpan)" Value="2" />
+                        <Setter Target="PreviewGrid.(Grid.Column)" Value="0" />
+                        <Setter Target="PreviewGrid.(Grid.Row)" Value="0" />
+                        <Setter Target="PreviewGrid.(Grid.RowSpan)" Value="1" />
+                        <!--<Setter Target="SplitLine.Visibility" Value="Visible"/>-->
+                    </VisualState.Setters>
+                </VisualState>
+                <VisualState x:Name="Compact">
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="640" />
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Target="HamburgerMenu.DisplayMode" Value="CompactOverlay" />
+                        <Setter Target="MainFrame.(Grid.ColumnSpan)" Value="2" />
+                        <Setter Target="MainFrame.(Grid.Row)" Value="2" />
+                        <Setter Target="MainFrame.(Grid.Column)" Value="0" />
+                        <Setter Target="PreviewGrid.(Grid.ColumnSpan)" Value="2" />
+                        <Setter Target="PreviewGrid.(Grid.Column)" Value="0" />
+                        <Setter Target="PreviewGrid.(Grid.Row)" Value="0" />
+                        <Setter Target="PreviewGrid.(Grid.RowSpan)" Value="1" />
+                    </VisualState.Setters>
+                </VisualState>
+                <VisualState x:Name="Wide">
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="1024" />
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Target="HamburgerMenu.DisplayMode" Value="CompactOverlay" />
+                        <Setter Target="MainFrame.(Grid.Column)" Value="0" />
+                        <Setter Target="MainFrame.(Grid.Row)" Value="0" />
+                        <Setter Target="MainFrame.(Grid.RowSpan)" Value="3" />
+                        <Setter Target="PreviewGrid.(Grid.RowSpan)" Value="3" />
+                        <Setter Target="PreviewGrid.(Grid.Row)" Value="0" />
+                        <Setter Target="PreviewGrid.(Grid.Column)" Value="1" />
+                    </VisualState.Setters>
+                </VisualState>
+            </VisualStateGroup>
+        </VisualStateManager.VisualStateGroups>
     </Grid>
 </Page>

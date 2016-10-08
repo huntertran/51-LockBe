@@ -11,15 +11,24 @@
       mc:Ignorable="d">
 
     <Grid Margin="15,10,0,0" Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-        <ScrollViewer>
-            <StackPanel Margin="5,0,20,0">
-                <Grid Margin="-5,0,0,0">
-                    <userControls:TitleTextBlockUserControl BackgroundColor="#3385ff"
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <Grid Margin="0,0,0,0"
+              Grid.Row="0">
+            <userControls:TitleTextBlockUserControl BackgroundColor="#3385ff"
                                                             Text="Note"
                                                             HorizontalAlignment="Left"/>
-                </Grid>
+        </Grid>
+
+        <ScrollViewer Grid.Row="1"
+                      Margin="0,20,0,0">
+            <StackPanel Margin="5,0,20,0">
                 <ToggleSwitch x:Name="NoteToggleSwitch"
-                              Margin="0,30,0,0"
+                              Margin="0,4"
                               Header="Display Note"
                               IsOn="{x:Bind Vm.IsDisplayNote, Mode=TwoWay}"
                               Toggled="{x:Bind Vm.ToggleNote}" />
