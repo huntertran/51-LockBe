@@ -33,7 +33,7 @@
                           HorizontalAlignment="Center"
                           VerticalAlignment="Center"
                           Data="{x:Bind Icon, Mode=OneWay}"
-                          Fill="{StaticResource Brush5}"
+                          Fill="#2196F3"
                           Stretch="Uniform" />
                 </Grid>
 
@@ -41,7 +41,8 @@
                     <TextBlock Margin="6,0,0,0"
                                VerticalAlignment="Center"
                                FontSize="15"
-                               Foreground="{StaticResource Brush5}"
+                               FontWeight="SemiLight"
+                               Foreground="#E0E0E0"
                                Text="{x:Bind Name, Mode=OneWay}" />
                 </Grid>
 
@@ -83,20 +84,20 @@
                    Width="48"
                    VerticalAlignment="Top"
                    HorizontalAlignment="Left"
-                   Fill="{StaticResource Brush1}"/>
+                   Fill="#212121"/>
         
         <controls:HamburgerMenu x:Name="HamburgerMenu"
                                 Background="{StaticResource Brush1}"
                                 CompactPaneLength="48"
                                 DisplayMode="CompactOverlay"
-                                Foreground="{StaticResource Brush5}"
+                                Foreground="#2196F3"
                                 HamburgerHeight="48"
                                 IsPaneOpen="{x:Bind Vm.IsSplitViewPaneOpened, Mode=TwoWay}"
                                 ItemTemplate="{StaticResource MenuListItemDataTemplate}"
                                 ItemsSource="{x:Bind Vm.FunctionItemList, Mode=OneWay}"
                                 OptionsItemTemplate="{StaticResource MenuListItemDataTemplate}"
                                 OptionsItemsSource="{x:Bind Vm.BottomFunctionItemList, Mode=OneWay}"
-                                PaneBackground="{StaticResource Brush1}">
+                                PaneBackground="#212121">
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="2.5*" />
@@ -164,7 +165,8 @@
                         <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
                             <TextBlock HorizontalAlignment="Center"
                                        VerticalAlignment="Center"
-                                       Text="Loading..." />
+                                       Text="Loading..." 
+                                       Foreground="Black"/>
                             <xaml:CanvasControl x:Name="PreviewCanvasControl"
                                                 Width="{Binding ActualWidth,
                                                                 ElementName=ResultTitleGrid,

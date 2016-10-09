@@ -2,6 +2,8 @@
 using System.Diagnostics;
 using Windows.ApplicationModel.Core;
 using Windows.Foundation;
+using Windows.Foundation.Metadata;
+using Windows.UI;
 using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -24,6 +26,8 @@ namespace LockBe.View.StartGroup
     /// </summary>
     public sealed partial class StartPage : IStartPage
     {
+        private MenuFunc currentFrame = MenuFunc.Start;
+
         public StartViewModel Vm => (StartViewModel) DataContext;
 
         public StartPage()
@@ -34,12 +38,12 @@ namespace LockBe.View.StartGroup
             var startViewModel = DataContext as StartViewModel;
             if (startViewModel != null) startViewModel.StartPage = this;
 
-
+            //Limit minimum window size
             ApplicationView.GetForCurrentView().SetPreferredMinSize(new Size { Width = 450, Height = 700 });
 
-            //Set title bar
+            ////Set title bar
             //CoreApplicationViewTitleBar coreTitleBar = CoreApplication.GetCurrentView().TitleBar;
-            //coreTitleBar.ExtendViewIntoTitleBar = true;
+            //coreTitleBar.ExtendViewIntoTitleBar = false;
             //Window.Current.SetTitleBar(TitleGrid);
 
             Loaded += StartPage_Loaded;
@@ -55,12 +59,18 @@ namespace LockBe.View.StartGroup
 
             NavigateToPage(MenuFunc.Start);
         }
-        
+
         private void MenuListItem_OnTapped(object sender, TappedRoutedEventArgs e)
         {
             MenuListItem m = ((Grid) sender).DataContext as MenuListItem;
-            Debug.Assert(m != null, "m != null");
-            NavigateToPage(m.MenuF);
+
+           
+            //Debug.Assert(m != null, "m != null");
+            if (m != null && m.MenuF != currentFrame)
+            {
+                NavigateToPage(m.MenuF);
+                currentFrame = m.MenuF;
+            }
             Vm.IsSplitViewPaneOpened = false;
         }
 

@@ -2,6 +2,7 @@
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
 using Windows.Foundation;
+using Windows.Foundation.Metadata;
 using Windows.Graphics.Display;
 using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
@@ -44,6 +45,8 @@ namespace LockBe
                 DebugSettings.EnableFrameRateCounter = false;
             }
 #endif
+
+            HideStatusBar();
 
             Frame rootFrame = Window.Current.Content as Frame;
 
@@ -111,6 +114,17 @@ namespace LockBe
         {
             var deferral = e.SuspendingOperation.GetDeferral();
             deferral.Complete();
+        }
+
+
+        private async void HideStatusBar()
+        {
+            if (ApiInformation.IsTypePresent("Windows.UI.ViewManagement.StatusBar"))
+            {
+                StatusBar statusBar = Windows.UI.ViewManagement.StatusBar.GetForCurrentView();
+                await statusBar.HideAsync();
+            }
+
         }
     }
 }
