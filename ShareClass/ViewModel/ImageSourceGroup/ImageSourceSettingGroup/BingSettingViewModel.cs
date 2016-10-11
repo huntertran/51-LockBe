@@ -442,6 +442,8 @@ namespace ShareClass.ViewModel.ImageSourceGroup.ImageSourceSettingGroup
             string link = GenerateLink(market);
             string result = await HttpService.SendAsync(link);
 
+            if (string.IsNullOrEmpty(result)) return null;
+
             JObject j = JObject.Parse(result);
             return j.ToObject<BingImageRoot>();
         }

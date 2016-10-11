@@ -15,6 +15,7 @@ namespace ShareClass.Utilities.CallApi
         {
             string url = "https://maps.googleapis.com/maps/api/geocode/json?address=" + address + key;
             string json = await HttpService.SendAsync(url);
+            if (string.IsNullOrEmpty(json)) return null;
             JObject jObject = JObject.Parse(json);
             return jObject.ToObject<Geocode>();
         }
@@ -24,6 +25,7 @@ namespace ShareClass.Utilities.CallApi
             //https://maps.googleapis.com/maps/api/geocode/json?latlng=40.714224,-73.961452
             string url = "https://maps.googleapis.com/maps/api/geocode/json?latlng=" + b.Latitude + "," + b.Longitude;
             string json = await HttpService.SendAsync(url);
+            if (string.IsNullOrEmpty(json)) return null;
             JObject jObject = JObject.Parse(json);
             return jObject.ToObject<Geocode>();
         }

@@ -284,6 +284,11 @@ namespace ShareClass.ViewModel.WeatherGroup
         {
             _currentWeatherInfo = new WeatherInfo();
 
+            await GetGeoLocation();
+        }
+
+        private async Task GetGeoLocation()
+        {
             var accessStatus = await Geolocator.RequestAccessAsync();
 
             switch (accessStatus)
@@ -295,6 +300,10 @@ namespace ShareClass.ViewModel.WeatherGroup
                     //Get user location when FixedLocation Mode is OFF
                     if (!IsFixedLocation)
                     {
+                        var networkHelper = new NetworkHelper();
+
+                        if (!networkHelper.HasInternetAccess) return;
+
                         var geolocator = new Geolocator();
 
                         // Subscribe to the StatusChanged event to get updates of location status changes.
@@ -318,7 +327,7 @@ namespace ShareClass.ViewModel.WeatherGroup
 
                     IsShowProgress = false;
 
-                   
+
                     //UpdateLocationData(_pos);
                     //_rootPage.NotifyUser("Location updated.", NotifyType.StatusMessage);
                     break;
@@ -331,7 +340,7 @@ namespace ShareClass.ViewModel.WeatherGroup
                         FixedGeoLocation = await _googleMapApi.GetGpsFromAddressTask(UserLocation);
                     }
 
-                   
+
                     //_rootPage.NotifyUser("Access to location is denied.", NotifyType.ErrorMessage);
                     //LocationDisabledMessage.Visibility = Visibility.Visible;
                     //UpdateLocationData(null);
@@ -373,6 +382,8 @@ namespace ShareClass.ViewModel.WeatherGroup
 
         public async Task GetWeather(bool isUseGps = true)
         {
+            var networkHelper = new NetworkHelper();
+
             if (_pos != null && isUseGps)
             {
                 //pos available
@@ -404,6 +415,25 @@ namespace ShareClass.ViewModel.WeatherGroup
 
                         CurrentWeather = await _api.GetCityWeather(b);
                     }
+                    else
+                    {                        
+                        if (!networkHelper.HasInternetAccess) return;
+
+                        //Get user location when internet come back
+                        await GetGeoLocation();
+
+                        if (GeoLocation != null && GeoLocation.Results.Any())
+                        {
+                            b = new BasicGeoposition
+                            {
+                                Latitude = GeoLocation.Results[0].Geometry.Location.Lat,
+                                Longitude = GeoLocation.Results[0].Geometry.Location.Lng
+                            };
+                            UpdateAddress();
+
+                            CurrentWeather = await _api.GetCityWeather(b);
+                        }
+                    }
                 }
                 else
                 {
@@ -417,6 +447,26 @@ namespace ShareClass.ViewModel.WeatherGroup
                         CurrentWeatherInfo.Address = FixedGeoLocation.Results[0].FormattedAddress;
 
                         CurrentWeather = await _api.GetCityWeather(b);
+                    }
+                    else
+                    {
+                        if (!networkHelper.HasInternetAccess) return;
+
+                        //Get fixed location when internet come back
+                        await GetGeoLocation();
+
+                        if (FixedGeoLocation != null && FixedGeoLocation.Results.Any())
+                        {
+
+                            b = new BasicGeoposition
+                            {
+                                Latitude = FixedGeoLocation.Results[0].Geometry.Location.Lat,
+                                Longitude = FixedGeoLocation.Results[0].Geometry.Location.Lng
+                            };
+                            CurrentWeatherInfo.Address = FixedGeoLocation.Results[0].FormattedAddress;
+
+                            CurrentWeather = await _api.GetCityWeather(b);
+                        }
                     }
                 }
             }
@@ -872,7 +922,7 @@ namespace ShareClass.ViewModel.WeatherGroup
                 if (IsFixedLocation)
                 {
                     if (GeoLocation == null || !GeoLocation.Results.Any())
-                        await Init();
+                        await GetGeoLocation();
                 }
                 await StartVm.UpdateListTask();
            

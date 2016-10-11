@@ -32,7 +32,7 @@ namespace ShareClass.Utilities.CallApi
             var json = await HttpService.SendAsync(uri, headers, HttpMethod.Post);
 
             //var json = await StaticMethod.PostAsync(uri);
-            if (json != "")
+            if (!string.IsNullOrEmpty(json))
             {
                 JObject jObject = JObject.Parse(json);
                 return jObject.ToObject<Quote>();

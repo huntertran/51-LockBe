@@ -180,6 +180,7 @@
                 </Grid>
 
                 <Grid Grid.Column="1"
+                      Grid.RowSpan="2"
                       Margin="4"
                       d:IsHidden="True"
                       Visibility="{x:Bind Vm.IsShowWebView, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}">

@@ -253,11 +253,11 @@ namespace ShareClass.ViewModel.StartGroup
             //}
         }
 
-        private void _updateImageTimer_Tick(object sender, object e)
-        {
-            //_updateImageTimer.Stop();
-            //UpdateListAsync();
-        }
+        //private void _updateImageTimer_Tick(object sender, object e)
+        //{
+        //    //_updateImageTimer.Stop();
+        //    //UpdateListAsync();
+        //}
 
         private void InitializeData()
         {
@@ -377,7 +377,7 @@ namespace ShareClass.ViewModel.StartGroup
             if (!taskRegistered)
             {
                 await BackgroundExecutionManager.RequestAccessAsync();
-                TimeTrigger hourlyTrigger = new TimeTrigger(360, false);
+                TimeTrigger hourlyTrigger = new TimeTrigger(240, false);
 
                 var builder = new BackgroundTaskBuilder
                 {
@@ -467,34 +467,39 @@ namespace ShareClass.ViewModel.StartGroup
             IsDrawing = true;
             int imageService = SettingManager.GetImageService();
 
-            if (imageService != 2)
-            {
-                var networkHelper = new NetworkHelper();
-                //if ((!networkHelper.HasInternetAccess) && (!_showDialog))
-                //{
-                //    var dialog = new Windows.UI.Popups.MessageDialog("You need Internet connection to get new Images.Try again!");
+            //if (imageService != 2)
+            //{
+            //    var networkHelper = new NetworkHelper();
+            //    //if ((!networkHelper.HasInternetAccess) && (!_showDialog))
+            //    //{
+            //    //    var dialog = new Windows.UI.Popups.MessageDialog("You need Internet connection to get new Images.Try again!");
 
-                //    dialog.Commands.Add(new Windows.UI.Popups.UICommand("OK") { Id = 0 });
+            //    //    dialog.Commands.Add(new Windows.UI.Popups.UICommand("OK") { Id = 0 });
 
-                //    dialog.DefaultCommandIndex = 0;
-                //    dialog.CancelCommandIndex = 1;
+            //    //    dialog.DefaultCommandIndex = 0;
+            //    //    dialog.CancelCommandIndex = 1;
 
-                //    var result = await dialog.ShowAsync();
+            //    //    var result = await dialog.ShowAsync();
 
-                //    //var btn = sender as Button;
-                //    //btn.Content = $"{result.Id}";
-                //    //var dialog =
-                //    //    new Windows.UI.Popups.MessageDialog(
-                //    //        "You need Internet connection to get new Images. Try again!");
+            //    //    //var btn = sender as Button;
+            //    //    //btn.Content = $"{result.Id}";
+            //    //    //var dialog =
+            //    //    //    new Windows.UI.Popups.MessageDialog(
+            //    //    //        "You need Internet connection to get new Images. Try again!");
 
-                //    //dialog.Commands.Add(new Windows.UI.Popups.UICommand("OK"));
-                //    //var result = await dialog.ShowAsync();
-                //    _showDialog = true;
-                //    if ($"{result.Id}" == "0") _showDialog = false;
-                //    return;
-                //}
-                if (!networkHelper.HasInternetAccess) return;
-            }
+            //    //    //dialog.Commands.Add(new Windows.UI.Popups.UICommand("OK"));
+            //    //    //var result = await dialog.ShowAsync();
+            //    //    _showDialog = true;
+            //    //    if ($"{result.Id}" == "0") _showDialog = false;
+            //    //    return;
+            //    //}
+            //    if (!networkHelper.HasInternetAccess)
+            //    {
+            //        var dialog = new Windows.UI.Popups.MessageDialog("There is no Internet connection, try again with your own image & offline functions :D");
+            //        await dialog.ShowAsync();
+            //        return;
+            //    }
+            //}
 
             Debug.WriteLine("Update List Task");
             //if (IsImageUpdating)
@@ -507,6 +512,23 @@ namespace ShareClass.ViewModel.StartGroup
 
             if (StaticData.IsImageServiceChanged || ImageList.Count == 0)
             {
+                if (imageService != 2)
+                {
+                    var networkHelper = new NetworkHelper();
+                    
+                    //Check Internet connection with Bing & Flickr image service
+                    if (!networkHelper.HasInternetAccess)
+                    {
+                        var dialog = new Windows.UI.Popups.MessageDialog("There is no Internet connection. Try again with your own image & offline functions :D");
+                        await dialog.ShowAsync();
+
+                        IsDrawing = false;
+                        IsImageUpdating = false;
+
+                        return;
+                    }
+                }
+
                 await UpdateImageList();
             }
 
