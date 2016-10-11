@@ -6,32 +6,33 @@
       mc:Ignorable="d">
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-        <StackPanel>
+        <ScrollViewer>
+            <StackPanel>
 
-            <Grid x:Name="RateGrid"
+                <Grid x:Name="RateGrid"
                   Height="150"
                   Margin="4"
                   CornerRadius="5"
                   Tapped="RateGrid_OnTapped">
-                <Grid.Background>
-                    <SolidColorBrush Opacity="0.9" Color="{StaticResource Color1}" />
-                </Grid.Background>
-                <!--<Grid.ColumnDefinitions>
+                    <Grid.Background>
+                        <SolidColorBrush Opacity="0.9" Color="{StaticResource Color1}" />
+                    </Grid.Background>
+                    <!--<Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto" />
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>-->
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="*" />
-                </Grid.RowDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
 
 
 
-                <StackPanel Grid.Row="1"
+                    <StackPanel Grid.Row="1"
                             Margin="4"
                             HorizontalAlignment="Center"
                             VerticalAlignment="Center">
-                    <Path Grid.Row="0"
+                        <Path Grid.Row="0"
                           Width="70"
                           Height="70"
                           Margin="0,4,0,0"
@@ -39,33 +40,33 @@
                           Fill="{StaticResource Brush5}"
                           RenderTransformOrigin="0.5,0.5"
                           Stretch="Uniform" />
-                    <TextBlock FontSize="23"
+                        <TextBlock FontSize="23"
                                Foreground="{StaticResource Brush5}"
                                Text="Rate us!" />
-                </StackPanel>
+                    </StackPanel>
 
-            </Grid>
+                </Grid>
 
-            <Grid x:Name="FeedbackGrid"
+                <Grid x:Name="FeedbackGrid"
                   Height="150"
                   Margin="4"
                   CornerRadius="5"
                   Tapped="FeedbackGrid_OnTapped">
-                <Grid.Background>
-                    <SolidColorBrush Opacity="0.9" Color="{StaticResource Color1}" />
-                </Grid.Background>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="*" />
-                </Grid.RowDefinitions>
+                    <Grid.Background>
+                        <SolidColorBrush Opacity="0.9" Color="{StaticResource Color1}" />
+                    </Grid.Background>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
 
 
 
-                <StackPanel Grid.Row="1"
+                    <StackPanel Grid.Row="1"
                             Margin="4"
                             HorizontalAlignment="Center"
                             VerticalAlignment="Center">
-                    <Path Grid.Row="0"
+                        <Path Grid.Row="0"
                           Width="70"
                           Height="70"
                           Margin="4"
@@ -73,21 +74,22 @@
                           Fill="{StaticResource Brush5}"
                           RenderTransformOrigin="0.5,0.5"
                           Stretch="Uniform" />
-                    <TextBlock HorizontalAlignment="Center"
+                        <TextBlock HorizontalAlignment="Center"
                                FontSize="23"
                                Foreground="{StaticResource Brush5}"
                                Text="Feedback to us!"
                                TextWrapping="Wrap" />
-                    <TextBlock FontSize="12"
+                        <TextBlock FontSize="12"
                                Foreground="{StaticResource Brush5}"
                                Text="We're really appriciated your ideas and feedback"
                                TextWrapping="Wrap" />
-                </StackPanel>
+                    </StackPanel>
 
-            </Grid>
+                </Grid>
 
-        </StackPanel>
+            </StackPanel>
 
 
+        </ScrollViewer>
     </Grid>
 </Page>
