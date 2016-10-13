@@ -142,6 +142,30 @@ namespace ShareClass.Utilities
 
                 await file.CopyAsync(backgroundFolder);
             }
+            else
+            {
+                var currentBackground = await backgroundFolder.GetFileAsync(fileName);
+
+                var basicProperties = await currentBackground.GetBasicPropertiesAsync();
+
+                if (basicProperties.Size > 0) return;
+
+                StorageFile file = await
+                   StorageFile.CreateStreamedFileFromUriAsync(fileName, uri,
+                       RandomAccessStreamReference.CreateFromUri(uri));
+
+                var fileList = await backgroundFolder.GetFilesAsync();
+                foreach (StorageFile storageFile in fileList)
+                {
+                    if (StorageHelper.IsFileExisted(backgroundFolder, storageFile.Name))
+                    {
+                        await storageFile.DeleteAsync(StorageDeleteOption.Default);
+                    }
+                }
+
+                await file.CopyAsync(backgroundFolder);
+
+            }
         }
     }
 }
