@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
+using System.Linq;
 using Windows.ApplicationModel.Core;
 using Windows.Foundation;
 using Windows.Foundation.Metadata;
@@ -68,8 +69,17 @@ namespace LockBe.View.StartGroup
             //Debug.Assert(m != null, "m != null");
             if (m != null && m.MenuF != currentFrame)
             {
+                var n = Vm.FunctionItemList.Where((a) => a.MenuF == currentFrame);
+                var menuListItems = n as MenuListItem[] ?? n.ToArray();
+                if (!menuListItems.Any())
+                {
+                    menuListItems = Vm.BottomFunctionItemList.Where((a) => a.MenuF == currentFrame).ToArray();
+                }
+                var currentMenu = menuListItems[0];
+                currentMenu.IsEnabled = false;
                 NavigateToPage(m.MenuF);
                 currentFrame = m.MenuF;
+                m.IsEnabled = true;
             }
             Vm.IsSplitViewPaneOpened = false;
         }

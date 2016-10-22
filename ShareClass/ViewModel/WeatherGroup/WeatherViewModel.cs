@@ -31,6 +31,8 @@ namespace ShareClass.ViewModel.WeatherGroup
     {
         public StartViewModel StartVm => ((ViewModelLocator)Application.Current.Resources["Locator"]).StartVm;
 
+        #region Define
+
         private readonly WeatherApi _api = new WeatherApi();
         private readonly GoogleMapApi _googleMapApi = new GoogleMapApi();
 
@@ -203,7 +205,9 @@ namespace ShareClass.ViewModel.WeatherGroup
             }
         }
 
-        #region Draw Position Area
+        #endregion
+
+        #region Draw Position Area Define
 
         private ObservableCollection<ImageSourceItem> _positionItemsCollection;
 
@@ -245,24 +249,6 @@ namespace ShareClass.ViewModel.WeatherGroup
         }
 
         #endregion
-
-        public async void PositionComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            var comboBox = (ComboBox)sender;
-            SelectedPosition = (ImageSourceItem)comboBox.SelectedItem;
-
-            var number = PositionHelper.GetElementPosition("W");
-            if (SelectedPosition != null)
-            {
-                if (SelectedPosition.Number != number)
-                {
-                    PositionHelper.SetElementPosition("W", SelectedPosition.Number);
-                    await StartVm.UpdateListTask();
-                }                 
-            }
-        }
-
-
 
         public WeatherViewModel()
         {
@@ -837,13 +823,6 @@ namespace ShareClass.ViewModel.WeatherGroup
                     
                 }
 
-                //ds.DrawText(count.ToString(), 0, 0,
-                //       Colors.Red,
-                //       new CanvasTextFormat
-                //       {
-                //           FontSize = (float)(height * 4.5 / 100),
-                //           HorizontalAlignment = CanvasHorizontalAlignment.Left,
-                //       });
 
                 if (oldDrawPoint >= screenSize.Height)
                 {
@@ -862,47 +841,63 @@ namespace ShareClass.ViewModel.WeatherGroup
             #endregion
         }
 
-        public async Task<CanvasRenderTarget> GenerateWeatherIcon(CanvasDrawingSession ds, double height)
-        {           
-            CanvasDevice device1 = CanvasDevice.GetSharedDevice();
-            var weatherIcon = PickWeatherIcon(CurrentWeatherInfo.Condition);
-            var iconSizeStr = weatherIcon.Substring(0, 3);
-            var iconSize = int.Parse(iconSizeStr);
-            var iconBitmap = new CanvasRenderTarget(device1, iconSize, iconSize, 500);
-            using (var ds1 = iconBitmap.CreateDrawingSession())
-            {
-                var file =
-                    await
-                        StorageFile.GetFileFromApplicationUriAsync(
-                            new Uri("ms-appx:///ShareClass/Assets/WeatherIcon/" + weatherIcon + ".svg"));
-                using (var stream = await file.OpenStreamForReadAsync())
-                using (var reader = new StreamReader(stream))
-                {
-                    var xml = new XmlDocument();
-                    xml.LoadXml(reader.ReadToEnd(), new XmlLoadSettings { ProhibitDtd = false });
+        //public async Task<CanvasRenderTarget> GenerateWeatherIcon(CanvasDrawingSession ds, double height)
+        //{           
+        //    CanvasDevice device1 = CanvasDevice.GetSharedDevice();
+        //    var weatherIcon = PickWeatherIcon(CurrentWeatherInfo.Condition);
+        //    var iconSizeStr = weatherIcon.Substring(0, 3);
+        //    var iconSize = int.Parse(iconSizeStr);
+        //    var iconBitmap = new CanvasRenderTarget(device1, iconSize, iconSize, 500);
+        //    using (var ds1 = iconBitmap.CreateDrawingSession())
+        //    {
+        //        var file =
+        //            await
+        //                StorageFile.GetFileFromApplicationUriAsync(
+        //                    new Uri("ms-appx:///ShareClass/Assets/WeatherIcon/" + weatherIcon + ".svg"));
+        //        using (var stream = await file.OpenStreamForReadAsync())
+        //        using (var reader = new StreamReader(stream))
+        //        {
+        //            var xml = new XmlDocument();
+        //            xml.LoadXml(reader.ReadToEnd(), new XmlLoadSettings { ProhibitDtd = false });
 
-                    var svgDocument = SvgDocument.Parse(xml);
+        //            var svgDocument = SvgDocument.Parse(xml);
 
 
-                    using (var renderer = new Win2dRenderer(iconBitmap, svgDocument))
-                        renderer.Render(iconSize, iconSize, ds1);
+        //            using (var renderer = new Win2dRenderer(iconBitmap, svgDocument))
+        //                renderer.Render(iconSize, iconSize, ds1);
 
-                    ds.DrawText(svgDocument.RootElement.FirstChild.TagName, 40, 0,
-                      Colors.Red,
-                      new CanvasTextFormat
-                      {
-                          FontSize = (float)(height * 2.5 / 100),
-                          HorizontalAlignment = CanvasHorizontalAlignment.Left,
-                          FontFamily = "Segoe UI",
-                      });
+        //            ds.DrawText(svgDocument.RootElement.FirstChild.TagName, 40, 0,
+        //              Colors.Red,
+        //              new CanvasTextFormat
+        //              {
+        //                  FontSize = (float)(height * 2.5 / 100),
+        //                  HorizontalAlignment = CanvasHorizontalAlignment.Left,
+        //                  FontFamily = "Segoe UI",
+        //              });
 
-                    return iconBitmap;
-                }
-            }
-        }
+        //            return iconBitmap;
+        //        }
+        //    }
+        //}
 
 
         #region ViewModel Control Event
+
+        public async void PositionComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            var comboBox = (ComboBox)sender;
+            SelectedPosition = (ImageSourceItem)comboBox.SelectedItem;
+
+            var number = PositionHelper.GetElementPosition("W");
+            if (SelectedPosition != null)
+            {
+                if (SelectedPosition.Number != number)
+                {
+                    PositionHelper.SetElementPosition("W", SelectedPosition.Number);
+                    await StartVm.UpdateListTask();
+                }
+            }
+        }
 
         public async void ToggleWeather(object sender, RoutedEventArgs e)
         {

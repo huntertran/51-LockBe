@@ -33,9 +33,17 @@
                           HorizontalAlignment="Center"
                           VerticalAlignment="Center"
                           Data="{x:Bind Icon, Mode=OneWay}"
-                          Fill="#2196F3"
+                          Fill="#E0E0E0"
                           Stretch="Uniform" />
                 </Grid>
+
+                <Grid Grid.Column="0"
+                      Width="4"
+                      Height="44"
+                      Margin="0,0,0,0"
+                      HorizontalAlignment="Left"
+                      Background="#2196F3"
+                      helpers:Extension.IsVisible="{x:Bind IsEnabled, Mode=OneWay}" />
 
                 <Grid Grid.Column="1">
                     <TextBlock Margin="6,0,0,0"
@@ -78,16 +86,15 @@
             </Grid>
 
         </Grid>-->
-        
+
         <Rectangle x:Name="HamburgerRect"
-                   Height="48"
                    Width="48"
-                   VerticalAlignment="Top"
+                   Height="48"
                    HorizontalAlignment="Left"
-                   Fill="#212121"/>
-        
+                   VerticalAlignment="Top"
+                   Fill="#212121" />
+
         <controls:HamburgerMenu x:Name="HamburgerMenu"
-                                Background="{StaticResource Brush1}"
                                 CompactPaneLength="48"
                                 DisplayMode="CompactOverlay"
                                 Foreground="#2196F3"
@@ -165,8 +172,8 @@
                         <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
                             <TextBlock HorizontalAlignment="Center"
                                        VerticalAlignment="Center"
-                                       Text="Loading..." 
-                                       Foreground="Black"/>
+                                       Foreground="Black"
+                                       Text="Loading..." />
                             <xaml:CanvasControl x:Name="PreviewCanvasControl"
                                                 Width="{Binding ActualWidth,
                                                                 ElementName=ResultTitleGrid,
@@ -179,8 +186,8 @@
 
                 </Grid>
 
-                <Grid Grid.Column="1"
-                      Grid.RowSpan="2"
+                <Grid Grid.RowSpan="2"
+                      Grid.Column="1"
                       Margin="4"
                       d:IsHidden="True"
                       Visibility="{x:Bind Vm.IsShowWebView, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}">
