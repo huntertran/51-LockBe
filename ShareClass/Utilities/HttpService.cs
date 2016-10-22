@@ -103,16 +103,29 @@ namespace ShareClass.Utilities
 
         public static async Task<bool> GetHeadTask(string url)
         {
+            //Check Uri
+            Uri uriResult;
+            if (!Uri.IsWellFormedUriString(url, UriKind.RelativeOrAbsolute) ||
+                !Uri.TryCreate(url, UriKind.Absolute, out uriResult))
+            {
+                return false;
+            }
+
             HttpClient httpClient = new HttpClient();
             HttpRequestMessage request = new HttpRequestMessage
             {
                 Method = HttpMethod.Head,
-                RequestUri = new Uri(url, UriKind.Absolute)
+                RequestUri = uriResult
             };
 
             HttpResponseMessage response = await httpClient.SendAsync(request);
 
-            return response.StatusCode == HttpStatusCode.OK;
+            if (response.StatusCode != HttpStatusCode.OK)
+            {
+                var response2 = await GetResponse(url);
+                return response2.StatusCode == HttpStatusCode.OK;
+            }
+            return false;
         }
 
         public static async Task DownloadImage(string url)

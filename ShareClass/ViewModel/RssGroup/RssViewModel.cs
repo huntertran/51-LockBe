@@ -103,8 +103,7 @@ namespace ShareClass.ViewModel.RssGroup
         }
 
         #endregion
-
-
+        
         #region Draw Position
 
         private ObservableCollection<ImageSourceItem> _positionItemsCollection;
@@ -181,24 +180,7 @@ namespace ShareClass.ViewModel.RssGroup
         {
             RssChanel = new RssChannel();
 
-            bool isValid = false;
-
-            bool isValidURI = false;
-
-            isValidURI = Uri.IsWellFormedUriString(link, UriKind.RelativeOrAbsolute);
-
-            Uri uriResult;
-            isValidURI = Uri.TryCreate(link, UriKind.Absolute, out uriResult);
-
-            if (!isValidURI)
-            {
-                //Link is not available
-                ValidationText = "Link is not available";
-                return;
-            }
-
-            link = uriResult.ToString();
-            isValid = await HttpService.GetHeadTask(link);
+            bool isValid = await HttpService.GetHeadTask(link);
 
             if (!isValid)
             {
@@ -364,24 +346,11 @@ namespace ShareClass.ViewModel.RssGroup
                     drawRect.Y = drawPoint.Y > screenSize.Height ? drawPoint.Y - screenSize.Height - tempHeight : screenSize.Height - tempHeight - screenSize.Height * 3 / 100;
                 }
 
-                //if (BitmapHelper.IsBrightArea(canvasBitmap,
-                //  (int)(drawRect.X - screenSize.Height * 1.3 / 100),
-                //  (int)(drawRect.Y - screenSize.Height / 100),
-                //  (int)(drawRect.Width + screenSize.Height * 2.5 / 100),
-                //  (int)(drawSize.Height + screenSize.Height * 4 / 100)))
-                //{
-                //    ds.FillRoundedRectangle(new Rect((int)(drawRect.X - screenSize.Height * 1.3 / 100),
-                //                                     (int)(drawRect.Y - screenSize.Height / 100),
-                //                                     (int)(drawRect.Width + screenSize.Height * 2.5 / 100),
-                //                                     (int)(drawSize.Height + screenSize.Height * 4 / 100)), 20, 20,
-                //                            new CanvasSolidColorBrush(device, Colors.Black) { Opacity = 0.4F });
-                //}
                 ds.FillRoundedRectangle(new Rect((int)(drawRect.X - screenSize.Height * 1.3 / 100),
                                                     (int)(drawRect.Y - screenSize.Height / 100),
                                                     (int)(drawRect.Width + screenSize.Height * 2.5 / 100),
                                                     (int)(drawSize.Height + screenSize.Height * 4 / 100)), 20, 20,
                                            new CanvasSolidColorBrush(device, Colors.Black) { Opacity = 0.4F });
-                //ds.FillRectangle(drawRect, Color.FromArgb(150, 0, 0, 0));
                 ds.DrawText(text, drawRect, Colors.White, format);
 
                 if (drawPoint.Y >= screenSize.Height)
