@@ -184,7 +184,7 @@
 
                 </Grid>
 
-                <Grid Grid.RowSpan="2"
+                <Grid Grid.RowSpan="3"
                       Grid.Column="1"
                       Margin="4"
                       d:IsHidden="True"
