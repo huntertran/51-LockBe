@@ -11,10 +11,10 @@ namespace LockBe.View.StartGroup
         public StartControlPage()
         {
             InitializeComponent();
-            if (!Vm.startControlPageLoaded)
+            if (!Vm.StartControlPageLoaded)
             {
                 Vm.UpdateListAsync();
-                Vm.startControlPageLoaded = true;
+                Vm.StartControlPageLoaded = true;
             }
            
         }

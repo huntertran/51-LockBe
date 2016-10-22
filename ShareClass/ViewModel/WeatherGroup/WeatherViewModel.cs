@@ -840,47 +840,7 @@ namespace ShareClass.ViewModel.WeatherGroup
 
             #endregion
         }
-
-        //public async Task<CanvasRenderTarget> GenerateWeatherIcon(CanvasDrawingSession ds, double height)
-        //{           
-        //    CanvasDevice device1 = CanvasDevice.GetSharedDevice();
-        //    var weatherIcon = PickWeatherIcon(CurrentWeatherInfo.Condition);
-        //    var iconSizeStr = weatherIcon.Substring(0, 3);
-        //    var iconSize = int.Parse(iconSizeStr);
-        //    var iconBitmap = new CanvasRenderTarget(device1, iconSize, iconSize, 500);
-        //    using (var ds1 = iconBitmap.CreateDrawingSession())
-        //    {
-        //        var file =
-        //            await
-        //                StorageFile.GetFileFromApplicationUriAsync(
-        //                    new Uri("ms-appx:///ShareClass/Assets/WeatherIcon/" + weatherIcon + ".svg"));
-        //        using (var stream = await file.OpenStreamForReadAsync())
-        //        using (var reader = new StreamReader(stream))
-        //        {
-        //            var xml = new XmlDocument();
-        //            xml.LoadXml(reader.ReadToEnd(), new XmlLoadSettings { ProhibitDtd = false });
-
-        //            var svgDocument = SvgDocument.Parse(xml);
-
-
-        //            using (var renderer = new Win2dRenderer(iconBitmap, svgDocument))
-        //                renderer.Render(iconSize, iconSize, ds1);
-
-        //            ds.DrawText(svgDocument.RootElement.FirstChild.TagName, 40, 0,
-        //              Colors.Red,
-        //              new CanvasTextFormat
-        //              {
-        //                  FontSize = (float)(height * 2.5 / 100),
-        //                  HorizontalAlignment = CanvasHorizontalAlignment.Left,
-        //                  FontFamily = "Segoe UI",
-        //              });
-
-        //            return iconBitmap;
-        //        }
-        //    }
-        //}
-
-
+        
         #region ViewModel Control Event
 
         public async void PositionComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)

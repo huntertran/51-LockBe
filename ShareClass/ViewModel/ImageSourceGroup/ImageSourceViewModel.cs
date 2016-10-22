@@ -114,12 +114,12 @@ namespace ShareClass.ViewModel.ImageSourceGroup
             //};
             //ImageSourceItemsCollection.Add(i);
 
-            i = new ImageSourceItem
-            {
-                Name = "My folder",
-                Number = 2
-            };
-            ImageSourceItemsCollection.Add(i);
+            //i = new ImageSourceItem
+            //{
+            //    Name = "My folder",
+            //    Number = 2
+            //};
+            //ImageSourceItemsCollection.Add(i);
 
             if (SelectedSource == null)
             {
@@ -135,22 +135,6 @@ namespace ShareClass.ViewModel.ImageSourceGroup
             {
                 BingSettingVm.DrawInfo(ds, device);
             }
-
-            //ds.FillRectangle(new Rect(500, 700, 1200, 200), Color.FromArgb(150, 0, 0, 0));
-            //ds.DrawText(Quote.quote, new Rect(500, 700, 1200, 200), Colors.White, new CanvasTextFormat
-            //{
-            //    FontSize = 50,
-            //    FontFamily = "Please write me a song",
-            //    FontWeight = FontWeights.Bold,
-            //    VerticalAlignment = CanvasVerticalAlignment.Bottom,
-            //    HorizontalAlignment = CanvasHorizontalAlignment.Center
-            //});
-            //ds.DrawText(Quote.author, new Rect(1370, 900, 500, 300), Colors.White, new CanvasTextFormat
-            //{
-            //    FontSize = 50,
-            //    FontFamily = "Please write me a song",
-            //    FontStyle = FontStyle.Oblique,
-            //});
         }
     }
 }

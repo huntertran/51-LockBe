@@ -121,10 +121,9 @@ namespace LockBe
         {
             if (ApiInformation.IsTypePresent("Windows.UI.ViewManagement.StatusBar"))
             {
-                StatusBar statusBar = Windows.UI.ViewManagement.StatusBar.GetForCurrentView();
+                StatusBar statusBar = StatusBar.GetForCurrentView();
                 await statusBar.HideAsync();
             }
-
         }
     }
 }

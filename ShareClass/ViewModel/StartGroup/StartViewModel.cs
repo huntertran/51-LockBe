@@ -52,7 +52,7 @@ namespace ShareClass.ViewModel.StartGroup
         //private readonly DispatcherTimer _updateImageTimer;
 
         public CanvasBitmap IconBitmap;
-        public bool startControlPageLoaded;
+        public bool StartControlPageLoaded;
 
         public bool IsDesktopBackground
         {
