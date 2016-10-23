@@ -71,7 +71,7 @@
                        Margin="0,4" />
 
                 <Button Grid.Row="4"
-                        Margin="4"
+                        Margin="0,4,20,4"
                         HorizontalAlignment="Right"
                         VerticalAlignment="Top"
                         Click="ButtonBase_OnClick"

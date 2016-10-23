@@ -577,7 +577,7 @@ namespace ShareClass.ViewModel.StartGroup
                     var v = Application.Current.Resources["Locator"] as ViewModelLocator;
                     if (v != null)
                     {
-                        await v.ImageSourceVm.MyFolderSettingVm.GetFolder();
+                        await v.ImageSourceVm.MyFolderSettingVm.GetFolder(false);
                         if (v.ImageSourceVm.MyFolderSettingVm.MyFolderImageRoot != null)
                         {
                             LocalImageList.Clear();
@@ -636,7 +636,7 @@ namespace ShareClass.ViewModel.StartGroup
             else
             {
                 MyFolderSettingViewModel vm = new MyFolderSettingViewModel();
-                await vm.GetFolder();
+                await vm.GetFolder(false);
                 BackgroundFile = vm.MyFolderImageRoot[0];
                 using (IRandomAccessStream stream = await BackgroundFile.OpenAsync(FileAccessMode.ReadWrite))
                 {

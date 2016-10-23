@@ -18,7 +18,7 @@
                 Margin="4"
                 HorizontalAlignment="Center"
                 Click="{x:Bind Vm.GetFolderEvent}"
-                Content="Add Folder" />
+                Content="Choose image" />
         <Grid Grid.Row="1">
             <ListView x:Name="FolderListView"
                       Margin="4"

@@ -68,23 +68,23 @@ namespace ShareClass.ViewModel.ImageSourceGroup.ImageSourceSettingGroup
             await v.StartVm.UpdateListTask();
         }
 
-        public async Task GetFolder()
+        public async Task GetFolder(bool isEventCall = true)
         {
-            StorageFolder s;
+            StorageFile s;
             string savedPath = SettingManager.GetSavePath();
 
-            if (!string.IsNullOrEmpty(savedPath))
+            if (!string.IsNullOrEmpty(savedPath) && !isEventCall)
             {
                 string token = SettingManager.GetSaveToken();
-                s = await StorageApplicationPermissions.FutureAccessList.GetFolderAsync(token);
+                s = await StorageApplicationPermissions.FutureAccessList.GetFileAsync(token);
             }
             else
             {
-                FolderPicker f = new FolderPicker();
+                FileOpenPicker f = new FileOpenPicker();
                 f.FileTypeFilter.Add(".jpg");
                 f.FileTypeFilter.Add(".jpeg");
                 f.FileTypeFilter.Add(".png");
-                s = await f.PickSingleFolderAsync();
+                s = await f.PickSingleFileAsync();
                 if (s != null)
                 {
                     StorageApplicationPermissions.FutureAccessList.Clear();
@@ -95,23 +95,57 @@ namespace ShareClass.ViewModel.ImageSourceGroup.ImageSourceSettingGroup
 
             if (s != null)
             {
-                FolderCollection.Add(s);
-                await GetFileTask(s);
+                //FolderCollection.Add(s);
+                GetSingleFileTask(s);
             }
+
+            //StorageFolder s;
+            //string savedPath = SettingManager.GetSavePath();
+
+            //if (!string.IsNullOrEmpty(savedPath))
+            //{
+            //    string token = SettingManager.GetSaveToken();
+            //    s = await StorageApplicationPermissions.FutureAccessList.GetFolderAsync(token);
+            //}
+            //else
+            //{
+            //    FolderPicker f = new FolderPicker();
+            //    f.FileTypeFilter.Add(".jpg");
+            //    f.FileTypeFilter.Add(".jpeg");
+            //    f.FileTypeFilter.Add(".png");
+            //    s = await f.PickSingleFolderAsync();
+            //    if (s != null)
+            //    {
+            //        StorageApplicationPermissions.FutureAccessList.Clear();
+            //        var token = StorageApplicationPermissions.FutureAccessList.Add(s);
+            //        SettingManager.SetSaveMode(3, s.Path, token);
+            //    }
+            //}
+
+            //if (s != null)
+            //{
+            //    FolderCollection.Add(s);
+            //    await GetFileTask(s);
+            //}
         }
 
-        private async Task GetFileTask(StorageFolder s)
+        //private async Task GetFileTask(StorageFolder s)
+        //{
+        //    MyFolderImageRoot = new ObservableCollection<StorageFile>();
+        //    var temp = await s.GetFilesAsync(CommonFileQuery.OrderByName);
+        //    foreach (StorageFile file in temp)
+        //    {
+        //        if (file.FileType.ToLower() == ".jpg" || file.FileType.ToLower() == ".png" ||
+        //            file.FileType.ToLower() == ".jpeg")
+        //        {
+        //            MyFolderImageRoot.Add(file);
+        //        }
+        //    }
+        //}
+
+        private void GetSingleFileTask(StorageFile s)
         {
-            MyFolderImageRoot = new ObservableCollection<StorageFile>();
-            var temp = await s.GetFilesAsync(CommonFileQuery.OrderByName);
-            foreach (StorageFile file in temp)
-            {
-                if (file.FileType.ToLower() == ".jpg" || file.FileType.ToLower() == ".png" ||
-                    file.FileType.ToLower() == ".jpeg")
-                {
-                    MyFolderImageRoot.Add(file);
-                }
-            }
+            MyFolderImageRoot = new ObservableCollection<StorageFile> {s};
         }
     }
 }
