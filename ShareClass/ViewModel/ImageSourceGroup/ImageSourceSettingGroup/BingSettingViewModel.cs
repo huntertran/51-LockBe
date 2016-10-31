@@ -10,6 +10,7 @@ using Newtonsoft.Json.Linq;
 using ShareClass.Model;
 using ShareClass.Utilities;
 using ShareClass.Utilities.Helpers;
+using ShareClass.Utilities.Helpers.SourceDataHelper;
 
 namespace ShareClass.ViewModel.ImageSourceGroup.ImageSourceSettingGroup
 {
@@ -451,6 +452,23 @@ namespace ShareClass.ViewModel.ImageSourceGroup.ImageSourceSettingGroup
         public async Task GetImageRoot()
         {
             BingImageRoot = await GetImagesTask(LanguageCode);
+            BingHelper b = new BingHelper();
+            foreach (BingImage bingImage in BingImageRoot.images)
+            {
+                var appropriateLink = b.GenerateImageLink(bingImage.urlbase);
+                var isLinkValid = await HttpService.GetHeadTask(appropriateLink, false);
+                if (isLinkValid)
+                {
+                    bingImage.AppropriateLink = appropriateLink;
+                }
+            }
+            for (int i = BingImageRoot.images.Count - 1; i >= 0; i--)
+            {
+                if (string.IsNullOrEmpty(BingImageRoot.images[i].AppropriateLink))
+                {
+                    BingImageRoot.images.RemoveAt(i);
+                }
+            }
         }
 
         public void DrawInfo(CanvasDrawingSession ds, CanvasDevice device)

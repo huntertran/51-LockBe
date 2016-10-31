@@ -101,7 +101,7 @@ namespace ShareClass.Utilities
             return null;
         }
 
-        public static async Task<bool> GetHeadTask(string url)
+        public static async Task<bool> GetHeadTask(string url, bool tryGetIfFailed = true)
         {
             //Check Uri
             Uri uriResult;
@@ -122,10 +122,14 @@ namespace ShareClass.Utilities
 
             if (response.StatusCode != HttpStatusCode.OK)
             {
-                var response2 = await GetResponse(url);
-                return response2.StatusCode == HttpStatusCode.OK;
+                if (tryGetIfFailed)
+                {
+                    var response2 = await GetResponse(url);
+                    return response2.StatusCode == HttpStatusCode.OK;
+                }
+                return false;
             }
-            return false;
+            return true;
         }
 
         public static async Task DownloadImage(string url)
@@ -140,20 +144,30 @@ namespace ShareClass.Utilities
 
             if (!StorageHelper.IsFileExisted(backgroundFolder, fileName))
             {
-                StorageFile file = await
-                    StorageFile.CreateStreamedFileFromUriAsync(fileName, uri,
-                        RandomAccessStreamReference.CreateFromUri(uri));
-
-                var fileList = await backgroundFolder.GetFilesAsync();
-                foreach (StorageFile storageFile in fileList)
+                //Check if link is valid
+                bool isLinkValid = await GetHeadTask(url, false);
+                if (isLinkValid)
                 {
-                    if (StorageHelper.IsFileExisted(backgroundFolder, storageFile.Name))
-                    {
-                        await storageFile.DeleteAsync(StorageDeleteOption.Default);
-                    }
-                }
+                    StorageFile file = await
+                        StorageFile.CreateStreamedFileFromUriAsync(fileName, uri,
+                            RandomAccessStreamReference.CreateFromUri(uri));
 
-                await file.CopyAsync(backgroundFolder);
+                    var fileList = await backgroundFolder.GetFilesAsync();
+                    foreach (StorageFile storageFile in fileList)
+                    {
+                        if (StorageHelper.IsFileExisted(backgroundFolder, storageFile.Name))
+                        {
+                            await storageFile.DeleteAsync(StorageDeleteOption.Default);
+                        }
+                    }
+
+                    await file.CopyAsync(backgroundFolder);
+                }
+                else
+                {
+                    //Get the current file from backgroundFolder
+                    //by doing nothing here
+                }
             }
             else
             {
@@ -177,7 +191,6 @@ namespace ShareClass.Utilities
                 }
 
                 await file.CopyAsync(backgroundFolder);
-
             }
         }
     }

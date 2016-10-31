@@ -660,8 +660,7 @@ namespace ShareClass.ViewModel.StartGroup
                     ImageSourceVm.BingSettingVm.LanguageCode = SettingManager.BingGetLanguage();
 
                     await ImageSourceVm.BingSettingVm.GetImageRoot();
-                    BingHelper b = new BingHelper();
-                    imageLink = b.GenerateImageLink(ImageSourceVm.BingSettingVm.BingImageRoot.images[0].urlbase);
+                    imageLink = ImageSourceVm.BingSettingVm.BingImageRoot.images[0].AppropriateLink;
                     break;
                 }
                 case 1:
