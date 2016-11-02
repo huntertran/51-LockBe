@@ -34,12 +34,16 @@
                     <RowDefinition Height="4*" />
                 </Grid.RowDefinitions>
 
-               
-
-                <StackPanel Grid.Row="1" Margin="5,0,20,0">
-                    <TextBlock VerticalAlignment="Center"
-                               Foreground="Black"
-                               Text="Source" />
+                <StackPanel Grid.Row="1" Margin="0,0,10,0">
+                    <Grid Margin="0,4,0,0">
+                        <Grid.Background>
+                            <SolidColorBrush Opacity="0.8" Color="{StaticResource Color1}" />
+                        </Grid.Background>
+                        <TextBlock VerticalAlignment="Center"
+                                   Margin="4"
+                                   Foreground="{StaticResource Brush5}"
+                                   Text="Source" />
+                    </Grid>
                     <ComboBox x:Name="SourceComboBox"
                               Margin="0,4"
                               HorizontalAlignment="Stretch"
@@ -56,8 +60,7 @@
                 </StackPanel>
 
                 <Grid Grid.Row="2"
-                      Margin="0,4,10,0"
-                      CornerRadius="5">
+                      Margin="0,4,10,0">
                     <Grid.Background>
                         <SolidColorBrush Opacity="0.8" Color="{StaticResource Color1}" />
                     </Grid.Background>
@@ -79,8 +82,7 @@
 
                 <Grid Grid.Row="5"
                       Margin="0,4,10,0"
-                      VerticalAlignment="Top"
-                      CornerRadius="5">
+                      VerticalAlignment="Top">
                     <Grid.Background>
                         <SolidColorBrush Opacity="0.8" Color="{StaticResource Color1}" />
                     </Grid.Background>
