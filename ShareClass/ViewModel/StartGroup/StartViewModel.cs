@@ -15,6 +15,7 @@ using Microsoft.Graphics.Canvas;
 using Windows.Foundation;
 using Windows.System.UserProfile;
 using Windows.UI;
+using Windows.UI.Popups;
 using Windows.UI.Xaml.Controls;
 using ShareClass.Utilities;
 using ShareClass.Utilities.Helpers;
@@ -955,6 +956,16 @@ namespace ShareClass.ViewModel.StartGroup
             if (RssVm.IsEnabled != toggleSwitch.IsOn)
             {
                 await UpdateListTask();
+            }
+        }
+
+        public async void SetLastestButton_Click(object sender, RoutedEventArgs e)
+        {
+            bool success = await ChangeCurrentBackgroundTask();
+            if (success)
+            {
+                MessageDialog msg = new MessageDialog("Lockscreen changed");
+                await msg.ShowAsync();
             }
         }
 
