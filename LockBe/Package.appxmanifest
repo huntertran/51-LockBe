@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Package xmlns="http://schemas.microsoft.com/appx/manifest/foundation/windows10" xmlns:mp="http://schemas.microsoft.com/appx/2014/phone/manifest" xmlns:uap="http://schemas.microsoft.com/appx/manifest/uap/windows10" IgnorableNamespaces="uap mp">
-  <Identity Name="62286TuanMSP.457478F589363" Publisher="CN=4B825697-1DF6-4C89-ACE5-D42A22A0F7FE" Version="1.1.3.0" />
+  <Identity Name="62286TuanMSP.457478F589363" Publisher="CN=4B825697-1DF6-4C89-ACE5-D42A22A0F7FE" Version="1.2.3.0" />
   <mp:PhoneIdentity PhoneProductId="a291d169-eb5b-41a1-aeef-0ca8646f5452" PhonePublisherId="00000000-0000-0000-0000-000000000000" />
   <Properties>
     <DisplayName>LockBe</DisplayName>

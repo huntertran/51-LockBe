@@ -170,17 +170,12 @@ namespace ShareClass.Utilities.Helpers.SourceDataHelper
                 if (size.Width == width && size.Height == height)
                 {
                     result = size;
+                    break;
                 }
-                else if (closest.Width * closest.Height > closest2.Width * closest2.Height)
-                {
-                    result = closest;
-                }
-                else
-                {
-                    result = closest2;
-                }
+
+                result = closest.Width*closest.Height > closest2.Width*closest2.Height ? closest : closest2;
             }
-            
+
             Size minimalSize = GetMinimalSize(result);
             foreach (Size size in _availableSizes)
             {

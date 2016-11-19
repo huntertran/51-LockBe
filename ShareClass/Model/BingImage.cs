@@ -30,6 +30,8 @@ namespace ShareClass.Model
         public int bot { get; set; }
         public List<PointOfInterest> hs { get; set; }
         public List<object> msg { get; set; }
+
+        public string AppropriateLink { get; set; }
     }
 
     public class Tooltips

@@ -30,7 +30,7 @@
     <AppxBundle>Auto</AppxBundle>
     <AppxBundlePlatforms>x86|x64|arm</AppxBundlePlatforms>
     <AppxSymbolPackageEnabled>True</AppxSymbolPackageEnabled>
-    <PackageCertificateThumbprint>298C05C0CC1D9C04D3F837431FCC6D13ECAD5A45</PackageCertificateThumbprint>
+    <PackageCertificateThumbprint>2E0B8972B874F930D0C57B8C58B3F12FD760D540</PackageCertificateThumbprint>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|ARM'">
     <DebugSymbols>true</DebugSymbols>
