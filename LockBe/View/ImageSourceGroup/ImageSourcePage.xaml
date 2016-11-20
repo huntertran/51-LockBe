@@ -45,7 +45,7 @@
                                    Text="Source" />
                     </Grid>
                     <ComboBox x:Name="SourceComboBox"
-                              Margin="0,4"
+                              Margin="5,4,10,4"
                               HorizontalAlignment="Stretch"
                               ItemsSource="{x:Bind Vm.ImageSourceItemsCollection}"
                               SelectionChanged="SourceComboBox_OnSelectionChanged">
