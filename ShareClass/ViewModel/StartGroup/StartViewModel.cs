@@ -636,8 +636,9 @@ namespace ShareClass.ViewModel.StartGroup
             }
             else
             {
-                MyFolderSettingViewModel vm = new MyFolderSettingViewModel();
-                await vm.GetFolder(false);
+                var vm = ImageSourceVm.MyFolderSettingVm;
+                if (vm.MyFolderImageRoot == null) await vm.GetFolder(false);
+                else if (!vm.MyFolderImageRoot.Any()) await vm.GetFolder(false);
                 BackgroundFile = vm.MyFolderImageRoot[0];
                 using (IRandomAccessStream stream = await BackgroundFile.OpenAsync(FileAccessMode.ReadWrite))
                 {

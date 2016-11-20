@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
+using System.IO;
 using System.Threading.Tasks;
 using Windows.Storage;
 using Windows.Storage.AccessCache;
 using Windows.Storage.Pickers;
-using Windows.Storage.Search;
 using Windows.UI.Xaml;
 using ShareClass.Utilities.Helpers;
 
@@ -71,14 +71,24 @@ namespace ShareClass.ViewModel.ImageSourceGroup.ImageSourceSettingGroup
         public async Task GetFolder(bool isEventCall = true)
         {
             StorageFile s;
+            bool fileExist = false;
             string savedPath = SettingManager.GetSavePath();
 
             if (!string.IsNullOrEmpty(savedPath) && !isEventCall)
             {
                 string token = SettingManager.GetSaveToken();
+                await Task.Run(() =>
+                {
+                    Task.Yield();
+                    fileExist = File.Exists(savedPath);
+                    
+                });
+                if (!fileExist) goto NewPath;
                 s = await StorageApplicationPermissions.FutureAccessList.GetFileAsync(token);
+                goto GetFile;
             }
-            else
+
+        NewPath:
             {
                 FileOpenPicker f = new FileOpenPicker();
                 f.FileTypeFilter.Add(".jpg");
@@ -92,11 +102,15 @@ namespace ShareClass.ViewModel.ImageSourceGroup.ImageSourceSettingGroup
                     SettingManager.SetSaveMode(3, s.Path, token);
                 }
             }
-
-            if (s != null)
+           
+        GetFile:
             {
-                //FolderCollection.Add(s);
-                GetSingleFileTask(s);
+                if (s != null)
+                {
+                    //FolderCollection.Add(s);
+                    GetSingleFileTask(s);
+                }
+
             }
 
             //StorageFolder s;
