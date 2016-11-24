@@ -9,6 +9,7 @@
       mc:Ignorable="d">
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-        <TextBlock Text="For now, flickr image don't have any setting" />
+        <TextBlock Text="For now, flickr image don't have any setting"
+                   Foreground="Black"/>
     </Grid>
 </Page>

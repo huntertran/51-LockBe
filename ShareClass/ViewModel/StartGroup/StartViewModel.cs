@@ -15,6 +15,7 @@ using Microsoft.Graphics.Canvas;
 using Windows.Foundation;
 using Windows.System.UserProfile;
 using Windows.UI;
+using Windows.UI.Popups;
 using Windows.UI.Xaml.Controls;
 using ShareClass.Utilities;
 using ShareClass.Utilities.Helpers;
@@ -635,8 +636,9 @@ namespace ShareClass.ViewModel.StartGroup
             }
             else
             {
-                MyFolderSettingViewModel vm = new MyFolderSettingViewModel();
-                await vm.GetFolder(false);
+                var vm = ImageSourceVm.MyFolderSettingVm;
+                if (vm.MyFolderImageRoot == null) await vm.GetFolder(false);
+                else if (!vm.MyFolderImageRoot.Any()) await vm.GetFolder(false);
                 BackgroundFile = vm.MyFolderImageRoot[0];
                 using (IRandomAccessStream stream = await BackgroundFile.OpenAsync(FileAccessMode.ReadWrite))
                 {
@@ -954,6 +956,16 @@ namespace ShareClass.ViewModel.StartGroup
             if (RssVm.IsEnabled != toggleSwitch.IsOn)
             {
                 await UpdateListTask();
+            }
+        }
+
+        public async void SetLastestButton_Click(object sender, RoutedEventArgs e)
+        {
+            bool success = await ChangeCurrentBackgroundTask();
+            if (success)
+            {
+                MessageDialog msg = new MessageDialog("Lockscreen changed");
+                await msg.ShowAsync();
             }
         }
 

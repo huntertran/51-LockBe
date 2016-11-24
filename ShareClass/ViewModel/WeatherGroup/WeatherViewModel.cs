@@ -607,7 +607,13 @@ namespace ShareClass.ViewModel.WeatherGroup
                     WordWrapping = CanvasWordWrapping.NoWrap
                 };
 
-                textSize = BitmapHelper.TextRect(CurrentWeatherInfo.Address, textFormat, ds);           
+                textSize = BitmapHelper.TextRect(CurrentWeatherInfo.Address, textFormat, ds);
+
+                if (string.IsNullOrEmpty(CurrentWeatherInfo.MainCondition))
+                {
+                    CurrentWeatherInfo.Condition = "clouds";
+                    CurrentWeatherInfo.MainCondition = "??";
+                }
 
                 //Caculate WeatherCondition text length for drawing AntiBright & Weather
                 var conditionSize = BitmapHelper.TextRect(CurrentWeatherInfo.MainCondition, new CanvasTextFormat()
