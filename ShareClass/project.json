@@ -6,7 +6,7 @@
     "MvvmLight": "5.3.0",
     "Newtonsoft.Json": "9.0.1",
     "NotificationsExtensions.Win10": "14332.0.2",
-    "Win2D.uwp": "1.19.0"
+    "Win2D.uwp": "1.20.0"
   },
   "frameworks": {
     "uap10.0": {}
