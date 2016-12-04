@@ -73,7 +73,7 @@ namespace LockBe.View.RssGroup
             }
             else
             {
-                RssItemTextBox.Text = "";
+                RssItemTextBox.Text = "0";
             }           
         }
 
