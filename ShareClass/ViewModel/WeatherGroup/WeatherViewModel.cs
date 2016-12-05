@@ -458,17 +458,17 @@ namespace ShareClass.ViewModel.WeatherGroup
             }
         }
 
-        public async Task ShowWeather()
-        {
-            var vm = new BingSettingViewModel
-            {
-                LanguageCode = SettingManager.BingGetLanguage()
-            };
-            await vm.GetImageRoot();
+        //public async Task ShowWeather()
+        //{
+        //    var vm = new BingSettingViewModel
+        //    {
+        //        LanguageCode = SettingManager.BingGetLanguage()
+        //    };
+        //    await vm.GetImageRoot();
 
-            //TODO: Thi: Explain this line of code
-            vm.BingImageRoot.images[0] = vm.BingImageRoot.images[1];
-        } 
+        //    //TODO: Thi: Explain this line of code
+        //    vm.BingImageRoot.images[0] = vm.BingImageRoot.images[1];
+        //}
 
         public string PickWeatherIcon(string weatherCondition)
         {

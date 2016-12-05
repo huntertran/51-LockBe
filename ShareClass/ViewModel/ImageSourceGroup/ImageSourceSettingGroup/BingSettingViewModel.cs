@@ -451,6 +451,11 @@ namespace ShareClass.ViewModel.ImageSourceGroup.ImageSourceSettingGroup
 
         public async Task GetImageRoot()
         {
+            var networkHelper = new NetworkHelper();
+
+            //Check Internet connection with Bing & Flickr image service
+            if (!networkHelper.HasInternetAccess) return;
+
             BingImageRoot = await GetImagesTask(LanguageCode);
             BingHelper b = new BingHelper();
             foreach (BingImage bingImage in BingImageRoot.images)
