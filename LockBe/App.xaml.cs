@@ -4,6 +4,7 @@ using Windows.ApplicationModel.Activation;
 using Windows.Foundation;
 using Windows.Foundation.Metadata;
 using Windows.Graphics.Display;
+using Windows.UI;
 using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -45,6 +46,7 @@ namespace LockBe
                 DebugSettings.EnableFrameRateCounter = false;
             }
 #endif
+            ChangeTitleBarColor();
 
             HideStatusBar();
 
@@ -123,6 +125,21 @@ namespace LockBe
             {
                 StatusBar statusBar = StatusBar.GetForCurrentView();
                 await statusBar.HideAsync();
+            }
+        }
+
+        private void ChangeTitleBarColor()
+        {
+            if (ApiInformation.IsTypePresent("Windows.UI.ViewManagement.ApplicationView"))
+            {
+                var titleBar = ApplicationView.GetForCurrentView().TitleBar;
+                if (titleBar != null)
+                {
+                    titleBar.ButtonBackgroundColor = Color.FromArgb(255, 25, 118, 210);
+                    titleBar.ButtonForegroundColor = Colors.White;
+                    titleBar.BackgroundColor = Color.FromArgb(100, 25, 118, 210);
+                    titleBar.ForegroundColor = Colors.White;
+                }
             }
         }
     }

@@ -9,19 +9,19 @@
     DataContext="{Binding Source={StaticResource Locator}, Path=StartVm}"
     mc:Ignorable="d">
 
-    <Grid Margin="15,10,0,0" Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
 
-        <Grid Grid.Row="0" Margin="0,0,0,0">
+        <Grid Grid.Row="0" Margin="15,10,0,0">
             <userControls:TitleTextBlockUserControl
                 HorizontalAlignment="Left"
-                BackgroundColor="#3385ff"
+                BackgroundColor="{StaticResource Brush1}"
                 Text="Control Panel" />
         </Grid>
-        <ScrollViewer Grid.Row="1" Margin="0,20,0,0">
+        <ScrollViewer Grid.Row="1" Margin="15,20,0,0">
             <StackPanel Margin="5,0,20,0">
                 <Grid>
                     <Grid.ColumnDefinitions>

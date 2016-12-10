@@ -1,15 +1,15 @@
-﻿<Page x:Class="LockBe.View.WeatherGroup.WeatherPage"
-      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-      xmlns:googleMap="using:ShareClass.Model.GoogleMap"
-      xmlns:helpers="using:ShareClass.Utilities.Helpers"
-      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-      xmlns:model="using:ShareClass.Model"
-      xmlns:userControls="using:LockBe.UserControls"
-      DataContext="{Binding Source={StaticResource Locator},
-                            Path=WeatherVm}"
-      mc:Ignorable="d">
+﻿<Page
+    x:Class="LockBe.View.WeatherGroup.WeatherPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:googleMap="using:ShareClass.Model.GoogleMap"
+    xmlns:helpers="using:ShareClass.Utilities.Helpers"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:model="using:ShareClass.Model"
+    xmlns:userControls="using:LockBe.UserControls"
+    DataContext="{Binding Source={StaticResource Locator}, Path=WeatherVm}"
+    mc:Ignorable="d">
     <Page.Resources>
         <DataTemplate x:Key="AddressDataTemplate" x:DataType="googleMap:Result">
             <StackPanel>
@@ -18,68 +18,74 @@
         </DataTemplate>
     </Page.Resources>
 
-    <Grid Margin="15,10,0,0" Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-        
+    <Grid>
+
         <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
         </Grid.RowDefinitions>
 
-        <Grid Margin="0,0,0,0"
-              Grid.Row="0">
-            <userControls:TitleTextBlockUserControl HorizontalAlignment="Left"
-                                                            BackgroundColor="#3385ff"
-                                                            Text="Weather" />
+        <Grid Grid.Row="0" Margin="15,10,0,0">
+            <userControls:TitleTextBlockUserControl
+                HorizontalAlignment="Left"
+                BackgroundColor="{StaticResource Brush1}"
+                Text="Weather" />
         </Grid>
 
-        <ScrollViewer Grid.Row="1"
-                      Margin="0,20,0,0">
+        <ScrollViewer Grid.Row="1" Margin="15,20,0,0">
             <StackPanel Margin="5,0,20,0">
-                <ToggleSwitch x:Name="WeatherToggleSwitch"
-                              Margin="0,4"
-                              Header="Display Weather"
-                              IsOn="{x:Bind Vm.IsShowWeather, Mode=TwoWay}"
-                              Toggled="{x:Bind Vm.ToggleWeather}" />
+                <ToggleSwitch
+                    x:Name="WeatherToggleSwitch"
+                    Margin="0,4"
+                    Header="Display Weather"
+                    IsOn="{x:Bind Vm.IsShowWeather, Mode=TwoWay}"
+                    Toggled="{x:Bind Vm.ToggleWeather}" />
 
-                <ToggleSwitch x:Name="FixedLocationToggleSwitch"
-                              Margin="0,4"
-                              Header="Use Fixed Location"
-                              IsOn="{x:Bind Vm.IsFixedLocation, Mode=TwoWay}"
-                              Toggled="{x:Bind Vm.ToggleFixedLocation}" />
+                <ToggleSwitch
+                    x:Name="FixedLocationToggleSwitch"
+                    Margin="0,4"
+                    Header="Use Fixed Location"
+                    IsOn="{x:Bind Vm.IsFixedLocation, Mode=TwoWay}"
+                    Toggled="{x:Bind Vm.ToggleFixedLocation}" />
 
-                <TextBlock Margin="0,4"
-                           Foreground="Black"
-                           Text="Your Fixed Location" />
+                <TextBlock
+                    Margin="0,4"
+                    Foreground="Black"
+                    Text="Your Fixed Location" />
 
                 <Grid Height="4" Margin="0,4">
                     <ProgressBar helpers:Extension.IsVisible="{x:Bind Vm.IsShowProgress, Mode=OneWay}" IsIndeterminate="{x:Bind Vm.IsShowProgress, Mode=OneWay}" />
                 </Grid>
 
-                <AutoSuggestBox Margin="0,4"
-                                ItemTemplate="{StaticResource AddressDataTemplate}"
-                                ItemsSource="{x:Bind Vm.GeoLocation.Results, Mode=OneWay}"
-                                PlaceholderText="Address"
-                                QueryIcon="Find"
-                                QuerySubmitted="{x:Bind Vm.AutoSuggestBox_OnQuerySubmitted}"
-                                IsEnabled="{x:Bind Vm.IsFixedLocation, Mode=OneWay}"
-                                SuggestionChosen="AutoSuggestBox_SuggestionChosen"
-                                Text="{x:Bind Vm.UserLocation, Mode=TwoWay}"/>
-                <ToggleSwitch x:Name="TempUnitToggleSwitch"
-                              Margin="0,4"
-                              Header="Temperature Unit"
-                              IsOn="{x:Bind Vm.IsFahrenheit, Mode=TwoWay}"
-                              OffContent="°C"
-                              OnContent="°F"
-                              Toggled="{x:Bind Vm.ToggleTemperature}" />
-                <TextBlock Margin="0,4"
-                           VerticalAlignment="Center"
-                           Foreground="Black"
-                           Text="Position" />
-                <ComboBox Name="PositionComboBox"
-                          Margin="0,4"
-                          HorizontalAlignment="Stretch"
-                          ItemsSource="{x:Bind Vm.PositionItemsCollection}"
-                          SelectionChanged="{x:Bind Vm.PositionComboBox_SelectionChanged}">
+                <AutoSuggestBox
+                    Margin="0,4"
+                    IsEnabled="{x:Bind Vm.IsFixedLocation, Mode=OneWay}"
+                    ItemTemplate="{StaticResource AddressDataTemplate}"
+                    ItemsSource="{x:Bind Vm.GeoLocation.Results, Mode=OneWay}"
+                    PlaceholderText="Address"
+                    QueryIcon="Find"
+                    QuerySubmitted="{x:Bind Vm.AutoSuggestBox_OnQuerySubmitted}"
+                    SuggestionChosen="AutoSuggestBox_SuggestionChosen"
+                    Text="{x:Bind Vm.UserLocation, Mode=TwoWay}" />
+                <ToggleSwitch
+                    x:Name="TempUnitToggleSwitch"
+                    Margin="0,4"
+                    Header="Temperature Unit"
+                    IsOn="{x:Bind Vm.IsFahrenheit, Mode=TwoWay}"
+                    OffContent="°C"
+                    OnContent="°F"
+                    Toggled="{x:Bind Vm.ToggleTemperature}" />
+                <TextBlock
+                    Margin="0,4"
+                    VerticalAlignment="Center"
+                    Foreground="Black"
+                    Text="Position" />
+                <ComboBox
+                    Name="PositionComboBox"
+                    Margin="0,4"
+                    HorizontalAlignment="Stretch"
+                    ItemsSource="{x:Bind Vm.PositionItemsCollection}"
+                    SelectionChanged="{x:Bind Vm.PositionComboBox_SelectionChanged}">
                     <ComboBox.ItemTemplate>
                         <DataTemplate x:DataType="model:ImageSourceItem">
                             <Grid>
