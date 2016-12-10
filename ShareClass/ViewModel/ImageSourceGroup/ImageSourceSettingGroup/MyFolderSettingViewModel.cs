@@ -74,6 +74,7 @@ namespace ShareClass.ViewModel.ImageSourceGroup.ImageSourceSettingGroup
             bool fileExist = false;
             string savedPath = SettingManager.GetSavePath();
 
+            // If savedPath string is Null & method is NOT called from GUI's event
             if (!string.IsNullOrEmpty(savedPath) && !isEventCall)
             {
                 string token = SettingManager.GetSaveToken();
@@ -83,6 +84,8 @@ namespace ShareClass.ViewModel.ImageSourceGroup.ImageSourceSettingGroup
                     fileExist = File.Exists(savedPath);
                     
                 });
+
+                //If file isn't exist then open FilePicker for User in the next time App is opened
                 if (!fileExist) goto NewPath;
                 s = await StorageApplicationPermissions.FutureAccessList.GetFileAsync(token);
                 goto GetFile;
@@ -97,9 +100,28 @@ namespace ShareClass.ViewModel.ImageSourceGroup.ImageSourceSettingGroup
                 s = await f.PickSingleFileAsync();
                 if (s != null)
                 {
+                    var destinationFolder = await ApplicationData.Current.LocalFolder.CreateFolderAsync("Offline Background",
+                   CreationCollisionOption.OpenIfExists);
+
+                    //Delete all old files
+                    var oldFile = await destinationFolder.GetFilesAsync();
+                    foreach (var storageFile in oldFile)
+                    {
+                        if (StorageHelper.IsFileExisted(destinationFolder, storageFile.Name))
+                        {
+                            await storageFile.DeleteAsync(StorageDeleteOption.Default);
+                        }
+                    }
+
+                    //Copy User's image to Offline image folder
+                    var offlineImage = await s.CopyAsync(destinationFolder);
+
+                    //Save Offline image's path & token 
+                    //Use Offline image to draw, NOT use user's image to draw like before
+                    //Improve App UX when User delete/move/rename their images for other purposes
                     StorageApplicationPermissions.FutureAccessList.Clear();
-                    var token = StorageApplicationPermissions.FutureAccessList.Add(s);
-                    SettingManager.SetSaveMode(3, s.Path, token);
+                    var token = StorageApplicationPermissions.FutureAccessList.Add(offlineImage);
+                    SettingManager.SetSaveMode(3, offlineImage.Path, token);
                 }
             }
            
@@ -112,7 +134,9 @@ namespace ShareClass.ViewModel.ImageSourceGroup.ImageSourceSettingGroup
                 }
 
             }
+            
 
+            //ToDo: User Offline Image Folder in future
             //StorageFolder s;
             //string savedPath = SettingManager.GetSavePath();
 

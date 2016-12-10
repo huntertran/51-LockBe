@@ -606,11 +606,10 @@ namespace ShareClass.ViewModel.StartGroup
         {
             var size = SettingManager.GetWindowsResolution();
 
-            string tempName;
             int imageService = SettingManager.GetImageService();
 
             //Create Specific background image's Name 
-            tempName = imageService != 2 ? $"{fileName.Substring(0, fileName.LastIndexOf("_", StringComparison.Ordinal))}_{size.Width}x{size.Height}.jpg" 
+            var tempName = imageService != 2 ? $"{fileName.Substring(0, fileName.LastIndexOf("_", StringComparison.Ordinal))}_{size.Width}x{size.Height}.jpg" 
                 : $"{fileName}_{size.Width}x{size.Height}.jpg";
 
 
@@ -641,10 +640,8 @@ namespace ShareClass.ViewModel.StartGroup
 
             int imageService = SettingManager.GetImageService();
 
-            string tempName;
-
             //Create Specific background image's Name 
-            tempName = imageService != 2 ? $"{fileName.Substring(0, fileName.LastIndexOf("_", StringComparison.Ordinal))}_{size.Width}x{size.Height}.jpg"
+            var tempName = imageService != 2 ? $"{fileName.Substring(0, fileName.LastIndexOf("_", StringComparison.Ordinal))}_{size.Width}x{size.Height}.jpg"
                 : $"{fileName}_{size.Width}x{size.Height}.jpg";
 
 
@@ -689,6 +686,7 @@ namespace ShareClass.ViewModel.StartGroup
             var isDone = true;
             StorageFile backgroundFile;
 
+            // If specific background image didn't exist then load & generate new image for Drawing 
             if (!await IfSpecificBackgroundAvailable(fileName))
             {
 
@@ -724,6 +722,7 @@ namespace ShareClass.ViewModel.StartGroup
                 var specificBackgroundFolder = await ApplicationData.Current.LocalFolder.CreateFolderAsync("Specific Background",
                     CreationCollisionOption.OpenIfExists);
 
+                //Load Background image in Specific Bg folder, use it for Drawing
                 backgroundFile = await specificBackgroundFolder.GetFileAsync(BackgroundFileName);
                 using (IRandomAccessStream stream = await backgroundFile.OpenAsync(FileAccessMode.ReadWrite))
                 {
