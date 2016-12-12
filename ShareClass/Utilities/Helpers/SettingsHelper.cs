@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using Windows.Storage;
 
 namespace ShareClass.Utilities.Helpers
@@ -226,14 +227,14 @@ namespace ShareClass.Utilities.Helpers
                     if ((i >= 3) && (area[i] != ""))
                     {
                         var strArr = area[i].Split('-');
-                        var strHeight = size.Height.ToString();
+                        var strHeight = size.Height.ToString(CultureInfo.InvariantCulture);
                         if (strArr[1] != strHeight)
                         {
                             area[i] = string.Format("{0}-{1}", strArr[0], strHeight);
                         }
                     }
                 }
-                var newDrawPosition = string.Format("{0}|{1}|{2}|{3}|{4}", area[0], area[1], area[2], area[3], area[4]);
+                var newDrawPosition = $"{area[0]}|{area[1]}|{area[2]}|{area[3]}|{area[4]}";
                 SetDrawPosition(newDrawPosition);
             }         
             return result;

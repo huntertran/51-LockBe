@@ -2,7 +2,7 @@
 using System.Net.Http;
 using System.Threading.Tasks;
 using Newtonsoft.Json.Linq;
-using ShareClass.Model.Qoute;
+using ShareClass.Model.Quote;
 
 namespace ShareClass.Utilities.CallApi
 {
@@ -10,10 +10,6 @@ namespace ShareClass.Utilities.CallApi
     {
         public async Task<Quote> GetQuoteOfDay()
         {
-            // Old Api
-            //string url = "http://quotes.stormconsultancy.co.uk/random.json";
-            //string json = await StaticMethod.GetHttpAsString(url);
-
             //New POST API Header
             //{"X-Mashape-Key", "8ptmFgWPNumsh2bDQ6E82XTnJvvkp1LUOtfjsn0VYqUDqCP9iO"},
             //{"Content-Type", "application/x-www-form-urlencoded"},
@@ -38,7 +34,7 @@ namespace ShareClass.Utilities.CallApi
                 return jObject.ToObject<Quote>();
 
             }
-            return new Quote {quote = "Without music, life would be a mistake.", author = "Friedrich Nietzsche" };
+            return new Quote {QuoteString = "Without music, life would be a mistake.", Author = "Friedrich Nietzsche" };
         }
     }
 }
