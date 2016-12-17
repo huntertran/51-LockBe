@@ -4,9 +4,13 @@ using System.Diagnostics;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Threading;
 using System.Threading.Tasks;
+using Windows.Foundation;
+using Windows.Foundation.Diagnostics;
 using Windows.Storage;
 using Windows.Storage.Streams;
+using Windows.UI.Popups;
 using ShareClass.Utilities.Helpers;
 
 namespace ShareClass.Utilities
@@ -101,7 +105,7 @@ namespace ShareClass.Utilities
             return null;
         }
 
-        public static async Task<bool> GetHeadTask(string url, bool tryGetIfFailed = true)
+        public static async Task<bool> GetHeadTask(string url, bool tryGetIfFailed = true, bool callFromRss = false)
         {
             //Check Uri
             Uri uriResult;
@@ -111,6 +115,20 @@ namespace ShareClass.Utilities
                 return false;
             }
 
+            if (!(uriResult.Scheme.ToLower() == "http" || uriResult.Scheme.ToLower() == "https"))
+            {
+                return false;
+            }
+
+            var tempStr = url;
+            var count = 0;
+            while (tempStr.IndexOf("//") != -1)
+            {
+                count++;
+                tempStr = tempStr.Remove(tempStr.IndexOf("//"), 2);
+            }
+            if (count > 1) return false;
+
             HttpClient httpClient = new HttpClient();
             HttpRequestMessage request = new HttpRequestMessage
             {
@@ -118,7 +136,21 @@ namespace ShareClass.Utilities
                 RequestUri = uriResult
             };
 
-            HttpResponseMessage response = await httpClient.SendAsync(request);
+            HttpResponseMessage response;
+
+            try
+            {
+                response = await httpClient.SendAsync(request);
+            }
+            catch (Exception)
+            {
+                if (callFromRss)
+                {
+                    SettingManager.SetRssLink("");
+                }
+                throw;
+            }
+          
 
             if (response.StatusCode != HttpStatusCode.OK)
             {

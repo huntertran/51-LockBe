@@ -1,4 +1,5 @@
-﻿using System.Diagnostics;
+﻿using System;
+using System.Diagnostics;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Newtonsoft.Json.Linq;
@@ -53,12 +54,23 @@ namespace ShareClass.ViewModel.SettingGroup
             IsLoading = true;
             Debug.WriteLine("Get more apps");
             string result = await HttpService.SendAsync("https://sites.google.com/site/cuoilennaocacbanmoreapps/");
-            string json = Regex.Split(result, "~~~")[1];
-            
-            IsLoading = false;
 
-            var jObject = JObject.Parse(json);
-            return jObject.ToObject<MoreAppsRootObject>();
+            if (!string.IsNullOrEmpty(result))
+            {
+                string json = Regex.Split(result, "~~~")[1];
+
+                IsLoading = false;
+
+                var jObject = JObject.Parse(json);
+                return jObject.ToObject<MoreAppsRootObject>();
+            }
+
+            var dialog = new Windows.UI.Popups.MessageDialog("Something wrong happend!");
+            await dialog.ShowAsync();
+
+            IsLoading = false;
+            return null;
+
         }
     }
 }
