@@ -12,7 +12,7 @@ using Microsoft.Graphics.Canvas;
 using Microsoft.Graphics.Canvas.Brushes;
 using Microsoft.Graphics.Canvas.Text;
 using ShareClass.Model;
-using ShareClass.Model.Qoute;
+using ShareClass.Model.Quote;
 using ShareClass.Utilities.CallApi;
 using ShareClass.Utilities.Helpers;
 using ShareClass.Utilities.Helpers.SourceDataHelper;
@@ -167,10 +167,10 @@ namespace ShareClass.ViewModel.QuoteGroup
         {
             var quoteApi = new QuoteApi();
             var quoteOfDay = await quoteApi.GetQuoteOfDay();
-            Quote.quote = "\"" + quoteOfDay.quote + "\"";
+            Quote.QuoteString = "\"" + quoteOfDay.QuoteString + "\"";
             //_drawInfo.QouteOfDay =
             //   "\"You know what it’s like to wake up in the middle of the night with a vivid dream? And you know that if you don’t have a pencil and pad by the bed, it will be completely gone by the next morning. Sometimes it’s important to wake up and stop dreaming. When a really great dream shows up, grab it.\"";
-            Quote.author = "- " + quoteOfDay.author;
+            Quote.Author = "- " + quoteOfDay.Author;
         }
 
         public async Task<Point> DrawQuote(CanvasDrawingSession ds, CanvasDevice device, CanvasBitmap canvasBitmap, Point drawPoint)
@@ -184,8 +184,8 @@ namespace ShareClass.ViewModel.QuoteGroup
             if (SettingsHelper.GetSetting<bool>(SettingKey.IsOfflineQuote.ToString()))
             {
                 if (OfflineQuote == null) return new Point(0,0);
-                Quote.quote = "\"" + OfflineQuote + "\"";
-                Quote.author = "- " + OfflineAuthor;
+                Quote.QuoteString = "\"" + OfflineQuote + "\"";
+                Quote.Author = "- " + OfflineAuthor;
             }
             else
             {
@@ -216,10 +216,10 @@ namespace ShareClass.ViewModel.QuoteGroup
                 FontSize = (float) (screenSize.Height*4.5/100)
             };
 
-            Rect quoteSize = BitmapHelper.TextRect(Quote.quote, textFormat, ds, quoteRect.Width, 200);
+            Rect quoteSize = BitmapHelper.TextRect(Quote.QuoteString, textFormat, ds, quoteRect.Width, 200);
 
 
-            Rect creditSize = BitmapHelper.TextRect(Quote.author, textFormat, ds, quoteRect.Width);
+            Rect creditSize = BitmapHelper.TextRect(Quote.Author, textFormat, ds, quoteRect.Width);
 
             creditRect.X = quoteRect.X;
             var distanceToEnd = screenSize.Width - creditRect.X;
@@ -286,7 +286,7 @@ namespace ShareClass.ViewModel.QuoteGroup
             {
                 temp = quoteRect.X - tempX;
                 quoteRect.X = tempX;
-                ds.DrawText(Quote.quote, quoteRect, Colors.White, new CanvasTextFormat
+                ds.DrawText(Quote.QuoteString, quoteRect, Colors.White, new CanvasTextFormat
                 {
                     FontSize = (float) (screenSize.Height * 4.5 / 100),
                     FontFamily = "Segoe UI Light",
@@ -299,7 +299,7 @@ namespace ShareClass.ViewModel.QuoteGroup
             {
                 temp = quoteRect.X - tempX;
                 quoteRect.X = tempX;
-                ds.DrawText(Quote.quote, quoteRect, Colors.White, new CanvasTextFormat
+                ds.DrawText(Quote.QuoteString, quoteRect, Colors.White, new CanvasTextFormat
                 {
                     FontSize = (float) (screenSize.Height * 4.5 / 100),
                     FontFamily = "Segoe UI Light",
@@ -309,7 +309,7 @@ namespace ShareClass.ViewModel.QuoteGroup
                 });
             }
             creditRect.X -= temp;
-            ds.DrawText(Quote.author, creditRect, Colors.White, new CanvasTextFormat
+            ds.DrawText(Quote.Author, creditRect, Colors.White, new CanvasTextFormat
             {
                 FontSize = (float) (screenSize.Height * 4.5 / 100),
                 FontFamily = "Segoe UI Light",

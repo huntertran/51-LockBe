@@ -1,27 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 
-namespace ShareClass.Model.Qoute
+namespace ShareClass.Model.Quote
 {
-
-    //public class Quote
-    //{
-    //    public int id { get; set; }
-    //    public string quote { get; set; }
-    //    public string author { get; set; }
-    //    public string permalink { get; set; }
-    //}
-
     public class Quote
     {
-        public string quote { get; set; }
-        public string author { get; set; }
-        public string category { get; set; }
-        public string cat { get; set; }
+        [JsonProperty("quote")]
+        public string QuoteString { get; set; }
+
+        [JsonProperty("author")]
+        public string Author { get; set; }
+
+        [JsonProperty("category")]
+        public string Category { get; set; }
     }
 
 }

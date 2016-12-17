@@ -476,7 +476,7 @@ namespace ShareClass.ViewModel.StartGroup
                     //Check Internet connection with Bing & Flickr image service
                     if (!networkHelper.HasInternetAccess)
                     {
-                        var dialog = new Windows.UI.Popups.MessageDialog("There is no Internet connection. Try again with your own image & offline functions :D");
+                        var dialog = new MessageDialog("There is no Internet connection. Try again with your own image & offline functions :D");
                         await dialog.ShowAsync();
 
                         IsDrawing = false;

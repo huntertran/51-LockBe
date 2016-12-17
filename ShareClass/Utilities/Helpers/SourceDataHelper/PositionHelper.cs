@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.ObjectModel;
+using System.Globalization;
 using ShareClass.Model;
 
 namespace ShareClass.Utilities.Helpers.SourceDataHelper
@@ -80,7 +81,7 @@ namespace ShareClass.Utilities.Helpers.SourceDataHelper
             if (area[number] == "")
             {
                 var screenSize = SettingManager.GetWindowsResolution();
-                var height = number <= 2 ? "30" : screenSize.Height.ToString();
+                var height = number <= 2 ? "30" : screenSize.Height.ToString(CultureInfo.InvariantCulture);
                 
                 area[number] = string.Format("{0}-{1}", element,height);
             }
@@ -92,7 +93,7 @@ namespace ShareClass.Utilities.Helpers.SourceDataHelper
                 area[number] = string.Format("{0}-{1}", strArr[0], strArr[1]);
             }
 
-            var newDrawPosition = string.Format("{0}|{1}|{2}|{3}|{4}", area[0], area[1], area[2], area[3], area[4]);
+            var newDrawPosition = $"{area[0]}|{area[1]}|{area[2]}|{area[3]}|{area[4]}";
             SettingManager.SetDrawPosition(newDrawPosition);
         }
     }
