@@ -736,18 +736,20 @@ namespace ShareClass.ViewModel.StartGroup
 
         public async Task<bool> ChangeCurrentBackgroundTask()
         {
-            var networkHelper = new NetworkHelper();
-
-            //Check Internet connection with Bing & Flickr image service
-            if (!networkHelper.HasInternetAccess)
-            {            
-                return false;
-            }
-
+           
             //Get image service
             string imageLink = "";
 
             int imageService = SettingManager.GetImageService();
+
+            var networkHelper = new NetworkHelper();
+
+            //Check Internet connection with Bing & Flickr image service
+            if (imageService != 2 && !networkHelper.HasInternetAccess )
+            {
+                return false;
+            }
+
             switch (imageService)
             {
                 case 0:
@@ -774,6 +776,9 @@ namespace ShareClass.ViewModel.StartGroup
                         break;
                     }
             }
+
+
+
             //Set lockscreen
             bool success = false;
             bool desktopSuccess = false;
