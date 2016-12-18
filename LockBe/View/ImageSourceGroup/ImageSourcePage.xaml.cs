@@ -96,6 +96,11 @@ namespace LockBe.View.ImageSourceGroup
                 MessageDialog msg = new MessageDialog("Lockscreen changed");
                 await msg.ShowAsync();
             }
+            else
+            {
+                var dialog = new MessageDialog("Something wrong happended :( Try again!");
+                await dialog.ShowAsync();
+            }
         }
 
         public void NavigateToFunction(Frame frame, ImageSourceItem i)

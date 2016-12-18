@@ -736,6 +736,14 @@ namespace ShareClass.ViewModel.StartGroup
 
         public async Task<bool> ChangeCurrentBackgroundTask()
         {
+            var networkHelper = new NetworkHelper();
+
+            //Check Internet connection with Bing & Flickr image service
+            if (!networkHelper.HasInternetAccess)
+            {            
+                return false;
+            }
+
             //Get image service
             string imageLink = "";
 
@@ -1054,8 +1062,13 @@ namespace ShareClass.ViewModel.StartGroup
             bool success = await ChangeCurrentBackgroundTask();
             if (success)
             {
-                MessageDialog msg = new MessageDialog("Lockscreen changed");
+                MessageDialog msg = new MessageDialog("Lockscreen changed :D");
                 await msg.ShowAsync();
+            }
+            else
+            {
+                var dialog = new MessageDialog("Something wrong happended :( Try again!");
+                await dialog.ShowAsync();
             }
         }
 
