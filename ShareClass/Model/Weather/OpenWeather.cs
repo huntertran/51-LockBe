@@ -13,6 +13,8 @@ namespace ShareClass.Model.Weather
         public string Base { get; set; }
         [JsonProperty("main")]
         public Main Main { get; set; }
+        [JsonProperty("visibility")]
+        public int Visibility { get; set; }
         [JsonProperty("wind")]
         public Wind Wind { get; set; }
         [JsonProperty("clouds")]
