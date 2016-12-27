@@ -4,13 +4,9 @@ using System.Diagnostics;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
-using System.Threading;
 using System.Threading.Tasks;
-using Windows.Foundation;
-using Windows.Foundation.Diagnostics;
 using Windows.Storage;
 using Windows.Storage.Streams;
-using Windows.UI.Popups;
 using ShareClass.Utilities.Helpers;
 
 namespace ShareClass.Utilities
@@ -122,10 +118,10 @@ namespace ShareClass.Utilities
 
             var tempStr = url;
             var count = 0;
-            while (tempStr.IndexOf("//") != -1)
+            while (tempStr.IndexOf("//", StringComparison.Ordinal) != -1)
             {
                 count++;
-                tempStr = tempStr.Remove(tempStr.IndexOf("//"), 2);
+                tempStr = tempStr.Remove(tempStr.IndexOf("//", StringComparison.Ordinal), 2);
             }
             if (count > 1) return false;
 
