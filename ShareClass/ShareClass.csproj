@@ -115,6 +115,9 @@
     <None Include="project.json" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Assets\WeatherIcon\022snowrain.xaml.cs">
+      <DependentUpon>022snowrain.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Model\BingImage.cs" />
     <Compile Include="Model\FlickrImage.cs" />
     <Compile Include="Model\GoogleMap\Geocode.cs" />
@@ -171,7 +174,12 @@
     <Content Include="Assets\WeatherIcon\516windy.svg" />
     <Content Include="Properties\ShareClass.rd.xml" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Page Include="Assets\WeatherIcon\022snowrain.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>
   </PropertyGroup>
