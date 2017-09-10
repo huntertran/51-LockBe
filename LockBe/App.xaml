@@ -57,6 +57,10 @@
 
             <converters:PathToImageConverter x:Key="PathToImageConverter" />
             <converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
+            
+            <!--Fix bug for VS2017-->
+            <SolidColorBrush x:Key="AppBarButtonBackground" Color="Transparent"/>
+            <SolidColorBrush x:Key="AppBarButtonForeground" Color="Black"/>
 
         </ResourceDictionary>
 
