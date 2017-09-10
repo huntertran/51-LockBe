@@ -5,91 +5,78 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       mc:Ignorable="d">
 
-    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    <Grid>
         <ScrollViewer>
             <StackPanel>
 
                 <Grid x:Name="RateGrid"
-                  Height="150"
-                  Margin="4"
-                  CornerRadius="5"
-                  Tapped="RateGrid_OnTapped">
+                      Height="150"
+                      Margin="4"
+                      CornerRadius="5"
+                      Tapped="RateGrid_OnTapped">
                     <Grid.Background>
-                        <SolidColorBrush Opacity="0.9" Color="{StaticResource Color1}" />
+                        <SolidColorBrush Color="{StaticResource Color2}" />
                     </Grid.Background>
-                    <!--<Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto" />
-                    <ColumnDefinition Width="*" />
-                </Grid.ColumnDefinitions>-->
+
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto" />
                         <RowDefinition Height="*" />
                     </Grid.RowDefinitions>
 
-
-
                     <StackPanel Grid.Row="1"
-                            Margin="4"
-                            HorizontalAlignment="Center"
-                            VerticalAlignment="Center">
-                        <Path Grid.Row="0"
-                          Width="70"
-                          Height="70"
-                          Margin="0,4,0,0"
-                          Data="M383.519,0L501.986,252.479 767,292.964 575.223,489.496 620.525,767 383.519,635.979 146.475,767 191.74,489.496 0,292.964 265.014,252.479z"
-                          Fill="{StaticResource Brush5}"
-                          RenderTransformOrigin="0.5,0.5"
-                          Stretch="Uniform" />
+                                Margin="4"
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center">
+                        <Path Width="70"
+                              Height="70"
+                              Margin="0,4,0,0"
+                              Data="M383.519,0L501.986,252.479 767,292.964 575.223,489.496 620.525,767 383.519,635.979 146.475,767 191.74,489.496 0,292.964 265.014,252.479z"
+                              Fill="{StaticResource Brush5}"
+                              RenderTransformOrigin="0.5,0.5"
+                              Stretch="Uniform" />
                         <TextBlock FontSize="23"
-                               Foreground="{StaticResource Brush5}"
-                               Text="Rate us!" />
+                                   Foreground="{StaticResource Brush5}"
+                                   Text="Rate us!" />
                     </StackPanel>
 
                 </Grid>
 
                 <Grid x:Name="FeedbackGrid"
-                  Height="150"
-                  Margin="4"
-                  CornerRadius="5"
-                  Tapped="FeedbackGrid_OnTapped">
+                      Height="150"
+                      Margin="4"
+                      CornerRadius="5"
+                      Tapped="FeedbackGrid_OnTapped">
                     <Grid.Background>
-                        <SolidColorBrush Opacity="0.9" Color="{StaticResource Color1}" />
+                        <SolidColorBrush Color="{StaticResource Color2}" />
                     </Grid.Background>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto" />
                         <RowDefinition Height="*" />
                     </Grid.RowDefinitions>
 
-
-
                     <StackPanel Grid.Row="1"
-                            Margin="4"
-                            HorizontalAlignment="Center"
-                            VerticalAlignment="Center">
-                        <Path Grid.Row="0"
-                          Width="70"
-                          Height="70"
-                          Margin="4"
-                          Data="M767,0C767,8E-06,727.5,51.169,672.083,123.256L551.818,123.256 551.818,170.273 635.92,170.273C614.06,198.723,590.82,229.068,567.12,259.981L402.714,259.981 402.714,307.01 531.148,307.01C510.132,334.503,489.23,361.937,469.136,388.302L291.92,388.302 291.92,435.327 433.432,435.327C404.285,473.775 378.13,508.527 357.921,535.718 323.558,534.204 243.599,526.356 193.898,519.516L47.6309,761.439C47.6309,761.439 9.5875,781.32 0,745.902 0,745.902 142.738,108.662 767,0z"
-                          Fill="{StaticResource Brush5}"
-                          RenderTransformOrigin="0.5,0.5"
-                          Stretch="Uniform" />
+                                Margin="4"
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center">
+                        <Path Width="70"
+                              Height="70"
+                              Margin="4"
+                              Data="M767,0C767,8E-06,727.5,51.169,672.083,123.256L551.818,123.256 551.818,170.273 635.92,170.273C614.06,198.723,590.82,229.068,567.12,259.981L402.714,259.981 402.714,307.01 531.148,307.01C510.132,334.503,489.23,361.937,469.136,388.302L291.92,388.302 291.92,435.327 433.432,435.327C404.285,473.775 378.13,508.527 357.921,535.718 323.558,534.204 243.599,526.356 193.898,519.516L47.6309,761.439C47.6309,761.439 9.5875,781.32 0,745.902 0,745.902 142.738,108.662 767,0z"
+                              Fill="{StaticResource Brush5}"
+                              RenderTransformOrigin="0.5,0.5"
+                              Stretch="Uniform" />
                         <TextBlock HorizontalAlignment="Center"
-                               FontSize="23"
-                               Foreground="{StaticResource Brush5}"
-                               Text="Feedback to us!"
-                               TextWrapping="Wrap" />
+                                   FontSize="23"
+                                   Foreground="{StaticResource Brush5}"
+                                   Text="Feedback to us!"
+                                   TextWrapping="Wrap" />
                         <TextBlock FontSize="12"
-                               Foreground="{StaticResource Brush5}"
-                               Text="We're really appriciated your ideas and feedback"
-                               TextWrapping="Wrap" />
+                                   Foreground="{StaticResource Brush5}"
+                                   Text="We're really appriciated your ideas and feedback"
+                                   TextWrapping="Wrap" />
                     </StackPanel>
-
                 </Grid>
-
             </StackPanel>
-
-
         </ScrollViewer>
     </Grid>
 </Page>

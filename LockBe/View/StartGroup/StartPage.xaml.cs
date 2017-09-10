@@ -1,10 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
 using System.Linq;
-using Windows.ApplicationModel.Core;
 using Windows.Foundation;
-using Windows.Foundation.Metadata;
-using Windows.UI;
 using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -27,7 +24,7 @@ namespace LockBe.View.StartGroup
     /// </summary>
     public sealed partial class StartPage : IStartPage
     {
-        private MenuFunc currentFrame = MenuFunc.Start;
+        private MenuFunc _currentFrame = MenuFunc.Start;
 
         public StartViewModel Vm => (StartViewModel) DataContext;
 
@@ -67,18 +64,18 @@ namespace LockBe.View.StartGroup
 
            
             //Debug.Assert(m != null, "m != null");
-            if (m != null && m.MenuF != currentFrame)
+            if (m != null && m.MenuF != _currentFrame)
             {
-                var n = Vm.FunctionItemList.Where((a) => a.MenuF == currentFrame);
+                var n = Vm.FunctionItemList.Where((a) => a.MenuF == _currentFrame);
                 var menuListItems = n as MenuListItem[] ?? n.ToArray();
                 if (!menuListItems.Any())
                 {
-                    menuListItems = Vm.BottomFunctionItemList.Where((a) => a.MenuF == currentFrame).ToArray();
+                    menuListItems = Vm.BottomFunctionItemList.Where((a) => a.MenuF == _currentFrame).ToArray();
                 }
                 var currentMenu = menuListItems[0];
                 currentMenu.IsEnabled = false;
                 NavigateToPage(m.MenuF);
-                currentFrame = m.MenuF;
+                _currentFrame = m.MenuF;
                 m.IsEnabled = true;
             }
             Vm.IsSplitViewPaneOpened = false;

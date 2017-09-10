@@ -38,8 +38,12 @@ namespace ShareClass.Utilities.CallApi
                 await
                     HttpService.SendAsync(url);
 
-            JObject jObject = JObject.Parse(json);
-            return jObject.ToObject<CitiWeather>();
+            if (!string.IsNullOrEmpty(json))
+            {
+                JObject jObject = JObject.Parse(json);
+                return jObject.ToObject<CitiWeather>();
+            }
+            return null;
         }
     }
 }

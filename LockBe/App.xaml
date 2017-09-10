@@ -11,10 +11,10 @@
             <!--<viewModel:StaticData x:Key="StaticData"/>-->
 
             <!--<Color x:Key="Color1">#FF65D60C</Color>-->
-            <Color x:Key="Color1">#FF0078D7</Color>
-            <Color x:Key="Color2">#FF249CFF</Color>
-            <Color x:Key="Color3">#FF70BFFF</Color>
-            <Color x:Key="Color4">#FFBDE1FF</Color>
+            <Color x:Key="Color1">#1976D2</Color>
+            <Color x:Key="Color2">#1E88E5</Color>
+            <Color x:Key="Color3">#2196F3</Color>
+            <Color x:Key="Color4">#E0E0E0</Color>
             <Color x:Key="Color5">#FFFFFFFF</Color>
 
             <SolidColorBrush x:Key="Brush1" Color="{StaticResource Color1}" />
@@ -23,7 +23,7 @@
             <SolidColorBrush x:Key="Brush4" Color="{StaticResource Color4}" />
             <SolidColorBrush x:Key="Brush5" Color="{StaticResource Color5}" />
 
-            <Color x:Key="SystemAccentColor">#FF0078D7</Color>
+            <Color x:Key="SystemAccentColor">#2196F3</Color>
             <!--  Your accent color  -->
 
 

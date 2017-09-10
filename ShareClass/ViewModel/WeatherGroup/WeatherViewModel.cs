@@ -22,7 +22,6 @@ using ShareClass.Model.Weather;
 using ShareClass.Utilities.CallApi;
 using ShareClass.Utilities.Helpers;
 using ShareClass.Utilities.Helpers.SourceDataHelper;
-using ShareClass.ViewModel.ImageSourceGroup.ImageSourceSettingGroup;
 using ShareClass.ViewModel.StartGroup;
 
 namespace ShareClass.ViewModel.WeatherGroup
@@ -458,18 +457,6 @@ namespace ShareClass.ViewModel.WeatherGroup
             }
         }
 
-        public async Task ShowWeather()
-        {
-            var vm = new BingSettingViewModel
-            {
-                LanguageCode = SettingManager.BingGetLanguage()
-            };
-            await vm.GetImageRoot();
-
-            //TODO: Thi: Explain this line of code
-            vm.BingImageRoot.images[0] = vm.BingImageRoot.images[1];
-        } 
-
         public string PickWeatherIcon(string weatherCondition)
         {
             var maxCorrect = 0;
@@ -607,7 +594,13 @@ namespace ShareClass.ViewModel.WeatherGroup
                     WordWrapping = CanvasWordWrapping.NoWrap
                 };
 
-                textSize = BitmapHelper.TextRect(CurrentWeatherInfo.Address, textFormat, ds);           
+                textSize = BitmapHelper.TextRect(CurrentWeatherInfo.Address, textFormat, ds);
+
+                if (string.IsNullOrEmpty(CurrentWeatherInfo.MainCondition))
+                {
+                    CurrentWeatherInfo.Condition = "clouds";
+                    CurrentWeatherInfo.MainCondition = "??";
+                }
 
                 //Caculate WeatherCondition text length for drawing AntiBright & Weather
                 var conditionSize = BitmapHelper.TextRect(CurrentWeatherInfo.MainCondition, new CanvasTextFormat()

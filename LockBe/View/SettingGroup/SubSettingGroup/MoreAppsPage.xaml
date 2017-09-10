@@ -9,7 +9,7 @@
                             Path=MoreAppVm}"
       mc:Ignorable="d">
 
-    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    <Grid>
         <ScrollViewer HorizontalScrollMode="Enabled">
             <ListView ItemsSource="{x:Bind Vm.AppItems.app, Mode=OneWay}">
                 <ListView.ItemTemplate>

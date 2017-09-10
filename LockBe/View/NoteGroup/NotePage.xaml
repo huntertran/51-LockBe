@@ -10,22 +10,21 @@
                             Path=NoteVm}"
       mc:Ignorable="d">
 
-    <Grid Margin="15,10,0,0" Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    <Grid>
 
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
-        <Grid Margin="0,0,0,0"
-              Grid.Row="0">
-            <userControls:TitleTextBlockUserControl BackgroundColor="#3385ff"
+        <Grid Grid.Row="0" Margin="15,10,0,0">
+            <userControls:TitleTextBlockUserControl BackgroundColor="{StaticResource Brush1}"
                                                             Text="Note"
                                                             HorizontalAlignment="Left"/>
         </Grid>
 
         <ScrollViewer Grid.Row="1"
-                      Margin="0,20,0,0">
+                      Margin="15,20,0,0">
             <StackPanel Margin="5,0,20,0">
                 <ToggleSwitch x:Name="NoteToggleSwitch"
                               Margin="0,4"
@@ -51,10 +50,9 @@
                 </ComboBox>
                 <Rectangle Height="5"
                            Margin="-5,4"
-                           Fill="{StaticResource Brush1}"
+                           Fill="{StaticResource Brush2}"
                            RadiusX="2"
-                           RadiusY="2"
-                           Opacity="0.6" />
+                           RadiusY="2"/>
                 <StackPanel Margin="0,4,0,0"
                             helpers:Extension.IsVisible="{x:Bind Vm.IsDisplayNote, Mode=OneWay}">
                     <TextBlock Margin="0,4"

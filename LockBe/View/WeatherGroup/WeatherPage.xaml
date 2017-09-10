@@ -18,22 +18,20 @@
         </DataTemplate>
     </Page.Resources>
 
-    <Grid Margin="15,10,0,0" Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-        
+    <Grid>
+
         <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
         </Grid.RowDefinitions>
 
-        <Grid Margin="0,0,0,0"
-              Grid.Row="0">
+        <Grid Grid.Row="0" Margin="15,10,0,0">
             <userControls:TitleTextBlockUserControl HorizontalAlignment="Left"
-                                                            BackgroundColor="#3385ff"
-                                                            Text="Weather" />
+                                                    BackgroundColor="{StaticResource Brush1}"
+                                                    Text="Weather" />
         </Grid>
 
-        <ScrollViewer Grid.Row="1"
-                      Margin="0,20,0,0">
+        <ScrollViewer Grid.Row="1" Margin="15,20,0,0">
             <StackPanel Margin="5,0,20,0">
                 <ToggleSwitch x:Name="WeatherToggleSwitch"
                               Margin="0,4"
@@ -56,14 +54,14 @@
                 </Grid>
 
                 <AutoSuggestBox Margin="0,4"
+                                IsEnabled="{x:Bind Vm.IsFixedLocation, Mode=OneWay}"
                                 ItemTemplate="{StaticResource AddressDataTemplate}"
                                 ItemsSource="{x:Bind Vm.GeoLocation.Results, Mode=OneWay}"
                                 PlaceholderText="Address"
                                 QueryIcon="Find"
                                 QuerySubmitted="{x:Bind Vm.AutoSuggestBox_OnQuerySubmitted}"
-                                IsEnabled="{x:Bind Vm.IsFixedLocation, Mode=OneWay}"
                                 SuggestionChosen="AutoSuggestBox_SuggestionChosen"
-                                Text="{x:Bind Vm.UserLocation, Mode=TwoWay}"/>
+                                Text="{x:Bind Vm.UserLocation, Mode=TwoWay}" />
                 <ToggleSwitch x:Name="TempUnitToggleSwitch"
                               Margin="0,4"
                               Header="Temperature Unit"

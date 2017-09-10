@@ -9,7 +9,7 @@
                             Path=ImageSourceVm.MyFolderSettingVm}"
       mc:Ignorable="d">
 
-    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
@@ -18,7 +18,7 @@
                 Margin="4"
                 HorizontalAlignment="Center"
                 Click="{x:Bind Vm.GetFolderEvent}"
-                Content="Add Folder" />
+                Content="Choose image" />
         <Grid Grid.Row="1">
             <ListView x:Name="FolderListView"
                       Margin="4"

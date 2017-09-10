@@ -167,7 +167,7 @@ namespace ShareClass.ViewModel.RssGroup
 
         public RssViewModel()
         {
-            ValidationText = "must be between 1 and 5";
+            ValidationText = "Rss item should be between 1 and 6";
             Link = SettingManager.GetRssLink();
             IsEnabled = SettingManager.GetIsDisplayRss().Item1;
             IsDisplayRssDescription = SettingManager.GetIsDisplayRss().Item2;
@@ -180,7 +180,7 @@ namespace ShareClass.ViewModel.RssGroup
         {
             RssChanel = new RssChannel();
 
-            bool isValid = await HttpService.GetHeadTask(link);
+            bool isValid = await HttpService.GetHeadTask(link,true,true);
 
             if (!isValid)
             {
@@ -194,6 +194,12 @@ namespace ShareClass.ViewModel.RssGroup
             string result = await HttpService.SendAsync(link);
 
             HtmlDocument doc = new HtmlDocument();
+            if (string.IsNullOrEmpty(result))
+            {
+                //Link is not available
+                ValidationText = "Link is not available";
+                return;
+            }
             doc.LoadHtml(result);
 
             var channelNode = doc.DocumentNode.Descendants("channel").First();

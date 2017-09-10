@@ -10,9 +10,6 @@ using ShareClass.ViewModel.StartGroup;
 
 namespace LockBe.View.RssGroup
 {
-    /// <summary>
-    /// An empty page that can be used on its own or navigated to within a Frame.
-    /// </summary>
     public sealed partial class RssPage
     {
         public RssViewModel Vm => (RssViewModel)DataContext;
@@ -73,7 +70,7 @@ namespace LockBe.View.RssGroup
             }
             else
             {
-                RssItemTextBox.Text = "";
+                RssItemTextBox.Text = "0";
             }           
         }
 

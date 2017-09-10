@@ -114,12 +114,12 @@ namespace ShareClass.ViewModel.ImageSourceGroup
             //};
             //ImageSourceItemsCollection.Add(i);
 
-            //i = new ImageSourceItem
-            //{
-            //    Name = "My folder",
-            //    Number = 2
-            //};
-            //ImageSourceItemsCollection.Add(i);
+            i = new ImageSourceItem
+            {
+                Name = "Offline Image",
+                Number = 2
+            };
+            ImageSourceItemsCollection.Add(i);
 
             if (SelectedSource == null)
             {

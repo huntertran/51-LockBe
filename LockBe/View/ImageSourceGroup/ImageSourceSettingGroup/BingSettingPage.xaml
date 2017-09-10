@@ -8,7 +8,7 @@
                             Path=ImageSourceVm.BingSettingVm}"
       mc:Ignorable="d">
 
-    <StackPanel Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    <StackPanel>
 
         <ComboBox x:Name="LanguageComboBox"
                   Margin="5,4,20,0"

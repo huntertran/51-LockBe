@@ -10,19 +10,19 @@
                             Path=QuoteVm}"
       mc:Ignorable="d">
 
-    <Grid Margin="15,10,0,0" Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
 
-        <Grid Grid.Row="0" Margin="0,0,0,0">
+        <Grid Grid.Row="0" Margin="15,10,0,0">
             <userControls:TitleTextBlockUserControl HorizontalAlignment="Left"
-                                                    BackgroundColor="#3385ff"
+                                                    BackgroundColor="{StaticResource Brush1}"
                                                     Text="Quote" />
         </Grid>
 
-        <ScrollViewer Grid.Row="1" Margin="0,20,0,0">
+        <ScrollViewer Grid.Row="1" Margin="15,20,0,0">
             <StackPanel Margin="5,0,20,0">
                 <ToggleSwitch x:Name="QuoteToggleSwitch"
                               Margin="0,4"
@@ -55,8 +55,7 @@
                 </ComboBox>
                 <Rectangle Height="5"
                            Margin="-5,4"
-                           Fill="{StaticResource Brush1}"
-                           Opacity="0.6"
+                           Fill="{StaticResource Brush2}"
                            RadiusX="2"
                            RadiusY="2" />
                 <StackPanel Margin="0,0,0,0" helpers:Extension.IsVisible="{x:Bind Vm.IsOfflineQuote, Mode=OneWay}">

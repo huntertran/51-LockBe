@@ -15,6 +15,7 @@ using Microsoft.Graphics.Canvas;
 using Windows.Foundation;
 using Windows.System.UserProfile;
 using Windows.UI;
+using Windows.UI.Popups;
 using Windows.UI.Xaml.Controls;
 using ShareClass.Utilities;
 using ShareClass.Utilities.Helpers;
@@ -36,8 +37,7 @@ namespace ShareClass.ViewModel.StartGroup
         private ObservableCollection<MenuListItem> _bottomFunctionItemList;
         private ObservableCollection<string> _imageList;
         private ObservableCollection<LocalImage> _localImageList;
-        private StorageFolder _backgroundFolder;
-        private StorageFile _backgroundFile;
+        private string _backgroundFileName;
 
         private byte _currentImageListService;
         private bool _isImageSaved;
@@ -164,28 +164,18 @@ namespace ShareClass.ViewModel.StartGroup
             }
         }
 
-        public StorageFolder BackgroundFolder
+        public string BackgroundFileName
         {
-            get { return _backgroundFolder; }
+            get { return _backgroundFileName; }
+
             set
             {
-                if (Equals(value, _backgroundFolder)) return;
-                _backgroundFolder = value;
+                if (Equals(value, _backgroundFileName)) return;
+                _backgroundFileName = value;
                 OnPropertyChanged();
             }
         }
 
-        public StorageFile BackgroundFile
-        {
-            get { return _backgroundFile; }
-
-            set
-            {
-                if (Equals(value, _backgroundFile)) return;
-                _backgroundFile = value;
-                OnPropertyChanged();
-            }
-        }
 
         public CanvasRenderTarget RenderTarget
         {
@@ -482,11 +472,11 @@ namespace ShareClass.ViewModel.StartGroup
                 if (imageService != 2)
                 {
                     var networkHelper = new NetworkHelper();
-                    
+
                     //Check Internet connection with Bing & Flickr image service
                     if (!networkHelper.HasInternetAccess)
                     {
-                        var dialog = new Windows.UI.Popups.MessageDialog("There is no Internet connection. Try again with your own image & offline functions :D");
+                        var dialog = new MessageDialog("There is no Internet connection. Try again with your own image & offline functions :D");
                         await dialog.ShowAsync();
 
                         IsDrawing = false;
@@ -508,7 +498,7 @@ namespace ShareClass.ViewModel.StartGroup
             if (generateResult)
             {
                 StorageFolder readyFolder = await ApplicationData.Current.LocalFolder.GetFolderAsync("Ready");
-                StorageFile readyFile = await readyFolder.GetFileAsync(fileName);
+                StorageFile readyFile = await readyFolder.GetFileAsync(BackgroundFileName);
 
                 PreviewImage = new BitmapImage(new Uri(readyFile.Path));
 
@@ -526,159 +516,269 @@ namespace ShareClass.ViewModel.StartGroup
             switch (imageService)
             {
                 case 0:
-                {
-                    //Bing
-                    PreviewImage = null;
-                    var v = Application.Current.Resources["Locator"] as ViewModelLocator;
-                    if (v != null)
                     {
-                        await v.ImageSourceVm.BingSettingVm.GetImageRoot();
-
-                        BingHelper b = new BingHelper();
-
-                        foreach (BingImage bingImage in v.ImageSourceVm.BingSettingVm.BingImageRoot.images)
+                        //Bing
+                        PreviewImage = null;
+                        var v = Application.Current.Resources["Locator"] as ViewModelLocator;
+                        if (v != null)
                         {
-                            string link = b.GenerateImageLink(bingImage.urlbase);
-                            ImageList.Add(link);
-                        }
-                    }
+                            await v.ImageSourceVm.BingSettingVm.GetImageRoot();
 
-                    await HttpService.DownloadImage(ImageList[0]);
+                            BingHelper b = new BingHelper();
 
-                    _currentImageListService = 0;
-
-                    break;
-                }
-                case 1:
-                {
-                    //Flickr
-                    PreviewImage = null;
-                    var v = Application.Current.Resources["Locator"] as ViewModelLocator;
-                    if (v != null)
-                    {
-                        await v.ImageSourceVm.FlickrSettingVm.GetImageRoot();
-                        FlickrHelper f = new FlickrHelper();
-                        foreach (Photo p in v.ImageSourceVm.FlickrSettingVm.FlickrImageRoot.photos.photo)
-                        {
-                            ImageList.Add(await f.GenerateImageLink(p));
-                        }
-                    }
-
-                    await HttpService.DownloadImage(ImageList[0]);
-
-                    _currentImageListService = 1;
-
-                    break;
-                }
-                case 2:
-                {
-                    //My Folder
-                    PreviewImage = null;
-                    var v = Application.Current.Resources["Locator"] as ViewModelLocator;
-                    if (v != null)
-                    {
-                        await v.ImageSourceVm.MyFolderSettingVm.GetFolder();
-                        if (v.ImageSourceVm.MyFolderSettingVm.MyFolderImageRoot != null)
-                        {
-                            LocalImageList.Clear();
-                            foreach (
-                                StorageFile file in
-                                v.ImageSourceVm.MyFolderSettingVm.MyFolderImageRoot.Where(file => file != null))
+                            foreach (BingImage bingImage in v.ImageSourceVm.BingSettingVm.BingImageRoot.images)
                             {
-                                using (IRandomAccessStream fileStream = await file.OpenAsync(FileAccessMode.Read))
+                                string link = b.GenerateImageLink(bingImage.urlbase);
+                                ImageList.Add(link);
+                            }
+                        }
+
+                        await HttpService.DownloadImage(ImageList[0]);
+
+                        _currentImageListService = 0;
+
+                        break;
+                    }
+                case 1:
+                    {
+                        //Flickr
+                        PreviewImage = null;
+                        var v = Application.Current.Resources["Locator"] as ViewModelLocator;
+                        if (v != null)
+                        {
+                            await v.ImageSourceVm.FlickrSettingVm.GetImageRoot();
+                            FlickrHelper f = new FlickrHelper();
+                            foreach (Photo p in v.ImageSourceVm.FlickrSettingVm.FlickrImageRoot.photos.photo)
+                            {
+                                ImageList.Add(await f.GenerateImageLink(p));
+                            }
+                        }
+
+                        await HttpService.DownloadImage(ImageList[0]);
+
+                        _currentImageListService = 1;
+
+                        break;
+                    }
+                case 2:
+                    {
+                        //My Folder
+                        PreviewImage = null;
+                        var v = Application.Current.Resources["Locator"] as ViewModelLocator;
+                        if (v != null)
+                        {
+                            await v.ImageSourceVm.MyFolderSettingVm.GetFolder(false);
+                            if (v.ImageSourceVm.MyFolderSettingVm.MyFolderImageRoot != null)
+                            {
+                                LocalImageList.Clear();
+                                foreach (
+                                    StorageFile file in
+                                    v.ImageSourceVm.MyFolderSettingVm.MyFolderImageRoot.Where(file => file != null))
                                 {
-                                    // Set the image source to the selected bitmap 
-                                    WriteableBitmap wbm = new WriteableBitmap(1, 1);
-                                    await wbm.SetSourceAsync(fileStream);
-
-                                    LocalImage l = new LocalImage
+                                    using (IRandomAccessStream fileStream = await file.OpenAsync(FileAccessMode.Read))
                                     {
-                                        Bitmap = wbm,
-                                        File = file
-                                    };
+                                        // Set the image source to the selected bitmap 
+                                        WriteableBitmap wbm = new WriteableBitmap(1, 1);
+                                        await wbm.SetSourceAsync(fileStream);
 
-                                    LocalImageList.Add(l);
+                                        LocalImage l = new LocalImage
+                                        {
+                                            Bitmap = wbm,
+                                            File = file
+                                        };
+
+                                        LocalImageList.Add(l);
+                                    }
                                 }
                             }
                         }
+
+                        _currentImageListService = 2;
+
+                        break;
                     }
-
-                    _currentImageListService = 2;
-
-                    break;
-                }
             }
 
             StaticData.IsImageServiceChanged = false;
         }
 
-        /// <summary>
-        /// Load Image Resource
-        /// </summary>
-        /// <param name="device"></param>
-        /// <param name="fileName">File name</param>
-        /// <returns></returns>
-        private async Task<CanvasBitmap> CreateResources(CanvasDevice device, string fileName)
+        private async Task<bool> IfSpecificBackgroundAvailable(string fileName)
         {
-            BackgroundFolder = await ApplicationData.Current.LocalFolder.CreateFolderAsync("Background",
-                CreationCollisionOption.OpenIfExists);
+            var size = SettingManager.GetWindowsResolution();
 
             int imageService = SettingManager.GetImageService();
 
-            if (imageService != 2 && StorageHelper.IsFileExisted(BackgroundFolder, fileName))
+            //Create Specific background image's Name 
+            var tempName = imageService != 2 ? $"{fileName.Substring(0, fileName.LastIndexOf("_", StringComparison.Ordinal))}_{size.Width}x{size.Height}.jpg" 
+                : $"{fileName}_{size.Width}x{size.Height}.jpg";
+
+
+            var specificBackgroundFolder =
+               await
+                   ApplicationData.Current.LocalFolder.CreateFolderAsync("Specific Background",
+                       CreationCollisionOption.OpenIfExists);
+
+            var specificBackgroundFile = await specificBackgroundFolder.GetFilesAsync();
+
+            //Check if Specific background image existed & have same size
+            foreach (var storageFile in specificBackgroundFile)
             {
-                BackgroundFile = await BackgroundFolder.GetFileAsync(fileName);
-                using (IRandomAccessStream stream = await BackgroundFile.OpenAsync(FileAccessMode.ReadWrite))
+                if (storageFile.Name == tempName)
+                {
+                    BackgroundFileName = tempName;
+                    return true;
+                }
+
+            }
+            return false;
+        }
+
+        public async Task<bool> GenerateBackgroundImage(CanvasDevice device, CanvasBitmap bitmap, string fileName)
+        {
+
+            var size = SettingManager.GetWindowsResolution();
+
+            int imageService = SettingManager.GetImageService();
+
+            //Create Specific background image's Name 
+            var tempName = imageService != 2 ? $"{fileName.Substring(0, fileName.LastIndexOf("_", StringComparison.Ordinal))}_{size.Width}x{size.Height}.jpg"
+                : $"{fileName}_{size.Width}x{size.Height}.jpg";
+
+
+            //Generate Specific background image
+            RenderTarget = new CanvasRenderTarget(device, (float)size.Width, (float)size.Height, 96);
+
+            using (var ds = RenderTarget.CreateDrawingSession())
+            {
+                ds.Clear(Colors.White);
+
+                ds.DrawImage(bitmap, new Rect(0, 0, size.Width, size.Height));
+
+            }
+
+            //Create/Open folder & save Specific background image
+            StorageFolder readyFolder =
+                await
+                    ApplicationData.Current.LocalFolder.CreateFolderAsync("Specific Background", CreationCollisionOption.OpenIfExists);
+            var fileList = await readyFolder.GetFilesAsync();
+            foreach (StorageFile storageFile in fileList)
+            {
+                if (StorageHelper.IsFileExisted(readyFolder, storageFile.Name))
+                {
+                    if (storageFile.Name == tempName) break;
+                    await storageFile.DeleteAsync(StorageDeleteOption.Default);
+                }
+            }
+
+            await RenderTarget.SaveAsync(
+                Path.Combine(readyFolder.Path, tempName),
+                CanvasBitmapFileFormat.Png,
+                1);
+
+            BackgroundFileName = tempName;
+
+            return true;
+        }
+
+        private async Task<CanvasBitmap> CreateResources(CanvasDevice device, string fileName)
+        {
+
+            var isDone = true;
+            StorageFile backgroundFile;
+
+            // If specific background image didn't exist then load & generate new image for Drawing 
+            if (!await IfSpecificBackgroundAvailable(fileName))
+            {
+
+                var backgroundFolder = await ApplicationData.Current.LocalFolder.CreateFolderAsync("Background",
+               CreationCollisionOption.OpenIfExists);
+
+                int imageService = SettingManager.GetImageService();
+
+                if (imageService != 2 && StorageHelper.IsFileExisted(backgroundFolder, fileName))
+                {
+                    backgroundFile = await backgroundFolder.GetFileAsync(fileName);
+                    using (IRandomAccessStream stream = await backgroundFile.OpenAsync(FileAccessMode.ReadWrite))
+                    {
+                        _bitmap = await CanvasBitmap.LoadAsync(device, stream);
+                    }
+                }
+                else
+                {
+                    MyFolderSettingViewModel vm = new MyFolderSettingViewModel();
+                    await vm.GetFolder(false);
+                    backgroundFile = vm.MyFolderImageRoot[0];
+                    using (IRandomAccessStream stream = await backgroundFile.OpenAsync(FileAccessMode.ReadWrite))
+                    {
+                        _bitmap = await CanvasBitmap.LoadAsync(device, stream);
+                    }
+                }
+
+                isDone = await GenerateBackgroundImage(device, _bitmap, fileName);
+            }
+
+            if (isDone)
+            {
+                var specificBackgroundFolder = await ApplicationData.Current.LocalFolder.CreateFolderAsync("Specific Background",
+                    CreationCollisionOption.OpenIfExists);
+
+                //Load Background image in Specific Bg folder, use it for Drawing
+                backgroundFile = await specificBackgroundFolder.GetFileAsync(BackgroundFileName);
+                using (IRandomAccessStream stream = await backgroundFile.OpenAsync(FileAccessMode.ReadWrite))
                 {
                     _bitmap = await CanvasBitmap.LoadAsync(device, stream);
                 }
+
             }
-            else
-            {
-                MyFolderSettingViewModel vm = new MyFolderSettingViewModel();
-                await vm.GetFolder();
-                BackgroundFile = vm.MyFolderImageRoot[0];
-                using (IRandomAccessStream stream = await BackgroundFile.OpenAsync(FileAccessMode.ReadWrite))
-                {
-                    _bitmap = await CanvasBitmap.LoadAsync(device, stream);
-                }
-            }
+
             return _bitmap;
         }
 
         public async Task<bool> ChangeCurrentBackgroundTask()
         {
+           
             //Get image service
             string imageLink = "";
 
             int imageService = SettingManager.GetImageService();
+
+            var networkHelper = new NetworkHelper();
+
+            //Check Internet connection with Bing & Flickr image service
+            if (imageService != 2 && !networkHelper.HasInternetAccess )
+            {
+                return false;
+            }
+
             switch (imageService)
             {
                 case 0:
-                {
-                    //Bing Image
-                    ImageSourceVm.BingSettingVm.LanguageCode = SettingManager.BingGetLanguage();
+                    {
+                        //Bing Image
+                        ImageSourceVm.BingSettingVm.LanguageCode = SettingManager.BingGetLanguage();
 
-                    await ImageSourceVm.BingSettingVm.GetImageRoot();
-                    BingHelper b = new BingHelper();
-                    imageLink = b.GenerateImageLink(ImageSourceVm.BingSettingVm.BingImageRoot.images[0].urlbase);
-                    break;
-                }
+                        await ImageSourceVm.BingSettingVm.GetImageRoot();
+                        imageLink = ImageSourceVm.BingSettingVm.BingImageRoot.images[0].AppropriateLink;
+                        break;
+                    }
                 case 1:
-                {
-                    //Flickr
-                    await ImageSourceVm.FlickrSettingVm.GetImageRoot();
+                    {
+                        //Flickr
+                        await ImageSourceVm.FlickrSettingVm.GetImageRoot();
 
-                    FlickrHelper f = new FlickrHelper();
-                    imageLink = await f.GenerateImageLink(ImageSourceVm.FlickrSettingVm.FlickrImageRoot.photos.photo[0]);
-                    break;
-                }
+                        FlickrHelper f = new FlickrHelper();
+                        imageLink = await f.GenerateImageLink(ImageSourceVm.FlickrSettingVm.FlickrImageRoot.photos.photo[0]);
+                        break;
+                    }
                 case 2:
-                {
-                    //Local folder
-                    break;
-                }
+                    {
+                        //Local folder
+                        break;
+                    }
             }
+
+
+
             //Set lockscreen
             bool success = false;
             bool desktopSuccess = false;
@@ -698,7 +798,7 @@ namespace ShareClass.ViewModel.StartGroup
             {
                 //Test commit
                 StorageFolder readyFolder = await ApplicationData.Current.LocalFolder.GetFolderAsync("Ready");
-                StorageFile readyFile = await readyFolder.GetFileAsync(BackgroundFile.Name);
+                StorageFile readyFile = await readyFolder.GetFileAsync(BackgroundFileName);
 
                 if (UserProfilePersonalizationSettings.IsSupported())
                 {
@@ -711,7 +811,7 @@ namespace ShareClass.ViewModel.StartGroup
                     else
                     {
                         desktopSuccess = true;
-                    }                  
+                    }
                 }
             }
 
@@ -758,7 +858,7 @@ namespace ShareClass.ViewModel.StartGroup
             await GenerateImage(device, bitmap);
 
             StorageFolder readyFolder = await ApplicationData.Current.LocalFolder.GetFolderAsync("Ready");
-            StorageFile readyFile = await readyFolder.GetFileAsync(fileName);
+            StorageFile readyFile = await readyFolder.GetFileAsync(BackgroundFileName);
 
             PreviewImage = null;
             PreviewImage = new BitmapImage(new Uri(readyFile.Path));
@@ -768,14 +868,18 @@ namespace ShareClass.ViewModel.StartGroup
 
         public async Task<bool> GenerateImage(CanvasDevice device, CanvasBitmap bitmap, bool isBackground = false)
         {
-            //count++;
+            if (bitmap == null)
+            {
+                return false;
+            }
+
 
             var size = SettingManager.GetWindowsResolution();
 
             var drawPosition = SettingManager.GetDrawPosition();
 
             //Generate images
-            RenderTarget = new CanvasRenderTarget(device, (float) size.Width, (float) size.Height, 96);
+            RenderTarget = new CanvasRenderTarget(device, (float)size.Width, (float)size.Height, 96);
 
             using (var ds = RenderTarget.CreateDrawingSession())
             {
@@ -814,7 +918,7 @@ namespace ShareClass.ViewModel.StartGroup
                         if (double.TryParse(tempArr[1], out temp)) drawPoint.Y = temp;
                         else return false;
                         foreach (var ch in tempArr[0])
-                        {                          
+                        {
                             switch (ch)
                             {
                                 case 'W':
@@ -828,7 +932,7 @@ namespace ShareClass.ViewModel.StartGroup
                                         IsDrawing = false;
                                         return false;
                                     }
-                                    if (oldPoint != drawPoint) drawPoint.Y += drawPoint.Y < size.Height ? size.Height * 2 /100 : 0;
+                                    if (oldPoint != drawPoint) drawPoint.Y += drawPoint.Y < size.Height ? size.Height * 2 / 100 : 0;
                                     break;
                                 case 'R':
                                     drawPoint.X = BitmapHelper.ElementX(i, size.Width);
@@ -886,8 +990,8 @@ namespace ShareClass.ViewModel.StartGroup
             }
 
             await RenderTarget.SaveAsync(
-                Path.Combine(readyFolder.Path, BackgroundFile.Name), 
-                CanvasBitmapFileFormat.Auto,
+                Path.Combine(readyFolder.Path, BackgroundFileName),
+                CanvasBitmapFileFormat.Png,
                 1);
             IsImageSaved = true;
 
@@ -955,6 +1059,21 @@ namespace ShareClass.ViewModel.StartGroup
             if (RssVm.IsEnabled != toggleSwitch.IsOn)
             {
                 await UpdateListTask();
+            }
+        }
+
+        public async void SetLastestButton_Click(object sender, RoutedEventArgs e)
+        {
+            bool success = await ChangeCurrentBackgroundTask();
+            if (success)
+            {
+                MessageDialog msg = new MessageDialog("Lockscreen changed :D");
+                await msg.ShowAsync();
+            }
+            else
+            {
+                var dialog = new MessageDialog("Something wrong happended :( Try again!");
+                await dialog.ShowAsync();
             }
         }
 

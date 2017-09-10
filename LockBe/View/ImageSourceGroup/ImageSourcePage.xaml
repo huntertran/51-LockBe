@@ -9,20 +9,20 @@
                             Path=ImageSourceVm}"
       mc:Ignorable="d">
 
-    <Grid Margin="15,10,0,0" Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
-        
-        <Grid Grid.Row="0" Margin="0,0,0,0">
+
+        <Grid Grid.Row="0" Margin="15,10,0,0">
 
             <userControls:TitleTextBlockUserControl HorizontalAlignment="Left"
-                                                            BackgroundColor="#3385ff"
+                                                            BackgroundColor="{StaticResource Brush1}"
                                                             Text="Image Source" />
         </Grid>
         <ScrollViewer Grid.Row="1"
-                      Margin="0,20,0,0">
+                      Margin="15,20,0,0">
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto" />
@@ -34,14 +34,18 @@
                     <RowDefinition Height="4*" />
                 </Grid.RowDefinitions>
 
-               
-
-                <StackPanel Grid.Row="1" Margin="5,0,20,0">
-                    <TextBlock VerticalAlignment="Center"
-                               Foreground="Black"
-                               Text="Source" />
+                <StackPanel Grid.Row="1" Margin="0,0,10,0">
+                    <Grid Margin="0,4,0,0">
+                        <Grid.Background>
+                            <SolidColorBrush Color="{StaticResource Color2}" />
+                        </Grid.Background>
+                        <TextBlock VerticalAlignment="Center"
+                                   Margin="8,4,4,4"
+                                   Foreground="{StaticResource Brush5}"
+                                   Text="Source" />
+                    </Grid>
                     <ComboBox x:Name="SourceComboBox"
-                              Margin="0,4"
+                              Margin="5,4,10,4"
                               HorizontalAlignment="Stretch"
                               ItemsSource="{x:Bind Vm.ImageSourceItemsCollection}"
                               SelectionChanged="SourceComboBox_OnSelectionChanged">
@@ -56,12 +60,11 @@
                 </StackPanel>
 
                 <Grid Grid.Row="2"
-                      Margin="0,4,10,0"
-                      CornerRadius="5">
+                      Margin="0,4,10,0">
                     <Grid.Background>
-                        <SolidColorBrush Opacity="0.8" Color="{StaticResource Color1}" />
+                        <SolidColorBrush Color="{StaticResource Color2}" />
                     </Grid.Background>
-                    <TextBlock Margin="4"
+                    <TextBlock Margin="8,4,4,4"
                                Foreground="{StaticResource Brush5}"
                                Text="Settings" />
                 </Grid>
@@ -71,7 +74,7 @@
                        Margin="0,4" />
 
                 <Button Grid.Row="4"
-                        Margin="4"
+                        Margin="0,4,20,4"
                         HorizontalAlignment="Right"
                         VerticalAlignment="Top"
                         Click="ButtonBase_OnClick"
@@ -79,19 +82,18 @@
 
                 <Grid Grid.Row="5"
                       Margin="0,4,10,0"
-                      VerticalAlignment="Top"
-                      CornerRadius="5">
+                      VerticalAlignment="Top">
                     <Grid.Background>
-                        <SolidColorBrush Opacity="0.8" Color="{StaticResource Color1}" />
+                        <SolidColorBrush Color="{StaticResource Color2}" />
                     </Grid.Background>
-                    <TextBlock Margin="4"
+                    <TextBlock Margin="8,4,4,4"
                                Foreground="{StaticResource Brush5}"
                                Text="Recent Images" />
                 </Grid>
 
                 <GridView x:Name="OnlineImageGridView"
                           Grid.Row="6"
-                          Margin="0,4,10,0"
+                          Margin="5,4,10,0"
                           ItemsSource="{x:Bind StartVm.ImageList}">
                     <GridView.ItemTemplate>
                         <DataTemplate>
@@ -104,7 +106,7 @@
 
                 <GridView x:Name="LocalImageGridView"
                           Grid.Row="6"
-                          Margin="0,4,0,0"
+                          Margin="5,4,0,0"
                           ItemsSource="{x:Bind StartVm.LocalImageList}"
                           Visibility="Collapsed">
                     <GridView.ItemTemplate>

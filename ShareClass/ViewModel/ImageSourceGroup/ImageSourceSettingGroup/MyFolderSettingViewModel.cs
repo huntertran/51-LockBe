@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
+using System.IO;
 using System.Threading.Tasks;
 using Windows.Storage;
 using Windows.Storage.AccessCache;
 using Windows.Storage.Pickers;
-using Windows.Storage.Search;
 using Windows.UI.Xaml;
 using ShareClass.Utilities.Helpers;
 
@@ -68,50 +68,122 @@ namespace ShareClass.ViewModel.ImageSourceGroup.ImageSourceSettingGroup
             await v.StartVm.UpdateListTask();
         }
 
-        public async Task GetFolder()
+        public async Task GetFolder(bool isEventCall = true)
         {
-            StorageFolder s;
+            StorageFile s;
+            bool fileExist = false;
             string savedPath = SettingManager.GetSavePath();
 
-            if (!string.IsNullOrEmpty(savedPath))
+            // If savedPath string is Null & method is NOT called from GUI's event
+            if (!string.IsNullOrEmpty(savedPath) && !isEventCall)
             {
                 string token = SettingManager.GetSaveToken();
-                s = await StorageApplicationPermissions.FutureAccessList.GetFolderAsync(token);
+                await Task.Run(() =>
+                {
+                    Task.Yield();
+                    fileExist = File.Exists(savedPath);
+                    
+                });
+
+                //If file isn't exist then open FilePicker for User in the next time App is opened
+                if (!fileExist) goto NewPath;
+                s = await StorageApplicationPermissions.FutureAccessList.GetFileAsync(token);
+                goto GetFile;
             }
-            else
+
+        NewPath:
             {
-                FolderPicker f = new FolderPicker();
+                FileOpenPicker f = new FileOpenPicker();
                 f.FileTypeFilter.Add(".jpg");
                 f.FileTypeFilter.Add(".jpeg");
                 f.FileTypeFilter.Add(".png");
-                s = await f.PickSingleFolderAsync();
+                s = await f.PickSingleFileAsync();
                 if (s != null)
                 {
+                    var destinationFolder = await ApplicationData.Current.LocalFolder.CreateFolderAsync("Offline Background",
+                   CreationCollisionOption.OpenIfExists);
+
+                    //Delete all old files
+                    var oldFile = await destinationFolder.GetFilesAsync();
+                    foreach (var storageFile in oldFile)
+                    {
+                        if (StorageHelper.IsFileExisted(destinationFolder, storageFile.Name))
+                        {
+                            await storageFile.DeleteAsync(StorageDeleteOption.Default);
+                        }
+                    }
+
+                    //Copy User's image to Offline image folder
+                    var offlineImage = await s.CopyAsync(destinationFolder);
+
+                    //Save Offline image's path & token 
+                    //Use Offline image to draw, NOT use user's image to draw like before
+                    //Improve App UX when User delete/move/rename their images for other purposes
                     StorageApplicationPermissions.FutureAccessList.Clear();
-                    var token = StorageApplicationPermissions.FutureAccessList.Add(s);
-                    SettingManager.SetSaveMode(3, s.Path, token);
+                    var token = StorageApplicationPermissions.FutureAccessList.Add(offlineImage);
+                    SettingManager.SetSaveMode(3, offlineImage.Path, token);
                 }
             }
-
-            if (s != null)
+           
+        GetFile:
             {
-                FolderCollection.Add(s);
-                await GetFileTask(s);
+                if (s != null)
+                {
+                    //FolderCollection.Add(s);
+                    GetSingleFileTask(s);
+                }
+
             }
+            
+
+            //ToDo: User Offline Image Folder in future
+            //StorageFolder s;
+            //string savedPath = SettingManager.GetSavePath();
+
+            //if (!string.IsNullOrEmpty(savedPath))
+            //{
+            //    string token = SettingManager.GetSaveToken();
+            //    s = await StorageApplicationPermissions.FutureAccessList.GetFolderAsync(token);
+            //}
+            //else
+            //{
+            //    FolderPicker f = new FolderPicker();
+            //    f.FileTypeFilter.Add(".jpg");
+            //    f.FileTypeFilter.Add(".jpeg");
+            //    f.FileTypeFilter.Add(".png");
+            //    s = await f.PickSingleFolderAsync();
+            //    if (s != null)
+            //    {
+            //        StorageApplicationPermissions.FutureAccessList.Clear();
+            //        var token = StorageApplicationPermissions.FutureAccessList.Add(s);
+            //        SettingManager.SetSaveMode(3, s.Path, token);
+            //    }
+            //}
+
+            //if (s != null)
+            //{
+            //    FolderCollection.Add(s);
+            //    await GetFileTask(s);
+            //}
         }
 
-        private async Task GetFileTask(StorageFolder s)
+        //private async Task GetFileTask(StorageFolder s)
+        //{
+        //    MyFolderImageRoot = new ObservableCollection<StorageFile>();
+        //    var temp = await s.GetFilesAsync(CommonFileQuery.OrderByName);
+        //    foreach (StorageFile file in temp)
+        //    {
+        //        if (file.FileType.ToLower() == ".jpg" || file.FileType.ToLower() == ".png" ||
+        //            file.FileType.ToLower() == ".jpeg")
+        //        {
+        //            MyFolderImageRoot.Add(file);
+        //        }
+        //    }
+        //}
+
+        private void GetSingleFileTask(StorageFile s)
         {
-            MyFolderImageRoot = new ObservableCollection<StorageFile>();
-            var temp = await s.GetFilesAsync(CommonFileQuery.OrderByName);
-            foreach (StorageFile file in temp)
-            {
-                if (file.FileType.ToLower() == ".jpg" || file.FileType.ToLower() == ".png" ||
-                    file.FileType.ToLower() == ".jpeg")
-                {
-                    MyFolderImageRoot.Add(file);
-                }
-            }
+            MyFolderImageRoot = new ObservableCollection<StorageFile> {s};
         }
     }
 }
