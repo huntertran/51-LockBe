@@ -58,19 +58,7 @@ namespace LockBe
             {
                 // Create a Frame to act as the navigation context and navigate to the first page
                 rootFrame = new Frame();
-
-                //Launch in Full Screen
-                ApplicationView.PreferredLaunchWindowingMode = ApplicationViewWindowingMode.FullScreen;
-
-                ApplicationView.GetForCurrentView().TryEnterFullScreenMode();
-
-                //Get the Windows Size
-                var bounds = ApplicationView.GetForCurrentView().VisibleBounds;
-                var scaleFactor = DisplayInformation.GetForCurrentView().RawPixelsPerViewPixel;
-                var size = new Size(bounds.Width * scaleFactor, bounds.Height * scaleFactor);
-
-                //Save it to Setting
-                SettingManager.SetWindowResolution(size);
+                SetWindowsResolution();
 
                 ApplicationView.GetForCurrentView().ExitFullScreenMode();
 
@@ -93,6 +81,28 @@ namespace LockBe
             }
             // Ensure the current window is active
             Window.Current.Activate();
+        }
+
+        private static void SetWindowsResolution()
+        {
+            ////Launch in Full Screen
+            //ApplicationView.PreferredLaunchWindowingMode = ApplicationViewWindowingMode.FullScreen;
+
+            //ApplicationView.GetForCurrentView().TryEnterFullScreenMode();
+
+            ////Get the Windows Size
+            //var bounds = ApplicationView.GetForCurrentView().VisibleBounds;
+            //var scaleFactor = DisplayInformation.GetForCurrentView().RawPixelsPerViewPixel;
+            //var size = new Size(bounds.Width * scaleFactor, bounds.Height * scaleFactor);
+
+            var displayInformation = DisplayInformation.GetForCurrentView();
+            var height = displayInformation.ScreenHeightInRawPixels;
+            var width = displayInformation.ScreenWidthInRawPixels;
+
+            var size = new Size(width, height);
+
+            //Save it to Setting
+            SettingManager.SetWindowResolution(size);
         }
 
         /// <summary>
