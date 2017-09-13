@@ -176,6 +176,7 @@
   <ItemGroup>
     <Content Include="Assets\Resources\Authors\thi.png" />
     <Content Include="Assets\Resources\Authors\tuan.jpg" />
+    <Content Include="Assets\Resources\CoordinateHelper.txt" />
     <Content Include="Assets\SplashScreen.scale-100.png" />
     <Content Include="Assets\SplashScreen.scale-125.png" />
     <Content Include="Assets\SplashScreen.scale-150.png" />
