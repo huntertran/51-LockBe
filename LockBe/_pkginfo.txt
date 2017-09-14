@@ -1,1 +1,1 @@
-D:\Projects\Home\51 - LockBe\LockBe\AppPackages\LockBe_1.4.0.0\LockBe_1.4.0.0_x86_x64_arm.appxbundle
+D:\Store Project\Universal\51 - LockBe\LockBe\bin\ARM\Release\Upload\LockBe_2.0.5.0\LockBe_2.0.5.0_x86_x64_arm.appxbundle

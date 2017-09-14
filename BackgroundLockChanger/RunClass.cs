@@ -1,13 +1,13 @@
-﻿using System;
-using Windows.ApplicationModel.Background;
-using Windows.Data.Xml.Dom;
-using Windows.UI.Notifications;
-using NotificationsExtensions;
-using NotificationsExtensions.Toasts;
-using ShareClass.ViewModel.StartGroup;
-
-namespace BackgroundLockChanger
+﻿namespace BackgroundLockChanger
 {
+    using System;
+    using Windows.ApplicationModel.Background;
+    using Windows.Data.Xml.Dom;
+    using Windows.UI.Notifications;
+    using NotificationsExtensions;
+    using NotificationsExtensions.Toasts;
+    using ShareClass.ViewModel.StartGroup;
+
     public sealed class BackgroundLockChanger : IBackgroundTask
     {
         private BackgroundTaskDeferral _deferral;
@@ -38,25 +38,25 @@ namespace BackgroundLockChanger
         public void SendToast()
         {
             //https://blogs.msdn.microsoft.com/tiles_and_toasts/2016/05/23/notificationsextensions-updated-for-anniversary-update-of-windows-10/
-            ToastContent content = new ToastContent()
+            ToastContent content = new ToastContent
             {
                 Launch = "TuanTran",
 
-                Visual = new ToastVisual()
+                Visual = new ToastVisual
                 {
-                    BindingGeneric = new ToastBindingGeneric()
+                    BindingGeneric = new ToastBindingGeneric
                     {
                         Children =
                         {
-                            new AdaptiveText()
+                            new AdaptiveText
                             {
                                 Text = "Task run from background. Time: " + DateTime.Now
-                            },
+                            }
                         }
-                    },
+                    }
                 },
 
-                Audio = new ToastAudio()
+                Audio = new ToastAudio
                 {
                     Src = new Uri("ms-winsoundevent:Notification.IM")
                 }
